@@ -1,0 +1,4 @@
+bin/
+*.huf
+*.out
+.DS_Store
