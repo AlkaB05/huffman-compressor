@@ -1,0 +1,69 @@
+A Short History of Saying More With Less
+
+Long before computers, people looked for ways to send messages using fewer
+symbols. Telegraph operators in the nineteenth century paid by the word, so
+they invented clipped phrases and code books that packed a whole sentence into
+a single invented word. Samuel Morse noticed something even more useful: some
+letters appear far more often than others. When he designed his code he gave
+the most common letter in English, E, the shortest signal of all, a single
+dot, while rare letters such as Q and Z received long patterns of dots and
+dashes. A typical message therefore took less time to send than it would have
+if every letter cost the same.
+
+That simple observation is the heart of almost every lossless compression
+method used today. Text is not random. In ordinary English the space character
+and the letters e, t, a, o, i and n make up a large share of everything we
+write, while letters like j, q, x and z are uncommon. If a computer stores every
+character with the same eight bits, it wastes space on the frequent symbols. A
+smarter scheme spends fewer bits on what is common and more bits on what is
+rare, so that the total length of the message goes down.
+
+In 1948 Claude Shannon gave this idea a precise mathematical form. He defined
+the entropy of a source of symbols as the average amount of information each
+symbol carries, measured in bits. Entropy is a hard floor: no lossless code can
+use fewer bits per symbol on average than the entropy of the source. For
+typical English text the entropy of single characters is a little over four
+bits, which already suggests that a good code should be able to cut the size
+of a plain text file roughly in half.
+
+Shannon and Robert Fano proposed a method that split the alphabet into two
+groups of nearly equal probability, assigned a zero to one group and a one to
+the other, and then repeated the process inside each group. The method was
+good, but it was not always optimal. Fano later taught a course at the
+Massachusetts Institute of Technology and offered his students a choice: take
+the final exam, or write a term paper on finding the most efficient binary
+code. In 1951 a graduate student named David Huffman chose the paper.
+
+Huffman worked on the problem for months without success and was about to give
+up and study for the exam when the answer came to him. Instead of splitting
+the alphabet from the top down, he built the code from the bottom up. Take the
+two least frequent symbols and join them into a single node whose weight is
+the sum of their weights. Put that node back with the others and repeat. When
+only one node remains, it is the root of a binary tree, and the path from the
+root to each symbol, reading left as zero and right as one, is that symbol's
+code. Huffman proved that no other code built symbol by symbol can do better.
+His method beat the one his own professor had worked on, and it became one of
+the most widely taught algorithms in computer science.
+
+The codes produced this way have a property that makes decoding easy: no code
+is the beginning of any other code. Because every symbol lives at a leaf of
+the tree, the decoder can read the bits one at a time, walk down from the
+root, and know with certainty that it has reached the end of a symbol the
+moment it arrives at a leaf. There is no need for separators between symbols,
+and there is never any ambiguity about where one symbol stops and the next
+begins.
+
+Huffman coding is still everywhere. It is a stage inside the DEFLATE format
+used by ZIP archives, gzip and PNG images, and inside JPEG and MP3 files, where
+it compresses the numbers that remain after the image or sound has been
+transformed. Modern compressors often pair it with other techniques. Some
+first look for repeated phrases and replace them with short references to an
+earlier copy, then use Huffman codes to store whatever is left. Others replace
+Huffman coding with arithmetic coding or asymmetric numeral systems, which can
+spend a fraction of a bit on a symbol and get even closer to the entropy limit.
+
+Still, the core lesson has not changed since the days of the telegraph. Data
+has structure, and structure means predictability. Every predictable pattern is
+an opportunity to say the same thing with fewer bits, and a careful program
+can find those patterns, describe them compactly, and later rebuild the
+original message exactly, down to the very last character.

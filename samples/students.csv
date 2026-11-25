@@ -1,0 +1,1501 @@
+id,name,department,year,cgpa,city
+1,Meera Reddy,Computer Science,4,7.87,Pune
+2,Aditya Sharma,Civil,3,9.12,Bengaluru
+3,Meera Das,Information Technology,3,7.08,Hyderabad
+4,Ananya Reddy,Electronics,1,9.23,Delhi
+5,Rohan Iyer,Electronics,3,7.13,Mumbai
+6,Aditya Mehta,Mechanical,4,7.97,Hyderabad
+7,Meera Singh,Mechanical,1,9.68,Delhi
+8,Aarav Reddy,Information Technology,3,9.31,Chennai
+9,Rahul Patel,Information Technology,3,7.68,Hyderabad
+10,Meera Reddy,Mechanical,1,6.32,Jaipur
+11,Rohan Das,Information Technology,4,8.73,Hyderabad
+12,Kabir Verma,Civil,2,8.48,Jaipur
+13,Rohan Gupta,Mechanical,4,8.91,Mumbai
+14,Kavya Iyer,Mechanical,1,9.27,Chennai
+15,Rohan Mehta,Information Technology,2,6.48,Hyderabad
+16,Sara Singh,Computer Science,1,7.39,Pune
+17,Sara Kulkarni,Electrical,3,6.07,Delhi
+18,Arjun Gupta,Electrical,4,9.36,Pune
+19,Sara Mehta,Electronics,4,7.14,Delhi
+20,Priya Mehta,Electronics,3,8.24,Mumbai
+21,Vivaan Singh,Electronics,3,9.06,Mumbai
+22,Sara Mehta,Computer Science,4,9.83,Kolkata
+23,Kabir Verma,Computer Science,1,6.22,Hyderabad
+24,Riya Joshi,Electronics,1,8.13,Chennai
+25,Arjun Sharma,Computer Science,3,9.02,Kolkata
+26,Kabir Singh,Electronics,2,7.71,Jaipur
+27,Vivaan Iyer,Civil,4,6.97,Kolkata
+28,Kabir Singh,Electronics,1,6.14,Delhi
+29,Meera Das,Electronics,2,7.63,Delhi
+30,Diya Nair,Computer Science,3,8.20,Kolkata
+31,Vivaan Singh,Civil,1,7.68,Hyderabad
+32,Arjun Reddy,Electrical,4,9.12,Mumbai
+33,Rahul Das,Electronics,3,7.32,Kolkata
+34,Tanvi Verma,Mechanical,2,6.17,Hyderabad
+35,Rohan Joshi,Computer Science,2,8.68,Jaipur
+36,Ishaan Singh,Electrical,4,9.62,Chennai
+37,Aarav Iyer,Electronics,1,8.38,Delhi
+38,Ananya Patel,Civil,2,8.15,Chennai
+39,Isha Joshi,Information Technology,3,9.19,Jaipur
+40,Varun Singh,Computer Science,1,6.13,Pune
+41,Tanvi Das,Mechanical,2,6.16,Pune
+42,Varun Sharma,Mechanical,3,9.23,Pune
+43,Kavya Singh,Civil,2,9.07,Delhi
+44,Priya Iyer,Civil,4,6.37,Pune
+45,Riya Nair,Information Technology,4,7.62,Jaipur
+46,Aditya Joshi,Electronics,3,9.63,Jaipur
+47,Rahul Verma,Information Technology,2,7.45,Hyderabad
+48,Isha Kulkarni,Electronics,3,7.93,Mumbai
+49,Rohan Das,Computer Science,2,6.02,Delhi
+50,Ananya Das,Computer Science,4,9.07,Jaipur
+51,Varun Verma,Information Technology,2,7.60,Delhi
+52,Neha Iyer,Electronics,1,8.64,Mumbai
+53,Kavya Singh,Information Technology,3,9.65,Jaipur
+54,Riya Mehta,Civil,4,6.55,Mumbai
+55,Arjun Gupta,Civil,1,8.36,Hyderabad
+56,Sara Nair,Electronics,3,8.63,Pune
+57,Aditya Patel,Electrical,2,7.29,Mumbai
+58,Arjun Gupta,Mechanical,1,8.35,Pune
+59,Neha Verma,Electronics,2,8.28,Jaipur
+60,Ishaan Verma,Computer Science,2,8.54,Chennai
+61,Riya Joshi,Mechanical,4,9.44,Chennai
+62,Tanvi Kulkarni,Electronics,3,7.43,Mumbai
+63,Kavya Joshi,Information Technology,4,9.51,Kolkata
+64,Varun Patel,Mechanical,3,7.71,Bengaluru
+65,Rohan Gupta,Information Technology,4,8.70,Mumbai
+66,Priya Patel,Information Technology,1,6.61,Pune
+67,Sneha Joshi,Mechanical,3,9.55,Delhi
+68,Tanvi Iyer,Electrical,4,9.48,Pune
+69,Diya Iyer,Computer Science,3,6.52,Bengaluru
+70,Isha Patel,Information Technology,3,6.07,Chennai
+71,Isha Verma,Electronics,1,9.70,Pune
+72,Ananya Reddy,Computer Science,3,8.38,Hyderabad
+73,Diya Joshi,Civil,2,9.43,Pune
+74,Kavya Nair,Electrical,1,8.82,Hyderabad
+75,Varun Patel,Electronics,2,9.29,Jaipur
+76,Varun Verma,Civil,2,6.64,Delhi
+77,Varun Patel,Information Technology,3,9.36,Mumbai
+78,Isha Patel,Computer Science,4,9.82,Delhi
+79,Aarav Reddy,Electronics,1,6.61,Bengaluru
+80,Meera Iyer,Information Technology,1,7.86,Hyderabad
+81,Sneha Kulkarni,Electrical,4,7.31,Hyderabad
+82,Varun Mehta,Electronics,1,7.85,Mumbai
+83,Sara Joshi,Civil,1,9.20,Chennai
+84,Rohan Mehta,Electrical,3,9.06,Jaipur
+85,Arjun Verma,Electronics,3,9.44,Bengaluru
+86,Riya Nair,Information Technology,4,9.85,Mumbai
+87,Aditya Gupta,Electrical,1,7.94,Chennai
+88,Vivaan Iyer,Electrical,1,7.31,Hyderabad
+89,Sara Verma,Information Technology,1,6.28,Chennai
+90,Riya Reddy,Information Technology,1,9.47,Bengaluru
+91,Aarav Singh,Electrical,2,6.83,Chennai
+92,Neha Reddy,Civil,4,6.13,Kolkata
+93,Tanvi Verma,Information Technology,3,8.18,Delhi
+94,Kabir Kulkarni,Electrical,4,7.26,Chennai
+95,Aarav Singh,Civil,3,7.29,Kolkata
+96,Rahul Nair,Information Technology,2,7.00,Pune
+97,Aarav Patel,Mechanical,3,8.64,Hyderabad
+98,Riya Nair,Computer Science,2,8.42,Chennai
+99,Rohan Joshi,Electronics,4,8.98,Mumbai
+100,Aarav Singh,Information Technology,2,6.65,Chennai
+101,Varun Verma,Computer Science,3,7.16,Hyderabad
+102,Aditya Joshi,Electronics,1,8.95,Hyderabad
+103,Kabir Reddy,Computer Science,3,8.46,Mumbai
+104,Isha Gupta,Electronics,1,9.73,Hyderabad
+105,Vivaan Joshi,Mechanical,4,6.41,Chennai
+106,Diya Patel,Civil,4,8.11,Mumbai
+107,Rahul Kulkarni,Civil,1,8.96,Bengaluru
+108,Isha Gupta,Mechanical,2,7.16,Mumbai
+109,Ishaan Iyer,Information Technology,3,7.50,Pune
+110,Meera Iyer,Mechanical,2,9.83,Chennai
+111,Aarav Sharma,Computer Science,2,7.16,Mumbai
+112,Kavya Singh,Computer Science,3,9.12,Kolkata
+113,Isha Gupta,Civil,4,7.37,Bengaluru
+114,Sneha Kulkarni,Electronics,4,6.12,Kolkata
+115,Kabir Verma,Mechanical,3,8.33,Bengaluru
+116,Aditya Singh,Electronics,1,6.71,Chennai
+117,Riya Nair,Information Technology,1,8.83,Bengaluru
+118,Priya Patel,Electronics,2,8.42,Hyderabad
+119,Isha Mehta,Mechanical,2,7.70,Mumbai
+120,Kavya Joshi,Mechanical,2,8.85,Mumbai
+121,Rohan Mehta,Mechanical,1,8.12,Mumbai
+122,Ishaan Iyer,Civil,4,9.23,Pune
+123,Riya Iyer,Electronics,2,8.15,Hyderabad
+124,Riya Sharma,Information Technology,3,9.41,Pune
+125,Vivaan Mehta,Electronics,2,7.03,Bengaluru
+126,Sara Singh,Mechanical,2,8.51,Delhi
+127,Varun Kulkarni,Computer Science,2,7.12,Kolkata
+128,Vivaan Sharma,Mechanical,3,6.28,Kolkata
+129,Aditya Patel,Computer Science,3,6.78,Chennai
+130,Isha Iyer,Electrical,1,9.89,Bengaluru
+131,Aarav Reddy,Information Technology,4,6.25,Mumbai
+132,Isha Joshi,Electronics,1,8.69,Pune
+133,Diya Patel,Electronics,1,9.76,Mumbai
+134,Varun Nair,Electrical,3,6.52,Pune
+135,Ishaan Joshi,Information Technology,1,8.35,Bengaluru
+136,Isha Sharma,Mechanical,4,9.02,Mumbai
+137,Diya Das,Mechanical,4,6.97,Jaipur
+138,Isha Singh,Electrical,1,8.26,Chennai
+139,Rohan Mehta,Electrical,4,9.68,Hyderabad
+140,Sara Gupta,Mechanical,3,9.32,Chennai
+141,Kavya Singh,Information Technology,3,7.05,Hyderabad
+142,Arjun Verma,Electronics,3,8.49,Chennai
+143,Isha Singh,Computer Science,3,6.13,Bengaluru
+144,Vivaan Sharma,Electrical,2,6.87,Chennai
+145,Neha Joshi,Civil,4,6.94,Jaipur
+146,Rahul Reddy,Information Technology,1,7.34,Bengaluru
+147,Ananya Gupta,Computer Science,4,6.02,Hyderabad
+148,Rahul Joshi,Electrical,1,8.18,Mumbai
+149,Arjun Das,Mechanical,2,6.00,Mumbai
+150,Ananya Patel,Information Technology,2,7.91,Kolkata
+151,Kavya Kulkarni,Computer Science,4,6.61,Jaipur
+152,Priya Das,Electronics,1,6.36,Pune
+153,Diya Gupta,Civil,4,8.88,Kolkata
+154,Arjun Patel,Electrical,3,9.47,Kolkata
+155,Ananya Nair,Civil,1,8.77,Kolkata
+156,Neha Iyer,Information Technology,2,9.60,Delhi
+157,Ananya Nair,Information Technology,1,8.03,Chennai
+158,Riya Gupta,Civil,2,9.42,Mumbai
+159,Rahul Singh,Civil,1,7.93,Bengaluru
+160,Rahul Nair,Civil,3,6.77,Mumbai
+161,Neha Gupta,Mechanical,4,9.02,Hyderabad
+162,Tanvi Patel,Electrical,4,7.36,Bengaluru
+163,Rahul Reddy,Information Technology,2,9.44,Hyderabad
+164,Aarav Singh,Electrical,3,6.52,Bengaluru
+165,Meera Nair,Electronics,3,9.19,Jaipur
+166,Ishaan Iyer,Mechanical,1,8.61,Bengaluru
+167,Sneha Verma,Electrical,2,6.88,Pune
+168,Kavya Mehta,Electronics,2,6.77,Chennai
+169,Varun Iyer,Electronics,1,7.95,Mumbai
+170,Neha Reddy,Information Technology,4,8.25,Mumbai
+171,Ananya Mehta,Mechanical,3,6.37,Mumbai
+172,Vivaan Patel,Computer Science,2,8.78,Bengaluru
+173,Tanvi Kulkarni,Civil,3,6.27,Pune
+174,Diya Kulkarni,Civil,4,8.00,Kolkata
+175,Ananya Gupta,Electronics,1,6.66,Jaipur
+176,Kavya Das,Civil,4,7.43,Kolkata
+177,Meera Joshi,Mechanical,3,8.23,Delhi
+178,Priya Kulkarni,Information Technology,3,9.44,Delhi
+179,Ananya Gupta,Information Technology,2,9.65,Hyderabad
+180,Priya Joshi,Information Technology,2,8.54,Chennai
+181,Kavya Verma,Information Technology,1,9.16,Bengaluru
+182,Aditya Das,Civil,1,8.52,Bengaluru
+183,Rohan Reddy,Electronics,2,6.45,Delhi
+184,Ishaan Patel,Mechanical,3,6.02,Kolkata
+185,Neha Mehta,Electronics,4,8.34,Mumbai
+186,Kabir Singh,Electronics,2,9.69,Hyderabad
+187,Arjun Kulkarni,Computer Science,2,6.74,Jaipur
+188,Varun Nair,Electronics,2,9.18,Kolkata
+189,Sneha Nair,Mechanical,1,9.14,Jaipur
+190,Rohan Reddy,Electronics,1,8.77,Delhi
+191,Sneha Mehta,Information Technology,4,8.72,Jaipur
+192,Aditya Reddy,Mechanical,1,8.35,Bengaluru
+193,Isha Patel,Information Technology,2,8.64,Jaipur
+194,Isha Sharma,Mechanical,2,8.44,Kolkata
+195,Kavya Gupta,Electronics,4,8.79,Jaipur
+196,Sara Patel,Mechanical,3,7.70,Bengaluru
+197,Ishaan Sharma,Information Technology,2,8.91,Bengaluru
+198,Varun Singh,Mechanical,3,8.96,Bengaluru
+199,Diya Nair,Computer Science,4,7.63,Mumbai
+200,Meera Nair,Civil,3,7.55,Bengaluru
+201,Priya Kulkarni,Electronics,2,7.84,Delhi
+202,Isha Kulkarni,Electrical,4,8.07,Mumbai
+203,Ishaan Verma,Electronics,2,7.19,Hyderabad
+204,Aditya Singh,Electrical,1,9.53,Delhi
+205,Riya Kulkarni,Electronics,1,7.68,Delhi
+206,Tanvi Gupta,Computer Science,1,6.53,Kolkata
+207,Rohan Das,Civil,1,8.47,Delhi
+208,Kavya Kulkarni,Electrical,4,6.67,Bengaluru
+209,Arjun Reddy,Mechanical,3,7.51,Bengaluru
+210,Ishaan Mehta,Electronics,4,9.34,Pune
+211,Meera Mehta,Computer Science,1,7.93,Delhi
+212,Rahul Kulkarni,Computer Science,4,7.71,Jaipur
+213,Varun Joshi,Civil,2,8.63,Jaipur
+214,Varun Gupta,Mechanical,3,9.41,Pune
+215,Sneha Joshi,Information Technology,2,7.15,Kolkata
+216,Rohan Das,Civil,3,6.24,Jaipur
+217,Neha Das,Mechanical,2,6.86,Mumbai
+218,Riya Verma,Mechanical,4,9.32,Delhi
+219,Rahul Das,Electronics,4,6.87,Kolkata
+220,Sara Nair,Electrical,2,9.46,Delhi
+221,Sneha Iyer,Electronics,4,6.39,Jaipur
+222,Ishaan Gupta,Computer Science,3,9.75,Bengaluru
+223,Diya Nair,Civil,3,7.43,Hyderabad
+224,Aditya Mehta,Information Technology,1,7.83,Hyderabad
+225,Neha Kulkarni,Mechanical,1,7.40,Pune
+226,Kavya Singh,Electrical,4,7.95,Jaipur
+227,Isha Gupta,Electrical,3,7.59,Hyderabad
+228,Kavya Reddy,Civil,2,9.63,Chennai
+229,Sneha Iyer,Electrical,4,6.51,Bengaluru
+230,Sara Gupta,Information Technology,2,8.34,Mumbai
+231,Diya Das,Electrical,2,9.51,Kolkata
+232,Ananya Sharma,Mechanical,3,6.66,Pune
+233,Sara Kulkarni,Electronics,2,8.38,Mumbai
+234,Aditya Sharma,Electronics,2,8.40,Pune
+235,Isha Mehta,Mechanical,2,6.19,Mumbai
+236,Arjun Joshi,Mechanical,4,7.85,Pune
+237,Varun Nair,Mechanical,3,9.74,Delhi
+238,Vivaan Das,Computer Science,4,8.60,Bengaluru
+239,Varun Nair,Computer Science,3,8.52,Bengaluru
+240,Kavya Das,Civil,1,7.89,Jaipur
+241,Varun Singh,Information Technology,4,7.26,Bengaluru
+242,Varun Iyer,Electrical,2,7.54,Delhi
+243,Riya Nair,Civil,1,7.06,Kolkata
+244,Kabir Das,Civil,3,6.41,Chennai
+245,Rahul Reddy,Electrical,2,8.26,Jaipur
+246,Ananya Gupta,Computer Science,1,8.84,Hyderabad
+247,Priya Mehta,Computer Science,2,9.75,Hyderabad
+248,Isha Gupta,Computer Science,3,6.49,Delhi
+249,Kabir Reddy,Computer Science,1,7.66,Jaipur
+250,Sara Das,Civil,2,6.27,Jaipur
+251,Sneha Joshi,Information Technology,4,8.74,Delhi
+252,Sara Kulkarni,Mechanical,2,7.06,Jaipur
+253,Meera Kulkarni,Information Technology,2,9.36,Mumbai
+254,Rahul Gupta,Mechanical,4,6.85,Delhi
+255,Meera Singh,Computer Science,2,8.33,Chennai
+256,Varun Das,Computer Science,3,7.83,Kolkata
+257,Varun Mehta,Computer Science,3,6.90,Hyderabad
+258,Aditya Iyer,Civil,2,6.64,Hyderabad
+259,Ananya Singh,Mechanical,2,6.12,Hyderabad
+260,Varun Iyer,Mechanical,4,7.07,Bengaluru
+261,Arjun Patel,Electronics,4,7.17,Kolkata
+262,Isha Reddy,Computer Science,1,6.92,Delhi
+263,Priya Patel,Electrical,3,6.76,Mumbai
+264,Aditya Reddy,Information Technology,1,9.23,Jaipur
+265,Sneha Nair,Information Technology,2,8.82,Kolkata
+266,Sara Joshi,Civil,4,7.31,Kolkata
+267,Priya Kulkarni,Information Technology,1,9.03,Hyderabad
+268,Aarav Singh,Information Technology,3,7.28,Hyderabad
+269,Riya Mehta,Civil,2,7.13,Jaipur
+270,Kavya Iyer,Electronics,4,6.30,Mumbai
+271,Kabir Das,Electronics,3,6.37,Delhi
+272,Riya Patel,Electrical,4,6.73,Bengaluru
+273,Ananya Verma,Information Technology,1,9.44,Kolkata
+274,Aditya Joshi,Electrical,2,6.81,Delhi
+275,Rahul Verma,Electrical,2,7.45,Hyderabad
+276,Ishaan Singh,Computer Science,4,8.26,Kolkata
+277,Meera Singh,Electronics,4,8.46,Jaipur
+278,Varun Sharma,Electrical,2,9.68,Delhi
+279,Rohan Mehta,Civil,2,6.44,Pune
+280,Arjun Iyer,Information Technology,2,9.72,Hyderabad
+281,Tanvi Singh,Electrical,4,9.42,Delhi
+282,Ananya Nair,Electronics,4,8.60,Jaipur
+283,Diya Kulkarni,Electronics,2,6.37,Chennai
+284,Priya Kulkarni,Mechanical,3,8.94,Bengaluru
+285,Neha Singh,Electrical,1,6.22,Mumbai
+286,Tanvi Singh,Electrical,4,6.68,Hyderabad
+287,Rahul Gupta,Electrical,3,9.04,Delhi
+288,Sara Mehta,Electrical,4,7.99,Kolkata
+289,Rahul Gupta,Electrical,2,6.39,Jaipur
+290,Diya Nair,Information Technology,3,6.19,Jaipur
+291,Aarav Das,Electrical,3,8.05,Chennai
+292,Riya Patel,Information Technology,3,8.39,Bengaluru
+293,Priya Das,Electronics,2,9.21,Pune
+294,Ishaan Kulkarni,Mechanical,3,6.20,Jaipur
+295,Vivaan Das,Mechanical,4,8.05,Kolkata
+296,Kavya Singh,Electronics,1,8.79,Hyderabad
+297,Meera Nair,Information Technology,2,6.50,Pune
+298,Sara Reddy,Mechanical,2,8.32,Chennai
+299,Ishaan Das,Electronics,1,8.71,Chennai
+300,Arjun Iyer,Information Technology,1,8.68,Mumbai
+301,Diya Mehta,Electronics,4,7.30,Delhi
+302,Vivaan Singh,Civil,3,8.73,Jaipur
+303,Rohan Nair,Electrical,1,6.82,Chennai
+304,Varun Gupta,Mechanical,1,9.45,Chennai
+305,Aarav Verma,Computer Science,2,8.81,Delhi
+306,Neha Kulkarni,Electronics,2,7.91,Kolkata
+307,Kabir Kulkarni,Electrical,3,6.99,Bengaluru
+308,Diya Kulkarni,Civil,1,9.18,Bengaluru
+309,Kavya Gupta,Mechanical,2,6.74,Chennai
+310,Ishaan Sharma,Civil,1,7.23,Kolkata
+311,Rohan Patel,Civil,1,7.69,Bengaluru
+312,Sara Iyer,Electronics,2,9.38,Kolkata
+313,Tanvi Verma,Information Technology,4,9.43,Jaipur
+314,Sneha Gupta,Civil,2,6.79,Pune
+315,Neha Joshi,Computer Science,4,6.73,Hyderabad
+316,Ananya Nair,Mechanical,3,8.03,Delhi
+317,Rohan Reddy,Mechanical,3,6.08,Pune
+318,Varun Iyer,Information Technology,2,7.68,Hyderabad
+319,Ishaan Reddy,Electrical,2,7.64,Pune
+320,Sara Gupta,Electronics,2,9.32,Kolkata
+321,Vivaan Mehta,Electronics,1,8.67,Bengaluru
+322,Priya Nair,Electronics,3,9.72,Mumbai
+323,Ishaan Verma,Mechanical,1,6.59,Mumbai
+324,Aditya Mehta,Information Technology,4,6.19,Delhi
+325,Aditya Kulkarni,Information Technology,4,7.01,Hyderabad
+326,Isha Iyer,Information Technology,3,7.83,Kolkata
+327,Tanvi Verma,Information Technology,2,7.64,Kolkata
+328,Priya Sharma,Electronics,4,9.19,Jaipur
+329,Neha Gupta,Information Technology,2,6.67,Hyderabad
+330,Rohan Sharma,Computer Science,2,8.79,Hyderabad
+331,Varun Kulkarni,Mechanical,4,7.21,Jaipur
+332,Arjun Mehta,Electronics,3,8.39,Bengaluru
+333,Sneha Das,Electronics,2,8.59,Mumbai
+334,Isha Kulkarni,Electrical,2,8.21,Chennai
+335,Riya Nair,Computer Science,1,8.34,Mumbai
+336,Arjun Das,Information Technology,1,8.10,Mumbai
+337,Arjun Mehta,Civil,4,9.63,Hyderabad
+338,Isha Sharma,Electrical,2,8.47,Mumbai
+339,Rahul Sharma,Information Technology,3,9.72,Hyderabad
+340,Sara Gupta,Electrical,4,6.38,Hyderabad
+341,Meera Verma,Information Technology,1,6.06,Bengaluru
+342,Rohan Verma,Electronics,2,7.11,Chennai
+343,Aditya Sharma,Electrical,1,6.60,Jaipur
+344,Arjun Joshi,Electronics,4,7.63,Mumbai
+345,Vivaan Gupta,Information Technology,3,9.42,Bengaluru
+346,Kavya Reddy,Mechanical,3,6.39,Jaipur
+347,Sneha Nair,Information Technology,2,6.20,Jaipur
+348,Aarav Iyer,Mechanical,4,9.76,Mumbai
+349,Neha Iyer,Civil,3,7.32,Hyderabad
+350,Ananya Mehta,Information Technology,2,7.47,Jaipur
+351,Ananya Iyer,Mechanical,3,7.93,Jaipur
+352,Ishaan Patel,Information Technology,3,7.91,Delhi
+353,Neha Sharma,Civil,1,7.23,Pune
+354,Priya Nair,Electronics,4,7.76,Delhi
+355,Varun Iyer,Computer Science,2,7.10,Delhi
+356,Vivaan Verma,Computer Science,1,6.01,Mumbai
+357,Kavya Das,Computer Science,2,7.07,Kolkata
+358,Riya Kulkarni,Electrical,2,6.86,Chennai
+359,Sara Kulkarni,Electronics,2,8.31,Jaipur
+360,Diya Das,Electrical,2,7.45,Delhi
+361,Aditya Gupta,Electronics,3,7.72,Delhi
+362,Priya Das,Civil,1,8.90,Hyderabad
+363,Varun Reddy,Computer Science,4,7.26,Bengaluru
+364,Isha Singh,Electrical,4,7.62,Jaipur
+365,Tanvi Patel,Computer Science,1,9.17,Jaipur
+366,Kabir Reddy,Information Technology,3,8.78,Bengaluru
+367,Ishaan Reddy,Mechanical,3,8.27,Bengaluru
+368,Diya Kulkarni,Information Technology,1,9.52,Mumbai
+369,Ishaan Joshi,Electronics,1,9.19,Hyderabad
+370,Kavya Sharma,Computer Science,1,8.74,Kolkata
+371,Riya Joshi,Electrical,1,8.33,Kolkata
+372,Rahul Kulkarni,Computer Science,1,8.57,Pune
+373,Aditya Joshi,Electronics,4,7.24,Bengaluru
+374,Rahul Joshi,Computer Science,2,8.47,Jaipur
+375,Neha Sharma,Electrical,2,8.76,Pune
+376,Aarav Das,Electrical,1,6.31,Mumbai
+377,Varun Nair,Mechanical,1,6.61,Jaipur
+378,Priya Singh,Computer Science,3,8.51,Kolkata
+379,Aarav Gupta,Electrical,1,6.08,Bengaluru
+380,Varun Gupta,Computer Science,2,7.18,Mumbai
+381,Isha Kulkarni,Electrical,1,8.98,Bengaluru
+382,Ishaan Reddy,Information Technology,3,9.89,Hyderabad
+383,Varun Singh,Electronics,3,7.17,Pune
+384,Diya Reddy,Electrical,1,6.44,Pune
+385,Arjun Verma,Electrical,1,9.06,Kolkata
+386,Aditya Das,Electrical,4,8.73,Bengaluru
+387,Rohan Iyer,Civil,1,7.45,Jaipur
+388,Sara Verma,Information Technology,3,9.45,Kolkata
+389,Meera Kulkarni,Electronics,4,8.18,Chennai
+390,Diya Gupta,Electronics,1,8.23,Pune
+391,Ananya Sharma,Mechanical,2,7.71,Delhi
+392,Meera Iyer,Information Technology,3,9.07,Mumbai
+393,Sneha Nair,Electrical,4,7.42,Pune
+394,Aarav Sharma,Mechanical,4,6.45,Bengaluru
+395,Sneha Mehta,Information Technology,4,9.31,Mumbai
+396,Riya Patel,Mechanical,3,6.59,Delhi
+397,Tanvi Iyer,Civil,1,6.47,Bengaluru
+398,Ananya Sharma,Electrical,2,8.30,Mumbai
+399,Neha Das,Electrical,2,9.25,Bengaluru
+400,Isha Nair,Computer Science,2,9.08,Kolkata
+401,Varun Das,Information Technology,4,6.83,Mumbai
+402,Aarav Patel,Electrical,1,6.30,Delhi
+403,Aarav Sharma,Mechanical,3,9.64,Pune
+404,Diya Joshi,Electronics,1,7.82,Hyderabad
+405,Kavya Patel,Computer Science,2,7.53,Hyderabad
+406,Neha Joshi,Electronics,2,9.60,Bengaluru
+407,Rohan Singh,Computer Science,1,6.35,Bengaluru
+408,Kavya Reddy,Electrical,2,9.70,Mumbai
+409,Aarav Singh,Electronics,3,8.04,Pune
+410,Kavya Patel,Mechanical,2,9.85,Bengaluru
+411,Aarav Joshi,Computer Science,2,8.22,Delhi
+412,Riya Mehta,Mechanical,4,7.32,Jaipur
+413,Arjun Joshi,Electronics,4,9.46,Hyderabad
+414,Sneha Reddy,Mechanical,4,8.41,Delhi
+415,Varun Nair,Computer Science,2,6.54,Mumbai
+416,Arjun Sharma,Electronics,3,7.60,Bengaluru
+417,Vivaan Verma,Electronics,4,8.86,Mumbai
+418,Meera Nair,Electrical,1,7.87,Chennai
+419,Meera Patel,Computer Science,2,7.31,Delhi
+420,Riya Iyer,Computer Science,4,9.17,Chennai
+421,Kavya Verma,Electronics,2,6.36,Kolkata
+422,Diya Joshi,Civil,4,8.73,Chennai
+423,Sneha Reddy,Information Technology,4,9.33,Bengaluru
+424,Neha Singh,Computer Science,1,9.33,Jaipur
+425,Rahul Patel,Electronics,3,7.71,Bengaluru
+426,Sara Gupta,Electronics,4,9.08,Delhi
+427,Vivaan Singh,Mechanical,1,6.11,Kolkata
+428,Vivaan Nair,Mechanical,2,9.86,Hyderabad
+429,Meera Patel,Information Technology,4,8.24,Chennai
+430,Priya Sharma,Information Technology,1,8.05,Chennai
+431,Riya Sharma,Computer Science,1,6.73,Bengaluru
+432,Priya Gupta,Civil,4,7.83,Mumbai
+433,Sara Verma,Information Technology,4,7.77,Pune
+434,Tanvi Mehta,Electrical,4,8.79,Pune
+435,Tanvi Kulkarni,Mechanical,4,7.84,Mumbai
+436,Kavya Gupta,Computer Science,2,6.59,Hyderabad
+437,Rohan Singh,Electrical,3,8.33,Chennai
+438,Aarav Nair,Computer Science,4,7.60,Bengaluru
+439,Arjun Das,Electronics,4,9.38,Pune
+440,Diya Gupta,Mechanical,2,7.38,Mumbai
+441,Riya Verma,Electronics,4,7.75,Chennai
+442,Sara Iyer,Computer Science,2,7.61,Hyderabad
+443,Tanvi Reddy,Civil,3,9.25,Pune
+444,Priya Patel,Electrical,3,8.29,Delhi
+445,Rahul Singh,Computer Science,3,6.02,Mumbai
+446,Meera Verma,Electrical,3,7.01,Mumbai
+447,Neha Das,Civil,3,8.59,Jaipur
+448,Meera Patel,Electrical,4,9.40,Hyderabad
+449,Priya Singh,Electrical,3,8.52,Chennai
+450,Riya Iyer,Computer Science,3,6.36,Delhi
+451,Varun Iyer,Civil,1,8.19,Hyderabad
+452,Diya Kulkarni,Computer Science,4,9.45,Pune
+453,Vivaan Verma,Electronics,4,8.15,Kolkata
+454,Vivaan Sharma,Mechanical,2,8.77,Delhi
+455,Rohan Mehta,Mechanical,2,8.05,Pune
+456,Rahul Reddy,Civil,3,8.61,Mumbai
+457,Varun Patel,Computer Science,2,8.44,Delhi
+458,Rahul Iyer,Civil,2,8.76,Chennai
+459,Ananya Iyer,Electronics,3,7.76,Bengaluru
+460,Sneha Patel,Electronics,3,7.64,Pune
+461,Rohan Das,Information Technology,2,6.61,Hyderabad
+462,Diya Patel,Computer Science,2,6.83,Delhi
+463,Tanvi Mehta,Mechanical,1,8.68,Mumbai
+464,Kavya Reddy,Civil,1,7.68,Pune
+465,Aarav Reddy,Mechanical,4,8.80,Kolkata
+466,Meera Mehta,Computer Science,3,6.69,Pune
+467,Kabir Kulkarni,Electrical,3,8.69,Kolkata
+468,Tanvi Singh,Electrical,3,9.38,Pune
+469,Meera Mehta,Electrical,4,7.68,Chennai
+470,Aditya Reddy,Civil,4,8.74,Chennai
+471,Sneha Das,Civil,4,9.31,Pune
+472,Diya Patel,Civil,3,8.79,Pune
+473,Vivaan Kulkarni,Information Technology,4,9.21,Hyderabad
+474,Varun Kulkarni,Information Technology,2,6.38,Hyderabad
+475,Rohan Das,Information Technology,2,7.84,Hyderabad
+476,Ishaan Gupta,Electrical,4,8.51,Bengaluru
+477,Aarav Verma,Computer Science,4,7.95,Jaipur
+478,Riya Reddy,Mechanical,1,7.13,Delhi
+479,Diya Nair,Information Technology,4,6.79,Jaipur
+480,Kabir Patel,Information Technology,1,8.09,Bengaluru
+481,Sneha Joshi,Mechanical,4,9.41,Delhi
+482,Rohan Joshi,Information Technology,2,7.93,Mumbai
+483,Kabir Verma,Computer Science,3,7.60,Chennai
+484,Vivaan Iyer,Mechanical,2,8.59,Chennai
+485,Sara Kulkarni,Civil,4,8.94,Pune
+486,Ishaan Das,Electronics,2,9.53,Jaipur
+487,Sara Iyer,Mechanical,1,8.29,Chennai
+488,Sneha Mehta,Mechanical,1,8.68,Delhi
+489,Rahul Mehta,Electrical,3,7.56,Delhi
+490,Arjun Kulkarni,Electrical,1,7.98,Pune
+491,Rahul Verma,Computer Science,2,8.24,Chennai
+492,Kavya Das,Electronics,4,7.89,Pune
+493,Aditya Gupta,Civil,1,9.14,Delhi
+494,Arjun Mehta,Electrical,2,6.16,Hyderabad
+495,Aditya Nair,Electronics,3,7.03,Pune
+496,Sara Mehta,Information Technology,4,7.00,Kolkata
+497,Kavya Singh,Electrical,1,6.77,Mumbai
+498,Kavya Gupta,Information Technology,4,9.30,Hyderabad
+499,Kavya Reddy,Civil,1,8.92,Mumbai
+500,Tanvi Das,Civil,3,9.87,Delhi
+501,Aditya Das,Information Technology,2,6.91,Chennai
+502,Rohan Mehta,Mechanical,1,6.62,Chennai
+503,Priya Gupta,Computer Science,3,8.79,Bengaluru
+504,Varun Joshi,Electronics,3,6.21,Bengaluru
+505,Varun Gupta,Mechanical,2,9.88,Chennai
+506,Aditya Mehta,Electrical,3,7.33,Hyderabad
+507,Diya Reddy,Electrical,2,9.88,Chennai
+508,Isha Singh,Electrical,1,7.68,Hyderabad
+509,Rohan Singh,Mechanical,1,7.92,Delhi
+510,Rahul Nair,Electronics,3,8.22,Bengaluru
+511,Aditya Iyer,Electronics,2,9.25,Chennai
+512,Arjun Iyer,Information Technology,3,7.77,Mumbai
+513,Ananya Joshi,Information Technology,2,7.39,Pune
+514,Aditya Reddy,Information Technology,3,6.62,Kolkata
+515,Priya Singh,Information Technology,1,7.62,Bengaluru
+516,Kabir Patel,Electronics,3,7.25,Kolkata
+517,Priya Sharma,Information Technology,1,9.76,Mumbai
+518,Vivaan Verma,Mechanical,4,6.17,Hyderabad
+519,Sara Kulkarni,Information Technology,3,7.43,Delhi
+520,Sara Singh,Electronics,3,6.67,Bengaluru
+521,Meera Singh,Information Technology,2,6.47,Delhi
+522,Meera Gupta,Computer Science,1,8.80,Mumbai
+523,Rohan Joshi,Electronics,1,8.12,Bengaluru
+524,Sneha Kulkarni,Electrical,4,8.02,Pune
+525,Priya Mehta,Mechanical,4,7.19,Hyderabad
+526,Riya Reddy,Civil,2,6.10,Pune
+527,Varun Singh,Computer Science,2,9.81,Bengaluru
+528,Kabir Patel,Electronics,2,6.89,Kolkata
+529,Diya Kulkarni,Computer Science,1,6.36,Pune
+530,Sneha Mehta,Information Technology,1,8.49,Kolkata
+531,Aarav Mehta,Computer Science,1,6.44,Hyderabad
+532,Arjun Iyer,Information Technology,4,9.03,Pune
+533,Diya Mehta,Civil,4,9.30,Pune
+534,Varun Kulkarni,Information Technology,2,6.84,Pune
+535,Sara Gupta,Information Technology,4,6.75,Mumbai
+536,Kavya Sharma,Electrical,2,6.03,Pune
+537,Isha Das,Electronics,3,7.83,Hyderabad
+538,Ananya Kulkarni,Electronics,2,9.76,Pune
+539,Arjun Kulkarni,Information Technology,3,6.36,Bengaluru
+540,Priya Gupta,Mechanical,3,8.59,Kolkata
+541,Sara Sharma,Computer Science,4,9.79,Delhi
+542,Arjun Patel,Information Technology,1,7.65,Hyderabad
+543,Diya Reddy,Mechanical,3,9.12,Pune
+544,Aditya Patel,Civil,3,9.52,Pune
+545,Sneha Singh,Mechanical,4,7.93,Hyderabad
+546,Meera Das,Mechanical,1,9.14,Bengaluru
+547,Priya Mehta,Electronics,2,6.06,Hyderabad
+548,Ananya Iyer,Civil,4,9.28,Pune
+549,Vivaan Kulkarni,Civil,1,8.58,Kolkata
+550,Aditya Sharma,Electrical,4,7.97,Pune
+551,Tanvi Iyer,Computer Science,2,9.51,Delhi
+552,Aarav Das,Mechanical,3,6.74,Kolkata
+553,Aditya Mehta,Electronics,2,6.48,Jaipur
+554,Meera Singh,Computer Science,1,9.16,Mumbai
+555,Sneha Patel,Electronics,2,9.80,Chennai
+556,Kabir Verma,Electronics,3,7.58,Jaipur
+557,Aditya Gupta,Electrical,2,8.84,Kolkata
+558,Ishaan Gupta,Civil,1,9.38,Chennai
+559,Kabir Patel,Electronics,1,8.91,Mumbai
+560,Sara Joshi,Information Technology,2,9.48,Bengaluru
+561,Aarav Reddy,Mechanical,2,8.61,Kolkata
+562,Ananya Verma,Information Technology,1,7.11,Kolkata
+563,Neha Joshi,Civil,4,6.82,Mumbai
+564,Isha Joshi,Electronics,4,7.19,Bengaluru
+565,Riya Das,Electronics,2,7.09,Delhi
+566,Sneha Kulkarni,Mechanical,4,8.06,Kolkata
+567,Arjun Sharma,Electronics,3,8.85,Pune
+568,Aarav Reddy,Computer Science,2,6.72,Bengaluru
+569,Aditya Joshi,Electronics,1,7.64,Mumbai
+570,Varun Gupta,Electronics,1,8.35,Pune
+571,Varun Verma,Electronics,1,7.99,Mumbai
+572,Tanvi Verma,Electronics,1,9.28,Kolkata
+573,Varun Sharma,Computer Science,2,7.82,Jaipur
+574,Riya Nair,Electronics,4,6.74,Jaipur
+575,Ananya Mehta,Civil,1,8.16,Pune
+576,Ananya Das,Civil,4,9.63,Chennai
+577,Meera Singh,Mechanical,2,7.35,Bengaluru
+578,Vivaan Sharma,Civil,4,6.41,Jaipur
+579,Kavya Sharma,Mechanical,1,6.12,Chennai
+580,Sneha Verma,Information Technology,1,7.76,Bengaluru
+581,Priya Nair,Civil,4,7.70,Chennai
+582,Diya Singh,Computer Science,4,6.72,Pune
+583,Rahul Kulkarni,Mechanical,3,8.12,Delhi
+584,Tanvi Das,Civil,1,6.16,Kolkata
+585,Riya Verma,Civil,2,9.46,Kolkata
+586,Arjun Gupta,Computer Science,2,8.67,Kolkata
+587,Arjun Iyer,Mechanical,3,6.10,Kolkata
+588,Vivaan Nair,Electronics,4,6.11,Mumbai
+589,Ishaan Kulkarni,Civil,3,7.92,Pune
+590,Kavya Patel,Information Technology,2,7.09,Bengaluru
+591,Riya Reddy,Electrical,3,7.65,Hyderabad
+592,Riya Reddy,Information Technology,1,8.83,Mumbai
+593,Sara Sharma,Electrical,1,6.28,Hyderabad
+594,Sara Iyer,Civil,3,7.80,Hyderabad
+595,Ananya Sharma,Electronics,1,8.89,Delhi
+596,Isha Gupta,Civil,4,9.05,Jaipur
+597,Kabir Verma,Information Technology,3,8.47,Mumbai
+598,Isha Iyer,Computer Science,4,9.75,Chennai
+599,Rahul Singh,Information Technology,3,6.59,Delhi
+600,Varun Patel,Computer Science,2,8.17,Bengaluru
+601,Sneha Gupta,Mechanical,2,8.76,Delhi
+602,Tanvi Reddy,Civil,3,8.99,Pune
+603,Vivaan Joshi,Civil,1,6.11,Mumbai
+604,Priya Das,Computer Science,1,7.42,Bengaluru
+605,Isha Das,Civil,1,8.56,Hyderabad
+606,Vivaan Iyer,Mechanical,2,6.22,Bengaluru
+607,Aditya Nair,Civil,1,9.06,Jaipur
+608,Arjun Nair,Computer Science,4,6.60,Jaipur
+609,Sara Singh,Electronics,4,8.37,Hyderabad
+610,Aarav Das,Civil,3,9.49,Pune
+611,Varun Iyer,Information Technology,1,8.47,Kolkata
+612,Tanvi Gupta,Mechanical,3,6.69,Pune
+613,Rahul Joshi,Civil,1,8.69,Chennai
+614,Aditya Kulkarni,Civil,3,6.78,Bengaluru
+615,Priya Kulkarni,Civil,2,6.68,Kolkata
+616,Aditya Verma,Mechanical,1,9.20,Bengaluru
+617,Rohan Kulkarni,Mechanical,1,9.69,Jaipur
+618,Kabir Mehta,Information Technology,3,6.98,Chennai
+619,Sara Reddy,Information Technology,4,7.44,Jaipur
+620,Rohan Singh,Information Technology,1,6.54,Mumbai
+621,Kabir Gupta,Mechanical,1,8.14,Hyderabad
+622,Priya Joshi,Electronics,1,8.68,Mumbai
+623,Arjun Sharma,Information Technology,4,8.52,Pune
+624,Riya Das,Civil,3,6.26,Chennai
+625,Sneha Patel,Information Technology,4,6.14,Chennai
+626,Sara Gupta,Electronics,2,7.24,Jaipur
+627,Vivaan Joshi,Mechanical,1,7.14,Delhi
+628,Arjun Patel,Information Technology,2,7.57,Jaipur
+629,Neha Reddy,Civil,3,6.99,Chennai
+630,Ananya Reddy,Computer Science,4,9.55,Mumbai
+631,Aarav Reddy,Mechanical,1,6.39,Jaipur
+632,Diya Sharma,Mechanical,4,9.02,Kolkata
+633,Kabir Reddy,Mechanical,4,8.43,Hyderabad
+634,Ananya Singh,Mechanical,2,6.28,Chennai
+635,Sneha Joshi,Electronics,1,6.80,Mumbai
+636,Meera Patel,Civil,2,9.13,Kolkata
+637,Isha Kulkarni,Electrical,1,7.83,Kolkata
+638,Kavya Verma,Civil,4,7.40,Hyderabad
+639,Aarav Kulkarni,Civil,3,6.54,Kolkata
+640,Kavya Sharma,Electrical,4,8.09,Delhi
+641,Varun Iyer,Information Technology,3,9.56,Pune
+642,Sara Gupta,Mechanical,4,8.41,Bengaluru
+643,Sneha Gupta,Electronics,4,8.03,Jaipur
+644,Ishaan Verma,Electrical,3,6.39,Bengaluru
+645,Varun Reddy,Mechanical,3,7.19,Chennai
+646,Meera Das,Electrical,2,9.22,Kolkata
+647,Kabir Reddy,Computer Science,1,6.84,Mumbai
+648,Isha Gupta,Electronics,3,9.75,Pune
+649,Vivaan Verma,Computer Science,2,9.28,Hyderabad
+650,Rahul Verma,Electrical,2,9.44,Chennai
+651,Ananya Nair,Information Technology,3,8.62,Bengaluru
+652,Kavya Das,Computer Science,4,9.16,Hyderabad
+653,Riya Nair,Electronics,2,6.67,Delhi
+654,Meera Gupta,Computer Science,2,8.06,Kolkata
+655,Priya Verma,Electrical,4,9.41,Jaipur
+656,Isha Reddy,Information Technology,4,7.22,Pune
+657,Neha Iyer,Electronics,3,7.69,Mumbai
+658,Rahul Sharma,Electronics,2,6.97,Delhi
+659,Riya Patel,Electrical,2,8.57,Jaipur
+660,Neha Verma,Electronics,2,9.30,Pune
+661,Kabir Reddy,Electrical,3,7.36,Bengaluru
+662,Vivaan Kulkarni,Electrical,3,6.90,Jaipur
+663,Sneha Kulkarni,Mechanical,1,6.87,Pune
+664,Kabir Gupta,Information Technology,3,6.46,Bengaluru
+665,Kavya Singh,Electrical,2,8.90,Bengaluru
+666,Ishaan Nair,Mechanical,2,8.09,Pune
+667,Arjun Joshi,Electrical,3,9.45,Pune
+668,Priya Verma,Electronics,3,6.92,Mumbai
+669,Isha Joshi,Electrical,4,6.61,Mumbai
+670,Tanvi Nair,Mechanical,2,7.40,Jaipur
+671,Riya Gupta,Electrical,1,7.15,Kolkata
+672,Aarav Iyer,Electrical,2,7.41,Hyderabad
+673,Rohan Joshi,Civil,1,7.19,Jaipur
+674,Ananya Patel,Mechanical,2,7.15,Jaipur
+675,Riya Singh,Mechanical,3,6.00,Pune
+676,Sara Kulkarni,Computer Science,2,7.52,Pune
+677,Aditya Nair,Electronics,3,9.22,Bengaluru
+678,Meera Singh,Computer Science,2,7.88,Kolkata
+679,Varun Gupta,Mechanical,4,6.15,Mumbai
+680,Ishaan Reddy,Electrical,1,7.42,Kolkata
+681,Tanvi Reddy,Information Technology,3,8.24,Mumbai
+682,Ishaan Joshi,Computer Science,2,6.51,Delhi
+683,Priya Reddy,Mechanical,2,7.77,Kolkata
+684,Rahul Verma,Mechanical,3,6.39,Kolkata
+685,Rahul Iyer,Civil,3,7.05,Kolkata
+686,Aarav Kulkarni,Computer Science,4,9.65,Jaipur
+687,Ananya Gupta,Information Technology,3,9.58,Delhi
+688,Kavya Singh,Electronics,2,8.01,Bengaluru
+689,Aarav Singh,Electronics,2,7.36,Chennai
+690,Varun Kulkarni,Computer Science,2,8.47,Mumbai
+691,Sara Verma,Electronics,4,9.49,Jaipur
+692,Rahul Verma,Information Technology,2,6.61,Mumbai
+693,Isha Reddy,Information Technology,2,9.17,Kolkata
+694,Aditya Reddy,Electrical,2,6.59,Mumbai
+695,Riya Sharma,Electronics,2,9.01,Hyderabad
+696,Priya Kulkarni,Civil,2,8.18,Chennai
+697,Aditya Nair,Electrical,2,7.69,Kolkata
+698,Sneha Reddy,Electronics,1,9.72,Delhi
+699,Rahul Das,Mechanical,3,7.15,Pune
+700,Sneha Mehta,Information Technology,4,7.38,Mumbai
+701,Ishaan Kulkarni,Electrical,1,7.43,Chennai
+702,Ishaan Joshi,Information Technology,4,8.40,Kolkata
+703,Arjun Reddy,Electronics,4,7.64,Chennai
+704,Aarav Iyer,Mechanical,3,8.86,Bengaluru
+705,Rohan Patel,Computer Science,3,8.43,Kolkata
+706,Priya Sharma,Electrical,4,9.50,Chennai
+707,Isha Kulkarni,Information Technology,3,9.26,Hyderabad
+708,Kabir Sharma,Civil,1,7.91,Hyderabad
+709,Sneha Nair,Mechanical,1,8.88,Bengaluru
+710,Ananya Das,Information Technology,2,9.87,Jaipur
+711,Ishaan Mehta,Civil,4,8.48,Hyderabad
+712,Arjun Singh,Electrical,4,8.09,Mumbai
+713,Ananya Verma,Information Technology,2,6.75,Pune
+714,Kabir Nair,Computer Science,2,9.29,Bengaluru
+715,Rohan Iyer,Electronics,4,8.84,Jaipur
+716,Ishaan Patel,Electronics,3,9.29,Chennai
+717,Priya Nair,Computer Science,2,8.03,Hyderabad
+718,Tanvi Mehta,Computer Science,2,7.32,Mumbai
+719,Varun Kulkarni,Electronics,1,8.46,Mumbai
+720,Varun Iyer,Electrical,4,8.30,Kolkata
+721,Kabir Das,Computer Science,4,7.35,Mumbai
+722,Riya Das,Civil,4,7.87,Delhi
+723,Neha Singh,Electronics,4,6.29,Mumbai
+724,Tanvi Nair,Electrical,3,8.40,Delhi
+725,Neha Nair,Mechanical,1,9.36,Chennai
+726,Isha Joshi,Information Technology,3,9.64,Mumbai
+727,Rahul Patel,Electronics,4,7.86,Jaipur
+728,Kabir Reddy,Electrical,2,6.83,Kolkata
+729,Priya Joshi,Information Technology,2,8.48,Pune
+730,Kavya Mehta,Computer Science,1,9.85,Kolkata
+731,Ananya Verma,Computer Science,3,9.36,Kolkata
+732,Sara Reddy,Computer Science,2,8.32,Kolkata
+733,Arjun Sharma,Electronics,1,6.04,Jaipur
+734,Kabir Joshi,Mechanical,3,7.44,Delhi
+735,Arjun Kulkarni,Information Technology,2,8.26,Delhi
+736,Priya Joshi,Information Technology,3,7.41,Jaipur
+737,Meera Mehta,Computer Science,2,7.58,Mumbai
+738,Kavya Iyer,Civil,4,7.97,Hyderabad
+739,Varun Verma,Mechanical,4,8.71,Pune
+740,Priya Reddy,Mechanical,1,7.87,Kolkata
+741,Kabir Sharma,Computer Science,2,6.25,Kolkata
+742,Ishaan Patel,Information Technology,3,6.59,Bengaluru
+743,Sara Das,Electrical,4,6.79,Pune
+744,Sneha Nair,Information Technology,2,8.05,Jaipur
+745,Ananya Gupta,Mechanical,3,9.53,Chennai
+746,Vivaan Nair,Civil,2,6.08,Jaipur
+747,Vivaan Gupta,Computer Science,1,7.91,Mumbai
+748,Sneha Kulkarni,Civil,2,6.90,Bengaluru
+749,Priya Verma,Computer Science,3,9.14,Chennai
+750,Riya Das,Civil,4,6.13,Bengaluru
+751,Sneha Singh,Civil,4,8.06,Pune
+752,Rahul Singh,Information Technology,4,8.59,Bengaluru
+753,Ananya Sharma,Mechanical,1,6.58,Pune
+754,Priya Sharma,Mechanical,3,9.86,Mumbai
+755,Isha Kulkarni,Mechanical,4,7.84,Hyderabad
+756,Aarav Patel,Electrical,1,7.87,Jaipur
+757,Meera Nair,Computer Science,4,9.46,Mumbai
+758,Rohan Iyer,Civil,4,9.61,Mumbai
+759,Aditya Iyer,Electronics,3,7.92,Bengaluru
+760,Arjun Mehta,Information Technology,3,8.98,Kolkata
+761,Sara Verma,Mechanical,1,8.28,Hyderabad
+762,Neha Iyer,Electrical,4,9.50,Bengaluru
+763,Varun Mehta,Electronics,3,6.62,Pune
+764,Vivaan Verma,Civil,3,8.87,Delhi
+765,Isha Verma,Computer Science,4,8.88,Kolkata
+766,Rohan Joshi,Information Technology,2,7.36,Kolkata
+767,Kavya Sharma,Computer Science,4,7.86,Mumbai
+768,Vivaan Mehta,Electrical,2,8.38,Hyderabad
+769,Tanvi Joshi,Information Technology,2,6.22,Hyderabad
+770,Aarav Verma,Computer Science,4,8.52,Chennai
+771,Rohan Kulkarni,Mechanical,3,8.92,Delhi
+772,Rahul Iyer,Electrical,3,9.62,Jaipur
+773,Diya Verma,Electronics,2,8.40,Kolkata
+774,Kabir Patel,Mechanical,1,6.36,Mumbai
+775,Ananya Sharma,Electronics,2,7.09,Mumbai
+776,Isha Verma,Electronics,1,9.31,Jaipur
+777,Sneha Mehta,Electronics,2,6.78,Delhi
+778,Aditya Patel,Mechanical,2,9.85,Kolkata
+779,Rahul Sharma,Computer Science,3,8.94,Pune
+780,Diya Das,Computer Science,2,7.31,Chennai
+781,Neha Mehta,Electrical,4,8.93,Delhi
+782,Rahul Patel,Civil,2,6.22,Hyderabad
+783,Riya Patel,Mechanical,4,8.44,Bengaluru
+784,Sneha Sharma,Information Technology,4,8.76,Chennai
+785,Ananya Mehta,Electronics,4,8.73,Hyderabad
+786,Sara Sharma,Information Technology,3,9.32,Pune
+787,Ananya Das,Electrical,1,6.24,Delhi
+788,Kavya Kulkarni,Mechanical,4,6.59,Pune
+789,Diya Kulkarni,Electronics,1,8.90,Mumbai
+790,Aarav Verma,Computer Science,4,7.61,Mumbai
+791,Kavya Mehta,Electronics,3,7.39,Jaipur
+792,Sara Patel,Electrical,1,8.99,Jaipur
+793,Rohan Kulkarni,Electronics,2,7.39,Jaipur
+794,Rohan Sharma,Civil,4,6.79,Kolkata
+795,Ananya Sharma,Computer Science,1,9.51,Kolkata
+796,Vivaan Verma,Information Technology,4,9.57,Pune
+797,Sara Singh,Electronics,3,9.53,Mumbai
+798,Rohan Verma,Information Technology,4,7.44,Delhi
+799,Isha Verma,Civil,3,8.50,Pune
+800,Priya Nair,Electronics,2,8.95,Pune
+801,Sara Patel,Computer Science,4,9.03,Mumbai
+802,Vivaan Singh,Electronics,4,9.28,Pune
+803,Sara Verma,Electrical,4,6.29,Kolkata
+804,Arjun Gupta,Mechanical,2,8.06,Delhi
+805,Ananya Joshi,Computer Science,2,9.89,Hyderabad
+806,Sneha Sharma,Electronics,2,9.25,Hyderabad
+807,Rahul Patel,Information Technology,3,9.25,Chennai
+808,Vivaan Verma,Electronics,4,8.68,Chennai
+809,Isha Joshi,Electronics,3,9.20,Hyderabad
+810,Ishaan Verma,Electrical,2,8.75,Jaipur
+811,Rohan Das,Electronics,2,6.54,Kolkata
+812,Kavya Reddy,Civil,4,9.70,Hyderabad
+813,Ishaan Gupta,Information Technology,1,6.30,Pune
+814,Diya Nair,Electrical,3,7.75,Chennai
+815,Kavya Iyer,Information Technology,1,8.68,Jaipur
+816,Ananya Reddy,Civil,3,7.52,Bengaluru
+817,Arjun Kulkarni,Computer Science,3,8.52,Chennai
+818,Diya Verma,Civil,4,7.52,Kolkata
+819,Sara Sharma,Information Technology,2,6.06,Chennai
+820,Sneha Iyer,Electrical,2,9.25,Jaipur
+821,Tanvi Iyer,Information Technology,1,7.41,Hyderabad
+822,Priya Reddy,Information Technology,3,9.08,Kolkata
+823,Ananya Reddy,Electronics,3,6.40,Chennai
+824,Sneha Verma,Electrical,3,7.41,Chennai
+825,Arjun Verma,Electronics,4,8.03,Hyderabad
+826,Vivaan Reddy,Electronics,4,8.37,Hyderabad
+827,Arjun Kulkarni,Civil,3,8.68,Pune
+828,Diya Verma,Civil,3,9.13,Mumbai
+829,Kabir Iyer,Information Technology,2,8.83,Chennai
+830,Rahul Sharma,Civil,2,9.68,Hyderabad
+831,Priya Das,Electronics,2,7.85,Delhi
+832,Aditya Mehta,Computer Science,3,8.44,Pune
+833,Aarav Patel,Electronics,2,6.25,Pune
+834,Rohan Patel,Computer Science,4,6.83,Mumbai
+835,Tanvi Sharma,Mechanical,3,6.37,Kolkata
+836,Vivaan Joshi,Electronics,4,9.11,Hyderabad
+837,Kabir Reddy,Electrical,2,9.57,Delhi
+838,Neha Singh,Electrical,3,9.86,Hyderabad
+839,Neha Joshi,Electrical,3,6.91,Delhi
+840,Rahul Iyer,Information Technology,4,9.11,Pune
+841,Ananya Singh,Civil,3,9.77,Mumbai
+842,Sara Joshi,Mechanical,2,9.56,Mumbai
+843,Varun Nair,Electronics,4,6.96,Bengaluru
+844,Ananya Verma,Electrical,3,6.10,Pune
+845,Kavya Patel,Computer Science,3,7.31,Hyderabad
+846,Ananya Verma,Civil,1,8.81,Delhi
+847,Riya Mehta,Mechanical,1,9.08,Kolkata
+848,Rahul Nair,Electrical,1,6.26,Delhi
+849,Diya Mehta,Mechanical,3,9.45,Bengaluru
+850,Sneha Patel,Electronics,1,8.04,Bengaluru
+851,Aditya Singh,Mechanical,1,8.19,Chennai
+852,Riya Gupta,Electrical,1,6.81,Jaipur
+853,Arjun Nair,Electronics,1,9.67,Hyderabad
+854,Neha Singh,Mechanical,1,6.11,Mumbai
+855,Priya Nair,Civil,1,8.09,Pune
+856,Arjun Kulkarni,Electrical,4,6.35,Mumbai
+857,Vivaan Reddy,Electrical,2,7.76,Hyderabad
+858,Arjun Iyer,Electrical,1,7.95,Jaipur
+859,Rohan Verma,Electronics,3,6.09,Delhi
+860,Ishaan Verma,Computer Science,4,8.08,Kolkata
+861,Priya Gupta,Information Technology,4,8.80,Chennai
+862,Isha Nair,Electrical,1,9.07,Kolkata
+863,Kavya Joshi,Information Technology,1,6.95,Delhi
+864,Riya Iyer,Electronics,2,8.67,Bengaluru
+865,Aditya Joshi,Electrical,2,7.28,Jaipur
+866,Rahul Gupta,Electronics,4,6.99,Hyderabad
+867,Ananya Sharma,Information Technology,4,9.67,Bengaluru
+868,Varun Singh,Electrical,2,8.29,Jaipur
+869,Priya Nair,Civil,1,6.16,Delhi
+870,Rohan Sharma,Computer Science,2,6.52,Pune
+871,Kavya Mehta,Civil,2,7.18,Kolkata
+872,Rohan Sharma,Computer Science,1,8.53,Jaipur
+873,Sneha Joshi,Mechanical,4,9.55,Chennai
+874,Meera Joshi,Electrical,4,8.53,Bengaluru
+875,Varun Joshi,Information Technology,1,8.81,Kolkata
+876,Varun Nair,Computer Science,3,6.13,Chennai
+877,Rahul Gupta,Computer Science,2,9.24,Pune
+878,Priya Kulkarni,Electrical,3,9.48,Delhi
+879,Ananya Das,Electrical,4,7.90,Kolkata
+880,Aditya Sharma,Computer Science,4,9.71,Kolkata
+881,Arjun Sharma,Electrical,4,7.79,Pune
+882,Kavya Nair,Information Technology,1,9.40,Mumbai
+883,Ananya Joshi,Computer Science,1,9.12,Kolkata
+884,Kavya Iyer,Mechanical,1,8.02,Chennai
+885,Kavya Joshi,Mechanical,3,7.19,Delhi
+886,Sneha Mehta,Civil,2,9.75,Mumbai
+887,Neha Das,Electrical,4,7.37,Hyderabad
+888,Tanvi Mehta,Computer Science,1,8.86,Mumbai
+889,Ananya Verma,Mechanical,4,8.09,Jaipur
+890,Meera Sharma,Information Technology,2,7.53,Kolkata
+891,Ananya Reddy,Electrical,4,9.37,Delhi
+892,Kabir Joshi,Electronics,3,9.26,Delhi
+893,Riya Patel,Computer Science,1,7.33,Delhi
+894,Priya Reddy,Electronics,4,8.11,Chennai
+895,Arjun Patel,Mechanical,3,7.00,Pune
+896,Kabir Reddy,Mechanical,3,8.35,Pune
+897,Isha Reddy,Information Technology,3,7.12,Delhi
+898,Vivaan Gupta,Electronics,1,9.52,Mumbai
+899,Neha Verma,Mechanical,2,9.10,Delhi
+900,Kavya Iyer,Electrical,4,8.00,Chennai
+901,Ananya Verma,Electronics,1,6.56,Bengaluru
+902,Priya Nair,Computer Science,4,9.88,Chennai
+903,Sara Das,Mechanical,2,7.97,Mumbai
+904,Vivaan Kulkarni,Civil,3,8.40,Jaipur
+905,Arjun Patel,Information Technology,2,9.46,Delhi
+906,Ananya Gupta,Electronics,1,6.50,Kolkata
+907,Varun Sharma,Electrical,2,6.51,Chennai
+908,Rohan Joshi,Civil,4,7.27,Bengaluru
+909,Isha Das,Electronics,4,7.42,Delhi
+910,Isha Verma,Mechanical,1,6.56,Hyderabad
+911,Tanvi Sharma,Electronics,3,6.02,Delhi
+912,Rohan Verma,Civil,2,9.38,Delhi
+913,Sara Reddy,Civil,1,7.83,Mumbai
+914,Ananya Mehta,Electrical,1,6.51,Hyderabad
+915,Sara Das,Electrical,1,7.44,Hyderabad
+916,Tanvi Mehta,Electrical,4,6.03,Hyderabad
+917,Kavya Iyer,Mechanical,4,7.87,Kolkata
+918,Vivaan Nair,Information Technology,4,9.35,Bengaluru
+919,Diya Singh,Civil,3,6.43,Hyderabad
+920,Tanvi Nair,Computer Science,3,6.60,Jaipur
+921,Priya Das,Civil,1,6.42,Jaipur
+922,Arjun Das,Electronics,4,6.72,Chennai
+923,Kabir Reddy,Electrical,4,9.46,Jaipur
+924,Arjun Verma,Civil,3,6.09,Kolkata
+925,Sara Iyer,Electrical,3,7.26,Jaipur
+926,Riya Mehta,Electrical,1,8.66,Jaipur
+927,Diya Gupta,Civil,3,7.76,Jaipur
+928,Priya Kulkarni,Electrical,1,9.47,Jaipur
+929,Kavya Sharma,Electrical,3,9.58,Pune
+930,Varun Gupta,Computer Science,4,6.08,Jaipur
+931,Sneha Kulkarni,Mechanical,2,7.01,Kolkata
+932,Ishaan Kulkarni,Electrical,4,7.36,Hyderabad
+933,Kavya Gupta,Electrical,2,9.52,Pune
+934,Aarav Kulkarni,Electronics,3,8.48,Mumbai
+935,Vivaan Verma,Computer Science,2,9.31,Chennai
+936,Isha Iyer,Electrical,4,7.02,Bengaluru
+937,Tanvi Verma,Information Technology,2,8.49,Bengaluru
+938,Tanvi Singh,Civil,4,7.21,Jaipur
+939,Sara Mehta,Electrical,1,6.06,Kolkata
+940,Rahul Mehta,Electronics,2,6.59,Hyderabad
+941,Kabir Das,Information Technology,3,7.86,Kolkata
+942,Rahul Das,Mechanical,4,9.63,Chennai
+943,Tanvi Patel,Computer Science,3,6.14,Pune
+944,Varun Reddy,Electronics,3,7.93,Bengaluru
+945,Diya Singh,Computer Science,2,6.76,Chennai
+946,Tanvi Singh,Electrical,3,7.48,Delhi
+947,Meera Singh,Civil,1,6.19,Kolkata
+948,Varun Singh,Mechanical,3,8.48,Chennai
+949,Kabir Gupta,Information Technology,3,6.33,Kolkata
+950,Diya Sharma,Electrical,1,8.48,Pune
+951,Tanvi Sharma,Civil,2,9.21,Delhi
+952,Riya Das,Information Technology,1,6.89,Bengaluru
+953,Sneha Iyer,Mechanical,3,8.62,Kolkata
+954,Aditya Patel,Electrical,3,7.70,Hyderabad
+955,Sara Sharma,Electrical,2,7.42,Jaipur
+956,Aditya Joshi,Electronics,1,6.69,Kolkata
+957,Arjun Patel,Information Technology,1,9.37,Bengaluru
+958,Sara Singh,Mechanical,2,9.04,Jaipur
+959,Sara Joshi,Information Technology,4,8.69,Kolkata
+960,Diya Das,Computer Science,1,6.02,Kolkata
+961,Kabir Joshi,Electronics,3,7.77,Jaipur
+962,Sara Das,Civil,2,7.92,Delhi
+963,Priya Das,Computer Science,4,7.82,Mumbai
+964,Kavya Patel,Computer Science,4,8.86,Delhi
+965,Ishaan Reddy,Mechanical,3,9.10,Pune
+966,Isha Patel,Information Technology,4,8.52,Kolkata
+967,Sneha Gupta,Computer Science,1,8.84,Chennai
+968,Sneha Das,Electrical,4,9.86,Chennai
+969,Sneha Das,Electrical,3,9.21,Chennai
+970,Tanvi Reddy,Computer Science,2,7.31,Pune
+971,Rahul Mehta,Information Technology,2,8.72,Pune
+972,Meera Joshi,Electrical,2,9.89,Hyderabad
+973,Priya Nair,Information Technology,1,7.33,Jaipur
+974,Ananya Gupta,Mechanical,3,7.26,Hyderabad
+975,Varun Iyer,Mechanical,4,8.43,Chennai
+976,Tanvi Patel,Mechanical,2,8.97,Chennai
+977,Priya Reddy,Computer Science,1,8.58,Mumbai
+978,Riya Nair,Information Technology,1,6.76,Bengaluru
+979,Kabir Das,Civil,4,6.53,Pune
+980,Sneha Reddy,Civil,4,8.04,Bengaluru
+981,Riya Sharma,Mechanical,3,6.12,Kolkata
+982,Sara Verma,Electronics,1,8.28,Delhi
+983,Neha Kulkarni,Computer Science,1,9.13,Hyderabad
+984,Ishaan Sharma,Computer Science,1,8.47,Delhi
+985,Tanvi Mehta,Civil,1,6.33,Kolkata
+986,Ishaan Verma,Electronics,4,7.55,Pune
+987,Ishaan Verma,Electronics,2,9.16,Pune
+988,Arjun Joshi,Mechanical,1,6.83,Delhi
+989,Tanvi Singh,Electronics,1,6.53,Jaipur
+990,Kabir Das,Computer Science,3,7.37,Hyderabad
+991,Neha Reddy,Mechanical,1,8.90,Hyderabad
+992,Sneha Verma,Civil,4,7.19,Delhi
+993,Riya Reddy,Civil,3,7.83,Bengaluru
+994,Diya Iyer,Civil,4,6.94,Pune
+995,Riya Kulkarni,Electrical,4,9.47,Bengaluru
+996,Vivaan Gupta,Electronics,2,6.87,Kolkata
+997,Arjun Das,Computer Science,3,7.33,Chennai
+998,Neha Singh,Civil,1,7.07,Bengaluru
+999,Isha Patel,Mechanical,3,8.27,Bengaluru
+1000,Kavya Das,Electrical,2,7.66,Hyderabad
+1001,Ananya Das,Civil,1,7.53,Chennai
+1002,Neha Mehta,Information Technology,3,8.24,Pune
+1003,Ananya Sharma,Civil,4,6.89,Kolkata
+1004,Diya Iyer,Civil,3,8.09,Mumbai
+1005,Riya Joshi,Computer Science,3,9.80,Delhi
+1006,Kabir Sharma,Computer Science,1,8.98,Chennai
+1007,Riya Gupta,Information Technology,3,6.71,Delhi
+1008,Arjun Joshi,Mechanical,4,9.87,Jaipur
+1009,Ananya Patel,Electrical,3,7.12,Jaipur
+1010,Ananya Joshi,Civil,1,7.56,Jaipur
+1011,Arjun Patel,Mechanical,1,6.12,Hyderabad
+1012,Rahul Reddy,Civil,3,8.69,Chennai
+1013,Aditya Patel,Mechanical,4,6.38,Mumbai
+1014,Rohan Das,Computer Science,3,7.49,Pune
+1015,Kavya Verma,Mechanical,4,8.70,Delhi
+1016,Rahul Nair,Electronics,1,8.68,Kolkata
+1017,Ananya Patel,Mechanical,2,7.33,Pune
+1018,Sara Iyer,Electrical,1,7.33,Hyderabad
+1019,Ananya Nair,Mechanical,1,6.15,Hyderabad
+1020,Diya Das,Computer Science,4,7.72,Kolkata
+1021,Isha Iyer,Electrical,3,7.19,Delhi
+1022,Kavya Verma,Mechanical,1,7.44,Kolkata
+1023,Kabir Kulkarni,Electrical,1,7.86,Hyderabad
+1024,Aditya Das,Information Technology,1,7.02,Chennai
+1025,Arjun Verma,Electrical,4,7.81,Jaipur
+1026,Aarav Joshi,Information Technology,3,6.50,Chennai
+1027,Neha Nair,Computer Science,2,8.76,Bengaluru
+1028,Arjun Gupta,Mechanical,2,6.71,Hyderabad
+1029,Varun Mehta,Civil,1,8.46,Kolkata
+1030,Sneha Patel,Mechanical,3,6.65,Hyderabad
+1031,Kavya Joshi,Civil,1,7.12,Hyderabad
+1032,Kabir Nair,Information Technology,1,7.27,Bengaluru
+1033,Ananya Kulkarni,Electronics,4,9.82,Delhi
+1034,Aarav Gupta,Civil,1,8.49,Jaipur
+1035,Kabir Verma,Electronics,4,8.70,Bengaluru
+1036,Kavya Gupta,Information Technology,4,6.74,Hyderabad
+1037,Isha Gupta,Mechanical,3,8.91,Pune
+1038,Vivaan Joshi,Civil,1,8.60,Chennai
+1039,Rohan Gupta,Computer Science,4,9.08,Pune
+1040,Rohan Patel,Electrical,2,7.87,Hyderabad
+1041,Riya Kulkarni,Electronics,3,7.55,Hyderabad
+1042,Ishaan Patel,Civil,3,8.17,Kolkata
+1043,Priya Iyer,Electrical,3,9.69,Kolkata
+1044,Priya Gupta,Computer Science,1,7.88,Bengaluru
+1045,Aarav Mehta,Computer Science,1,7.87,Pune
+1046,Vivaan Mehta,Civil,1,8.78,Delhi
+1047,Vivaan Das,Civil,3,9.38,Kolkata
+1048,Riya Verma,Electronics,1,9.79,Hyderabad
+1049,Rahul Singh,Electronics,1,7.71,Jaipur
+1050,Rohan Das,Mechanical,2,6.75,Chennai
+1051,Priya Singh,Civil,2,7.71,Delhi
+1052,Diya Sharma,Information Technology,4,6.36,Hyderabad
+1053,Meera Kulkarni,Electrical,3,6.65,Hyderabad
+1054,Aarav Gupta,Civil,3,6.96,Bengaluru
+1055,Aditya Nair,Mechanical,3,7.35,Mumbai
+1056,Ishaan Sharma,Electrical,1,7.64,Pune
+1057,Priya Nair,Computer Science,4,7.75,Delhi
+1058,Diya Das,Mechanical,4,9.55,Kolkata
+1059,Kavya Verma,Electrical,1,7.29,Delhi
+1060,Vivaan Nair,Computer Science,2,7.52,Pune
+1061,Ananya Nair,Mechanical,3,7.03,Delhi
+1062,Ishaan Gupta,Electronics,1,9.68,Delhi
+1063,Priya Joshi,Electronics,2,8.80,Mumbai
+1064,Isha Sharma,Electronics,4,8.79,Jaipur
+1065,Ishaan Gupta,Mechanical,4,7.54,Mumbai
+1066,Rahul Sharma,Computer Science,2,7.09,Bengaluru
+1067,Vivaan Patel,Mechanical,2,6.10,Hyderabad
+1068,Kavya Iyer,Civil,3,8.35,Mumbai
+1069,Meera Patel,Civil,3,9.32,Mumbai
+1070,Kavya Singh,Electrical,3,7.53,Chennai
+1071,Neha Das,Electronics,3,7.58,Mumbai
+1072,Ananya Sharma,Electrical,4,7.19,Kolkata
+1073,Vivaan Nair,Electronics,4,8.36,Delhi
+1074,Rohan Mehta,Information Technology,1,6.26,Bengaluru
+1075,Ananya Iyer,Information Technology,4,8.45,Chennai
+1076,Riya Kulkarni,Electronics,3,7.96,Kolkata
+1077,Ishaan Sharma,Information Technology,1,8.47,Jaipur
+1078,Ananya Kulkarni,Electrical,2,8.33,Pune
+1079,Aarav Singh,Computer Science,2,6.97,Pune
+1080,Vivaan Joshi,Civil,3,8.33,Chennai
+1081,Tanvi Sharma,Civil,3,6.25,Chennai
+1082,Kabir Gupta,Electrical,4,8.75,Hyderabad
+1083,Varun Singh,Information Technology,1,7.43,Hyderabad
+1084,Sara Patel,Electronics,2,8.97,Hyderabad
+1085,Rohan Reddy,Electrical,4,6.43,Kolkata
+1086,Aarav Mehta,Information Technology,3,7.79,Mumbai
+1087,Ishaan Das,Electrical,2,9.41,Jaipur
+1088,Ishaan Patel,Information Technology,4,7.65,Jaipur
+1089,Priya Verma,Computer Science,3,7.56,Bengaluru
+1090,Riya Mehta,Computer Science,1,8.11,Jaipur
+1091,Aarav Singh,Computer Science,4,9.89,Mumbai
+1092,Diya Mehta,Electronics,4,6.54,Jaipur
+1093,Tanvi Kulkarni,Information Technology,3,7.77,Pune
+1094,Riya Patel,Computer Science,2,6.23,Chennai
+1095,Rahul Verma,Electrical,3,7.12,Mumbai
+1096,Varun Joshi,Electrical,1,7.28,Delhi
+1097,Ananya Kulkarni,Mechanical,1,7.52,Bengaluru
+1098,Riya Iyer,Computer Science,2,8.68,Hyderabad
+1099,Meera Kulkarni,Computer Science,3,8.81,Mumbai
+1100,Sneha Joshi,Civil,1,6.24,Mumbai
+1101,Vivaan Singh,Mechanical,1,8.61,Hyderabad
+1102,Aditya Joshi,Electrical,2,9.15,Mumbai
+1103,Sara Joshi,Mechanical,2,6.46,Chennai
+1104,Vivaan Sharma,Information Technology,1,7.58,Pune
+1105,Diya Singh,Civil,1,6.18,Hyderabad
+1106,Sneha Nair,Civil,2,7.45,Mumbai
+1107,Riya Singh,Electrical,1,6.54,Hyderabad
+1108,Tanvi Singh,Mechanical,3,7.33,Kolkata
+1109,Varun Singh,Civil,4,6.33,Bengaluru
+1110,Isha Mehta,Information Technology,3,9.59,Pune
+1111,Priya Sharma,Mechanical,4,6.65,Mumbai
+1112,Sneha Patel,Mechanical,1,7.72,Pune
+1113,Tanvi Kulkarni,Computer Science,1,7.74,Chennai
+1114,Aditya Patel,Information Technology,3,7.54,Chennai
+1115,Rahul Reddy,Information Technology,3,6.39,Kolkata
+1116,Vivaan Kulkarni,Computer Science,4,9.66,Mumbai
+1117,Aditya Sharma,Mechanical,1,9.11,Pune
+1118,Arjun Gupta,Electronics,3,8.42,Mumbai
+1119,Diya Kulkarni,Electronics,4,8.66,Bengaluru
+1120,Aarav Nair,Electrical,3,6.29,Delhi
+1121,Vivaan Verma,Electrical,1,8.27,Mumbai
+1122,Isha Mehta,Computer Science,1,8.03,Pune
+1123,Ananya Sharma,Mechanical,2,7.23,Pune
+1124,Priya Reddy,Civil,3,6.10,Hyderabad
+1125,Ananya Gupta,Computer Science,3,9.14,Hyderabad
+1126,Tanvi Singh,Information Technology,1,8.07,Pune
+1127,Isha Mehta,Mechanical,4,7.83,Pune
+1128,Tanvi Singh,Mechanical,3,9.20,Jaipur
+1129,Rohan Sharma,Electrical,2,8.38,Bengaluru
+1130,Kavya Patel,Computer Science,3,6.80,Mumbai
+1131,Kavya Verma,Civil,2,6.65,Mumbai
+1132,Kavya Sharma,Mechanical,4,7.53,Delhi
+1133,Neha Iyer,Computer Science,3,9.73,Kolkata
+1134,Arjun Reddy,Mechanical,2,7.11,Mumbai
+1135,Sneha Verma,Electrical,2,6.51,Pune
+1136,Sneha Gupta,Electronics,2,9.56,Hyderabad
+1137,Varun Singh,Mechanical,2,7.97,Mumbai
+1138,Kavya Iyer,Electrical,3,7.06,Kolkata
+1139,Arjun Reddy,Mechanical,3,9.15,Delhi
+1140,Diya Singh,Computer Science,4,9.84,Kolkata
+1141,Isha Iyer,Information Technology,4,6.13,Jaipur
+1142,Rohan Iyer,Mechanical,1,8.94,Mumbai
+1143,Sneha Reddy,Mechanical,1,6.98,Kolkata
+1144,Tanvi Joshi,Civil,4,6.55,Jaipur
+1145,Kabir Joshi,Civil,4,7.51,Delhi
+1146,Rahul Sharma,Mechanical,2,8.73,Chennai
+1147,Sneha Iyer,Electrical,4,6.55,Bengaluru
+1148,Aditya Reddy,Civil,2,9.84,Delhi
+1149,Priya Patel,Electronics,2,8.71,Delhi
+1150,Neha Kulkarni,Electronics,3,7.40,Pune
+1151,Rahul Verma,Civil,1,6.35,Jaipur
+1152,Kabir Iyer,Computer Science,1,6.09,Hyderabad
+1153,Sara Verma,Electronics,4,6.57,Mumbai
+1154,Sara Singh,Electrical,2,9.54,Jaipur
+1155,Varun Sharma,Electronics,3,9.84,Bengaluru
+1156,Meera Kulkarni,Electronics,1,9.20,Mumbai
+1157,Aarav Patel,Electrical,3,9.24,Hyderabad
+1158,Kavya Nair,Civil,2,8.43,Bengaluru
+1159,Ishaan Kulkarni,Mechanical,1,8.35,Hyderabad
+1160,Ananya Reddy,Information Technology,2,7.32,Jaipur
+1161,Priya Das,Electronics,4,8.66,Mumbai
+1162,Aditya Joshi,Computer Science,1,8.21,Jaipur
+1163,Vivaan Reddy,Computer Science,1,9.80,Chennai
+1164,Rahul Kulkarni,Information Technology,4,6.02,Kolkata
+1165,Sara Das,Civil,1,9.21,Mumbai
+1166,Varun Patel,Mechanical,3,6.93,Delhi
+1167,Varun Joshi,Information Technology,1,8.99,Bengaluru
+1168,Varun Iyer,Information Technology,2,7.64,Pune
+1169,Riya Nair,Electrical,4,6.03,Mumbai
+1170,Aditya Singh,Electronics,2,9.64,Pune
+1171,Diya Reddy,Electronics,4,6.75,Pune
+1172,Tanvi Iyer,Civil,1,6.55,Kolkata
+1173,Isha Sharma,Civil,4,9.00,Bengaluru
+1174,Ananya Kulkarni,Mechanical,3,7.32,Delhi
+1175,Rohan Patel,Computer Science,4,7.71,Kolkata
+1176,Kavya Verma,Mechanical,2,7.15,Delhi
+1177,Kavya Mehta,Computer Science,2,6.38,Chennai
+1178,Kabir Verma,Computer Science,4,9.32,Jaipur
+1179,Rahul Nair,Mechanical,1,6.78,Bengaluru
+1180,Priya Kulkarni,Civil,2,8.48,Kolkata
+1181,Varun Joshi,Electronics,2,6.91,Chennai
+1182,Vivaan Patel,Electronics,4,9.80,Mumbai
+1183,Sara Joshi,Electrical,4,7.88,Delhi
+1184,Ishaan Kulkarni,Civil,3,8.71,Bengaluru
+1185,Diya Mehta,Computer Science,2,7.51,Kolkata
+1186,Aarav Mehta,Electrical,2,9.82,Mumbai
+1187,Aditya Gupta,Electrical,2,6.14,Jaipur
+1188,Ananya Mehta,Mechanical,4,6.65,Chennai
+1189,Sara Reddy,Computer Science,3,7.01,Pune
+1190,Riya Joshi,Computer Science,1,7.89,Pune
+1191,Rahul Mehta,Information Technology,3,8.03,Hyderabad
+1192,Aarav Singh,Information Technology,4,7.42,Kolkata
+1193,Neha Joshi,Information Technology,4,6.96,Mumbai
+1194,Kavya Sharma,Mechanical,1,9.82,Mumbai
+1195,Varun Kulkarni,Information Technology,1,6.57,Kolkata
+1196,Meera Verma,Computer Science,4,8.11,Hyderabad
+1197,Rahul Joshi,Electronics,4,7.61,Delhi
+1198,Tanvi Joshi,Civil,3,6.35,Pune
+1199,Kavya Gupta,Electrical,2,8.34,Pune
+1200,Kabir Patel,Computer Science,2,8.16,Pune
+1201,Vivaan Singh,Computer Science,2,8.48,Hyderabad
+1202,Diya Mehta,Information Technology,4,9.81,Jaipur
+1203,Vivaan Iyer,Electrical,1,8.76,Hyderabad
+1204,Tanvi Das,Computer Science,4,8.31,Mumbai
+1205,Kavya Joshi,Electronics,1,9.86,Chennai
+1206,Isha Nair,Information Technology,1,8.11,Jaipur
+1207,Vivaan Das,Electronics,2,7.89,Delhi
+1208,Sneha Sharma,Computer Science,3,6.31,Chennai
+1209,Varun Reddy,Computer Science,3,7.73,Bengaluru
+1210,Sneha Verma,Electrical,4,8.01,Chennai
+1211,Sara Kulkarni,Mechanical,1,9.13,Delhi
+1212,Rohan Iyer,Civil,2,9.89,Jaipur
+1213,Ananya Joshi,Computer Science,1,6.55,Hyderabad
+1214,Neha Reddy,Electrical,1,8.99,Bengaluru
+1215,Ishaan Patel,Electrical,2,6.32,Hyderabad
+1216,Kavya Reddy,Electrical,2,6.93,Hyderabad
+1217,Tanvi Patel,Electrical,4,9.58,Chennai
+1218,Aarav Patel,Electronics,4,9.14,Bengaluru
+1219,Aditya Verma,Electronics,1,9.77,Kolkata
+1220,Tanvi Joshi,Computer Science,1,6.21,Mumbai
+1221,Isha Das,Computer Science,3,6.01,Delhi
+1222,Sneha Iyer,Civil,3,7.97,Kolkata
+1223,Kavya Gupta,Electronics,4,9.35,Hyderabad
+1224,Aditya Patel,Computer Science,2,8.09,Mumbai
+1225,Aarav Joshi,Electrical,3,6.65,Mumbai
+1226,Neha Reddy,Computer Science,4,7.83,Hyderabad
+1227,Aarav Gupta,Electrical,1,7.19,Kolkata
+1228,Isha Gupta,Civil,1,6.59,Jaipur
+1229,Isha Sharma,Electrical,4,6.58,Kolkata
+1230,Sara Sharma,Information Technology,2,8.57,Delhi
+1231,Isha Reddy,Electronics,2,8.99,Pune
+1232,Tanvi Mehta,Computer Science,4,8.71,Bengaluru
+1233,Arjun Gupta,Civil,4,7.51,Pune
+1234,Ananya Verma,Mechanical,3,6.18,Bengaluru
+1235,Isha Sharma,Electrical,3,6.43,Delhi
+1236,Aditya Iyer,Information Technology,1,9.36,Pune
+1237,Rohan Mehta,Computer Science,2,9.59,Pune
+1238,Arjun Gupta,Electronics,4,6.09,Bengaluru
+1239,Diya Das,Civil,4,7.86,Jaipur
+1240,Rohan Joshi,Electrical,4,7.85,Kolkata
+1241,Sneha Joshi,Civil,3,8.30,Jaipur
+1242,Kavya Kulkarni,Civil,4,8.33,Delhi
+1243,Neha Kulkarni,Electronics,3,6.60,Jaipur
+1244,Aarav Sharma,Information Technology,4,7.22,Chennai
+1245,Riya Singh,Mechanical,3,9.38,Chennai
+1246,Ishaan Patel,Computer Science,2,9.36,Chennai
+1247,Kavya Gupta,Civil,4,6.63,Jaipur
+1248,Arjun Reddy,Civil,2,8.53,Delhi
+1249,Vivaan Das,Computer Science,2,7.23,Chennai
+1250,Kavya Joshi,Computer Science,1,6.63,Chennai
+1251,Vivaan Sharma,Computer Science,2,6.49,Mumbai
+1252,Rohan Gupta,Electrical,2,9.17,Delhi
+1253,Arjun Joshi,Information Technology,3,8.94,Bengaluru
+1254,Rahul Sharma,Electrical,4,6.16,Chennai
+1255,Isha Kulkarni,Computer Science,4,6.82,Chennai
+1256,Meera Mehta,Information Technology,4,8.20,Bengaluru
+1257,Riya Nair,Computer Science,4,8.25,Mumbai
+1258,Arjun Gupta,Electronics,3,9.25,Chennai
+1259,Ishaan Patel,Information Technology,4,8.33,Pune
+1260,Aarav Mehta,Computer Science,1,9.47,Bengaluru
+1261,Aditya Mehta,Computer Science,2,6.49,Delhi
+1262,Arjun Iyer,Information Technology,1,7.24,Kolkata
+1263,Ishaan Kulkarni,Computer Science,2,6.61,Jaipur
+1264,Meera Verma,Electronics,1,8.13,Bengaluru
+1265,Vivaan Iyer,Computer Science,1,6.93,Jaipur
+1266,Tanvi Iyer,Computer Science,1,6.32,Pune
+1267,Sneha Reddy,Information Technology,3,9.36,Delhi
+1268,Priya Gupta,Mechanical,2,9.67,Mumbai
+1269,Riya Patel,Electronics,2,6.96,Mumbai
+1270,Sneha Gupta,Electrical,2,9.49,Jaipur
+1271,Tanvi Kulkarni,Electronics,4,6.39,Delhi
+1272,Isha Joshi,Electronics,3,6.50,Pune
+1273,Ananya Joshi,Information Technology,4,7.98,Chennai
+1274,Meera Iyer,Computer Science,2,8.38,Chennai
+1275,Sara Mehta,Civil,2,7.60,Chennai
+1276,Tanvi Verma,Computer Science,1,6.97,Kolkata
+1277,Sara Verma,Computer Science,3,6.41,Bengaluru
+1278,Kabir Gupta,Computer Science,3,6.27,Bengaluru
+1279,Aarav Patel,Information Technology,2,7.00,Hyderabad
+1280,Ishaan Patel,Information Technology,1,9.67,Pune
+1281,Meera Patel,Computer Science,4,7.63,Chennai
+1282,Sara Singh,Civil,4,8.93,Hyderabad
+1283,Priya Kulkarni,Electronics,1,8.91,Bengaluru
+1284,Kavya Joshi,Electrical,2,6.57,Jaipur
+1285,Tanvi Joshi,Computer Science,4,7.83,Chennai
+1286,Isha Patel,Electrical,3,8.75,Delhi
+1287,Kabir Mehta,Computer Science,3,6.96,Bengaluru
+1288,Arjun Das,Electrical,3,9.82,Delhi
+1289,Varun Mehta,Civil,1,8.91,Mumbai
+1290,Rahul Singh,Civil,4,6.99,Pune
+1291,Sneha Reddy,Electrical,2,6.13,Hyderabad
+1292,Isha Singh,Electrical,4,8.96,Jaipur
+1293,Riya Gupta,Computer Science,4,8.63,Hyderabad
+1294,Diya Mehta,Electrical,3,7.64,Bengaluru
+1295,Kavya Nair,Electrical,2,9.89,Chennai
+1296,Ishaan Nair,Information Technology,2,8.43,Chennai
+1297,Tanvi Gupta,Electrical,4,6.24,Kolkata
+1298,Ishaan Mehta,Computer Science,3,8.74,Mumbai
+1299,Vivaan Kulkarni,Electronics,4,7.71,Hyderabad
+1300,Arjun Patel,Electrical,1,7.06,Hyderabad
+1301,Varun Nair,Electrical,2,8.12,Bengaluru
+1302,Kabir Mehta,Computer Science,4,8.07,Bengaluru
+1303,Isha Iyer,Mechanical,3,6.73,Kolkata
+1304,Diya Singh,Electronics,3,8.06,Jaipur
+1305,Meera Joshi,Electronics,3,8.83,Kolkata
+1306,Sneha Kulkarni,Mechanical,1,8.04,Mumbai
+1307,Diya Nair,Mechanical,3,7.86,Kolkata
+1308,Ananya Joshi,Civil,3,6.93,Mumbai
+1309,Tanvi Singh,Computer Science,1,7.84,Hyderabad
+1310,Sneha Iyer,Electronics,1,6.91,Jaipur
+1311,Aarav Singh,Electronics,2,9.82,Hyderabad
+1312,Kavya Reddy,Information Technology,2,6.24,Pune
+1313,Tanvi Verma,Computer Science,4,8.82,Chennai
+1314,Rohan Singh,Computer Science,1,6.27,Mumbai
+1315,Vivaan Gupta,Electronics,3,6.78,Hyderabad
+1316,Diya Iyer,Mechanical,1,8.61,Hyderabad
+1317,Arjun Sharma,Information Technology,4,6.72,Chennai
+1318,Ananya Joshi,Electronics,4,7.39,Chennai
+1319,Neha Verma,Information Technology,4,7.62,Chennai
+1320,Aditya Kulkarni,Computer Science,3,9.30,Mumbai
+1321,Isha Patel,Electronics,2,7.98,Kolkata
+1322,Kabir Patel,Information Technology,1,7.76,Delhi
+1323,Ishaan Kulkarni,Computer Science,1,8.41,Hyderabad
+1324,Aditya Patel,Information Technology,1,8.63,Mumbai
+1325,Neha Singh,Electrical,1,9.27,Bengaluru
+1326,Sneha Patel,Information Technology,3,6.61,Chennai
+1327,Sneha Nair,Electrical,1,9.11,Delhi
+1328,Varun Sharma,Electrical,3,8.14,Kolkata
+1329,Sneha Iyer,Electrical,1,8.96,Kolkata
+1330,Riya Das,Civil,2,7.52,Hyderabad
+1331,Priya Joshi,Electrical,3,7.46,Delhi
+1332,Rohan Nair,Information Technology,2,7.98,Jaipur
+1333,Rohan Nair,Electrical,4,9.86,Chennai
+1334,Meera Sharma,Mechanical,1,7.90,Chennai
+1335,Kavya Verma,Electronics,4,9.83,Bengaluru
+1336,Ishaan Mehta,Electronics,3,7.75,Hyderabad
+1337,Ishaan Verma,Electrical,2,8.32,Pune
+1338,Neha Reddy,Information Technology,3,7.35,Jaipur
+1339,Arjun Iyer,Information Technology,3,7.16,Bengaluru
+1340,Aarav Iyer,Electrical,3,9.60,Hyderabad
+1341,Tanvi Reddy,Information Technology,3,7.79,Chennai
+1342,Neha Kulkarni,Electrical,4,6.81,Bengaluru
+1343,Isha Sharma,Information Technology,4,6.41,Pune
+1344,Rahul Joshi,Civil,3,9.35,Mumbai
+1345,Sara Mehta,Information Technology,4,8.21,Delhi
+1346,Aditya Das,Civil,2,9.40,Delhi
+1347,Sneha Sharma,Computer Science,3,9.33,Jaipur
+1348,Aarav Kulkarni,Computer Science,3,9.46,Bengaluru
+1349,Kavya Patel,Information Technology,1,8.87,Bengaluru
+1350,Sara Verma,Civil,1,9.73,Delhi
+1351,Priya Singh,Civil,3,7.88,Delhi
+1352,Arjun Iyer,Electronics,3,6.23,Chennai
+1353,Ananya Sharma,Mechanical,4,8.24,Jaipur
+1354,Arjun Reddy,Mechanical,4,7.00,Chennai
+1355,Isha Kulkarni,Computer Science,1,8.92,Mumbai
+1356,Riya Gupta,Information Technology,3,7.49,Chennai
+1357,Kavya Verma,Mechanical,1,6.16,Bengaluru
+1358,Neha Singh,Mechanical,3,8.59,Jaipur
+1359,Isha Singh,Mechanical,3,6.36,Bengaluru
+1360,Varun Kulkarni,Mechanical,2,7.63,Chennai
+1361,Kabir Mehta,Information Technology,2,6.49,Hyderabad
+1362,Tanvi Reddy,Computer Science,4,8.85,Kolkata
+1363,Riya Singh,Mechanical,1,6.14,Kolkata
+1364,Isha Reddy,Information Technology,2,6.61,Chennai
+1365,Ananya Mehta,Civil,1,6.14,Bengaluru
+1366,Sara Verma,Civil,1,8.99,Mumbai
+1367,Ishaan Sharma,Information Technology,3,8.64,Jaipur
+1368,Sara Sharma,Electrical,2,6.13,Chennai
+1369,Ishaan Singh,Electrical,2,9.63,Mumbai
+1370,Priya Sharma,Computer Science,4,8.12,Chennai
+1371,Priya Kulkarni,Computer Science,2,6.56,Bengaluru
+1372,Rahul Sharma,Civil,3,9.90,Pune
+1373,Sara Sharma,Information Technology,4,9.69,Pune
+1374,Arjun Sharma,Mechanical,1,9.74,Delhi
+1375,Kavya Singh,Electrical,4,9.41,Hyderabad
+1376,Diya Kulkarni,Information Technology,4,6.73,Delhi
+1377,Diya Gupta,Civil,4,9.86,Jaipur
+1378,Aarav Singh,Electronics,3,9.59,Jaipur
+1379,Varun Iyer,Electrical,3,6.08,Mumbai
+1380,Tanvi Verma,Information Technology,1,6.17,Chennai
+1381,Sara Singh,Computer Science,4,6.77,Chennai
+1382,Ishaan Iyer,Information Technology,3,7.47,Hyderabad
+1383,Sneha Verma,Civil,2,6.80,Delhi
+1384,Tanvi Singh,Electrical,4,9.38,Hyderabad
+1385,Riya Verma,Information Technology,3,8.47,Chennai
+1386,Aditya Gupta,Electrical,3,7.23,Delhi
+1387,Sara Patel,Civil,1,6.99,Kolkata
+1388,Neha Patel,Information Technology,3,9.81,Chennai
+1389,Diya Sharma,Electrical,3,6.69,Kolkata
+1390,Arjun Kulkarni,Civil,3,9.17,Delhi
+1391,Kabir Nair,Computer Science,3,9.22,Bengaluru
+1392,Sneha Sharma,Mechanical,4,9.30,Kolkata
+1393,Kabir Mehta,Information Technology,2,7.13,Bengaluru
+1394,Neha Gupta,Electronics,4,7.43,Chennai
+1395,Rohan Verma,Computer Science,2,6.45,Delhi
+1396,Arjun Nair,Civil,4,8.17,Kolkata
+1397,Aditya Das,Information Technology,2,6.52,Chennai
+1398,Priya Verma,Mechanical,3,6.77,Bengaluru
+1399,Isha Reddy,Mechanical,2,9.20,Kolkata
+1400,Aditya Verma,Electronics,4,9.83,Mumbai
+1401,Tanvi Sharma,Civil,4,6.48,Jaipur
+1402,Neha Patel,Electronics,4,9.64,Hyderabad
+1403,Diya Kulkarni,Information Technology,2,7.42,Pune
+1404,Vivaan Joshi,Civil,4,8.22,Hyderabad
+1405,Aarav Kulkarni,Mechanical,2,9.71,Pune
+1406,Vivaan Joshi,Information Technology,4,8.28,Pune
+1407,Vivaan Verma,Mechanical,2,7.53,Chennai
+1408,Rahul Verma,Electrical,4,8.52,Bengaluru
+1409,Aditya Nair,Electronics,2,7.52,Hyderabad
+1410,Aarav Nair,Electrical,3,7.74,Pune
+1411,Tanvi Mehta,Electronics,3,6.85,Jaipur
+1412,Isha Nair,Information Technology,1,9.42,Delhi
+1413,Diya Reddy,Electrical,4,9.49,Kolkata
+1414,Sara Verma,Computer Science,2,8.90,Pune
+1415,Arjun Singh,Mechanical,2,8.06,Jaipur
+1416,Aditya Kulkarni,Electrical,2,8.31,Delhi
+1417,Sneha Gupta,Information Technology,3,9.60,Bengaluru
+1418,Riya Mehta,Civil,3,9.36,Chennai
+1419,Isha Kulkarni,Civil,3,9.61,Jaipur
+1420,Riya Das,Electrical,1,9.40,Chennai
+1421,Arjun Joshi,Information Technology,2,7.69,Jaipur
+1422,Aditya Kulkarni,Mechanical,2,8.17,Jaipur
+1423,Kabir Patel,Civil,4,7.16,Bengaluru
+1424,Riya Patel,Electronics,3,8.76,Delhi
+1425,Tanvi Sharma,Electronics,2,8.42,Chennai
+1426,Isha Reddy,Electronics,2,8.68,Jaipur
+1427,Ishaan Kulkarni,Civil,1,7.04,Kolkata
+1428,Aditya Singh,Electronics,4,9.27,Jaipur
+1429,Kabir Joshi,Electrical,4,6.47,Hyderabad
+1430,Rahul Reddy,Information Technology,1,8.34,Jaipur
+1431,Rohan Patel,Electrical,1,9.88,Delhi
+1432,Diya Nair,Electrical,1,7.88,Jaipur
+1433,Aditya Verma,Civil,4,9.57,Mumbai
+1434,Sara Patel,Mechanical,2,8.06,Pune
+1435,Neha Singh,Mechanical,2,8.11,Bengaluru
+1436,Aditya Verma,Information Technology,4,9.51,Chennai
+1437,Varun Das,Mechanical,1,7.43,Pune
+1438,Rohan Patel,Mechanical,4,9.89,Hyderabad
+1439,Sara Nair,Computer Science,4,7.78,Jaipur
+1440,Rahul Joshi,Mechanical,2,8.70,Bengaluru
+1441,Sneha Nair,Civil,1,8.16,Bengaluru
+1442,Aarav Gupta,Mechanical,4,8.89,Delhi
+1443,Tanvi Nair,Computer Science,1,9.72,Pune
+1444,Kabir Das,Mechanical,4,8.15,Jaipur
+1445,Sneha Nair,Electrical,2,7.74,Delhi
+1446,Rahul Kulkarni,Electrical,3,7.00,Hyderabad
+1447,Neha Kulkarni,Civil,4,7.03,Mumbai
+1448,Kavya Das,Computer Science,1,7.57,Kolkata
+1449,Arjun Mehta,Electronics,3,8.09,Mumbai
+1450,Varun Gupta,Computer Science,1,6.09,Delhi
+1451,Aditya Joshi,Electronics,1,7.65,Kolkata
+1452,Sneha Iyer,Information Technology,2,8.84,Hyderabad
+1453,Rohan Joshi,Electrical,2,9.18,Delhi
+1454,Kabir Singh,Civil,2,8.63,Mumbai
+1455,Aarav Iyer,Mechanical,4,6.20,Chennai
+1456,Sara Reddy,Electrical,4,7.57,Chennai
+1457,Arjun Nair,Mechanical,2,9.69,Kolkata
+1458,Rahul Gupta,Information Technology,1,8.97,Hyderabad
+1459,Sneha Mehta,Electronics,4,9.06,Delhi
+1460,Varun Gupta,Computer Science,3,6.19,Hyderabad
+1461,Aditya Gupta,Electrical,1,9.06,Mumbai
+1462,Aarav Verma,Information Technology,4,6.10,Jaipur
+1463,Tanvi Sharma,Electronics,1,6.88,Hyderabad
+1464,Kavya Kulkarni,Mechanical,4,8.31,Pune
+1465,Rahul Gupta,Computer Science,2,6.58,Kolkata
+1466,Ananya Sharma,Mechanical,2,9.45,Kolkata
+1467,Rohan Singh,Computer Science,3,9.90,Bengaluru
+1468,Isha Nair,Information Technology,4,6.55,Chennai
+1469,Rahul Mehta,Electrical,4,6.06,Delhi
+1470,Neha Patel,Computer Science,4,6.47,Pune
+1471,Kabir Nair,Mechanical,4,7.16,Kolkata
+1472,Ananya Singh,Civil,4,9.78,Chennai
+1473,Aarav Mehta,Electrical,2,7.85,Delhi
+1474,Meera Mehta,Civil,1,7.15,Hyderabad
+1475,Meera Reddy,Electronics,4,9.71,Bengaluru
+1476,Neha Sharma,Mechanical,2,6.96,Jaipur
+1477,Vivaan Reddy,Computer Science,4,6.06,Kolkata
+1478,Ishaan Joshi,Electrical,2,7.20,Chennai
+1479,Rohan Sharma,Information Technology,2,7.32,Mumbai
+1480,Isha Sharma,Mechanical,3,8.41,Chennai
+1481,Kabir Reddy,Mechanical,4,9.85,Kolkata
+1482,Sneha Reddy,Computer Science,4,9.86,Bengaluru
+1483,Aarav Iyer,Mechanical,1,7.69,Mumbai
+1484,Tanvi Nair,Mechanical,1,6.42,Delhi
+1485,Kavya Iyer,Electronics,3,7.79,Pune
+1486,Sneha Mehta,Civil,4,8.54,Jaipur
+1487,Aarav Kulkarni,Electrical,3,6.41,Mumbai
+1488,Varun Nair,Information Technology,4,6.51,Hyderabad
+1489,Ananya Reddy,Mechanical,2,7.99,Mumbai
+1490,Kavya Sharma,Electronics,2,7.59,Delhi
+1491,Sara Singh,Mechanical,4,8.22,Bengaluru
+1492,Aditya Mehta,Electrical,1,7.86,Jaipur
+1493,Kavya Singh,Civil,4,6.21,Jaipur
+1494,Isha Singh,Computer Science,3,6.56,Hyderabad
+1495,Sara Das,Electronics,1,9.39,Pune
+1496,Ishaan Das,Information Technology,3,9.65,Hyderabad
+1497,Rohan Verma,Mechanical,4,6.65,Bengaluru
+1498,Rohan Kulkarni,Computer Science,3,9.46,Hyderabad
+1499,Vivaan Kulkarni,Electronics,4,7.12,Pune
+1500,Riya Nair,Electronics,2,6.80,Hyderabad
