@@ -15,9 +15,9 @@ Measured with `make bench` (every file is decompressed and compared byte-for-byt
 | `sensor_log.csv` (numeric log) | 90,050 B | 39,736 B | **55.9 %** |
 | `source_code.cpp.txt` (C++ source) | 8,823 B | 5,475 B | **37.9 %** |
 | `students.csv` (mixed CSV) | 66,619 B | 42,824 B | **35.7 %** |
-| random bytes (100 KB) | 100,000 B | 100,332 B | −0.3 % |
+| random bytes (100 KB) | 100,000 B | 100,012 B | stored raw (+12 B header) |
 
-Plain text compresses by about 40–56 %, depending on how skewed its character frequencies are. Random data can't be compressed, which is exactly what information theory predicts.
+Plain text compresses by about 40–56 %, depending on how skewed its character frequencies are. Random or already-compressed data (PDF, DOCX/ZIP, JPEG, MP4) can't be compressed, which is exactly what information theory predicts. In that case the tool **stores the raw bytes** instead, so a file never grows by more than its 12-byte header.
 
 ## Build and run (C++)
 
@@ -25,7 +25,7 @@ Requires `g++` (or `clang++`) with C++17 and `make`.
 
 ```bash
 make                       # builds bin/huffman
-make test                  # 12 test cases, 1,572 checks
+make test                  # 14 test cases, 1,581 checks
 make bench                 # compress + verify every file in samples/
 
 ./bin/huffman compress   samples/essay.txt essay.huf
@@ -65,8 +65,8 @@ docs/INTERVIEW_GUIDE.md
 
 | Bytes | Content |
 | --- | --- |
-| 0–3 | magic `HUF1` |
+| 0–3 | magic: `HUF1` = Huffman-coded, `HUF0` = stored raw (used when Huffman would not make the file smaller) |
 | 4–11 | original size in bytes (uint64, little-endian) |
-| 12… | bit stream: pre-order Huffman tree, then the encoded symbols, then 0–7 zero padding bits |
+| 12… | `HUF1`: bit stream = pre-order Huffman tree, then the encoded symbols, then 0–7 zero padding bits. `HUF0`: the original bytes |
 
 See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for the full explanation.

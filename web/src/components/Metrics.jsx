@@ -4,12 +4,17 @@ export default function Metrics({ a }) {
   const headerBits = 96;
   const padBits = Math.max(0, a.compressedBytes * 8 - headerBits - a.treeBits - a.payloadBits);
   const totalBits = Math.max(1, a.compressedBytes * 8);
-  const parts = [
-    ['Header', headerBits, 'seg-header'],
-    ['Tree', a.treeBits, 'seg-tree'],
-    ['Data', a.payloadBits, 'seg-data'],
-    ['Padding', padBits, 'seg-pad'],
-  ];
+  const parts = a.stored
+    ? [
+        ['Header', headerBits, 'seg-header'],
+        ['Raw bytes (stored)', a.originalBytes * 8, 'seg-pad'],
+      ]
+    : [
+        ['Header', headerBits, 'seg-header'],
+        ['Tree', a.treeBits, 'seg-tree'],
+        ['Data', a.payloadBits, 'seg-data'],
+        ['Padding', padBits, 'seg-pad'],
+      ];
 
   return (
     <section className="section" aria-label="Compression results">
@@ -18,9 +23,9 @@ export default function Metrics({ a }) {
         <Kpi label="Compressed" value={formatBytes(a.compressedBytes)} sub={`${a.compressMs.toFixed(1)} ms to encode`} />
         <Kpi
           label="Space saved"
-          value={`${a.savedPercent.toFixed(1)}%`}
-          sub={`${a.rows.length} distinct symbols`}
-          tone={a.savedPercent > 0 ? 'good' : 'bad'}
+          value={a.stored ? 'Stored raw' : `${a.savedPercent.toFixed(1)}%`}
+          sub={a.stored ? '+12 B header only' : `${a.rows.length} distinct symbols`}
+          tone={a.stored ? undefined : a.savedPercent > 0 ? 'good' : 'bad'}
         />
         <Kpi
           label="Round trip"
@@ -55,14 +60,26 @@ export default function Metrics({ a }) {
               </li>
             ))}
           </ul>
-          {a.savedPercent <= 0 && a.originalBytes < 1024 && (
-            <p className="note">Tiny inputs grow: the 12-byte header and the stored tree cost more than the bits Huffman saves.</p>
-          )}
-          {a.entropy > 7 && a.originalBytes >= 1024 && (
+          {a.stored && (
             <p className="note insight">
-              This data is already close to random ({a.entropy.toFixed(2)} of 8 bits of entropy per byte). PDFs, images, ZIPs
-              and videos are compressed internally, so every byte value appears about equally often and Huffman has little
-              to work with. It still round-trips losslessly; try a plain-text file to see 40%+ savings.
+              <strong>Stored, not Huffman-coded.</strong> Huffman would have produced {formatBytes(a.huffmanBytes)} (bigger than the
+              input), so the file keeps the raw bytes and only adds the 12-byte header. Zip and gzip do the same.
+              {a.entropy > 7 &&
+                ` This data is already close to random (${a.entropy.toFixed(2)} of 8 bits of entropy per byte): PDFs, DOCX/ZIP, images and videos are compressed internally, so there is little left to squeeze. Try a plain-text file to see 40%+ savings.`}
+              {a.entropy <= 7 && ' For tiny inputs the header and stored tree cost more than Huffman saves.'}
+            </p>
+          )}
+          {!a.stored && a.savedPercent <= 0 && (
+            <p className="note">
+              Tiny inputs grow: the 12-byte header and the stored tree cost more than Huffman saves. Storing the raw bytes would be
+              even bigger here ({formatBytes(a.originalBytes + 12)}), so Huffman is still the better choice.
+            </p>
+          )}
+          {!a.stored && a.entropy > 7 && a.originalBytes >= 1024 && (
+            <p className="note insight">
+              This data is already close to random ({a.entropy.toFixed(2)} of 8 bits of entropy per byte). PDFs, images, ZIPs and
+              videos are compressed internally, so every byte value appears about equally often and Huffman has little to work
+              with. Try a plain-text file to see 40%+ savings.
             </p>
           )}
         </div>

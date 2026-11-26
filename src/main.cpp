@@ -63,8 +63,9 @@ int main(int argc, char** argv) {
             Bytes output = huffman::compress(input);
             writeFile(argv[3], output);
             double saved = input.empty() ? 0.0 : (1.0 - double(output.size()) / input.size()) * 100.0;
-            std::printf("%s: %zu -> %zu bytes (%.1f%% smaller) in %.1f ms\n", argv[2], input.size(), output.size(),
-                        saved, msSince(t0));
+            std::printf("%s: %zu -> %zu bytes (%.1f%% smaller) in %.1f ms%s\n", argv[2], input.size(), output.size(),
+                        saved, msSince(t0),
+                        huffman::isStored(output) ? "\n  note: Huffman would not shrink this data (already compressed?), stored raw" : "");
             return 0;
         }
         if (cmd == "decompress" && argc == 4) {
@@ -81,7 +82,7 @@ int main(int argc, char** argv) {
             std::printf("Original size      : %llu bytes\n", (unsigned long long)s.originalBytes);
             std::printf("Compressed size    : %llu bytes (header + tree + data)\n",
                         (unsigned long long)s.compressedBytes);
-            std::printf("Space saved        : %.2f%%\n", s.savingsPercent);
+            std::printf("Space saved        : %.2f%%%s\n", s.savingsPercent, s.stored ? "  (stored raw: Huffman would not help)" : "");
             std::printf("Distinct symbols   : %u\n", s.distinctSymbols);
             std::printf("Entropy (min avg)  : %.4f bits/symbol\n", s.entropyBitsPerSymbol);
             std::printf("Huffman avg length : %.4f bits/symbol (vs 8 bits uncompressed)\n", s.avgCodeLength);

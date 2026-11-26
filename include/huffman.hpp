@@ -59,6 +59,9 @@ FrequencyTable countFrequencies(const Bytes& data);
 /** Compress raw bytes into the .huf container format (see docs/INTERVIEW_GUIDE.md). */
 Bytes compress(const Bytes& input);
 
+/** True if compress() fell back to storing the raw bytes ("HUF0"). */
+bool isStored(const Bytes& compressed);
+
 /** Exact inverse of compress(). Throws std::runtime_error on corrupt input. */
 Bytes decompress(const Bytes& compressed);
 
@@ -70,6 +73,7 @@ struct Stats {
     double entropyBitsPerSymbol = 0;   // Shannon lower bound
     double avgCodeLength = 0;          // what Huffman actually achieves
     double savingsPercent = 0;         // (1 - compressed / original) * 100
+    bool stored = false;               // Huffman did not help -> raw bytes kept
 };
 
 Stats analyze(const Bytes& input);

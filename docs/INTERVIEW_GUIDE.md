@@ -69,7 +69,7 @@ Everything you need to explain and defend this project. Read it once end to end,
 
 **23 bits instead of 88.** Average = 23 / 11 = **2.09 bits/symbol**; the entropy (theoretical minimum) is **2.04**.
 
-**Step 5 — but the file is bigger!** The `.huf` file is 21 bytes: 12-byte header + 49 bits of tree + 23 bits of data = 168 bits. For tiny inputs the overhead dominates. This is a great point to raise yourself (§8).
+**Step 5 — but the file is bigger!** The `.huf` file is 21 bytes: 12-byte header + 49 bits of tree + 23 bits of data = 168 bits. For tiny inputs the overhead dominates. (Storing the raw bytes would take 23 bytes, so Huffman is still the better of the two options here.) This is a great point to raise yourself (§8).
 
 You can see exactly this in the web demo: pick "abracadabra" and step through the 4 merges.
 
@@ -121,10 +121,20 @@ Tests also check the **Kraft equality** `Σ 2^(−length) = 1`, which holds exac
 2. Write the header: magic `HUF1` + original size.
 3. Write the tree (§5), then each input byte's code, through a `BitWriter`.
 4. Flush the last partial byte with zero padding.
+5. If the result isn't smaller than storing the input raw, switch to the stored format (§4.6).
 
 Two passes over the input are needed because the codes depend on the frequencies of the whole file.
 
-### 4.6 Decode — `decompress()`
+### 4.6 Stored fallback ("HUF0")
+
+After encoding, `compress()` compares the Huffman result with simply keeping the input as-is. If Huffman is **not smaller** (`huffman size ≥ 12 + input size`), it writes magic `HUF0` + the size + the **raw bytes** instead. So:
+
+- already-compressed files (PDF, DOCX/XLSX/ZIP, JPEG, PNG, MP4) and random data grow by **exactly 12 bytes**, never more;
+- the decoder checks the magic: `HUF0` → copy the bytes out, `HUF1` → Huffman-decode.
+
+This is the same idea as DEFLATE's *stored blocks* and ZIP's *store* method. Why can't we avoid growth completely? See the pigeonhole question in §12.
+
+### 4.7 Decode — `decompress()`
 
 1. Check the magic bytes, read the original size.
 2. Rebuild the tree from the stored bits.
@@ -206,8 +216,8 @@ Since `n ≤ 256`, tree building is effectively constant time; the whole thing i
 - **One distinct byte** (`zzzz…`) → tree is a single leaf; no data bits; 100,000 `z`s compress to 14 bytes.
 - **Two symbols** → both get 1-bit codes.
 - **All 256 byte values** → works on any binary file.
-- **Random data** → ~8 bits per symbol already, so the file grows slightly (header + tree). Expected: random data has maximum entropy.
-- **Very small inputs grow** (e.g. `abracadabra`: 11 B → 21 B) because of fixed overhead.
+- **Random / already-compressed data** (PDF, DOCX, ZIP, JPEG) → ~8 bits per symbol already, so Huffman would grow the file (header + tree). The **stored fallback** keeps the raw bytes instead: the output is exactly input + 12 bytes.
+- **Very small inputs grow** (e.g. `abracadabra`: 11 B → 21 B) because of fixed overhead; the tool picks whichever of Huffman (21 B) and stored (23 B) is smaller.
 - **Highly skewed (Fibonacci) frequencies** → deepest possible tree (20 symbols → max code length 19); still round-trips.
 - **Corrupt input** → wrong magic, truncated data, or an impossible tree all throw a clear error instead of crashing.
 
@@ -215,7 +225,7 @@ Since `n ≤ 256`, tree building is effectively constant time; the whole thing i
 
 ## 9. Testing — `make test`
 
-`tests/test_huffman.cpp` uses a tiny self-written `CHECK` macro (no framework needed), 12 cases / 1,572 checks:
+`tests/test_huffman.cpp` uses a tiny self-written `CHECK` macro (no framework needed), 14 cases / 1,581 checks:
 
 - min-heap pops 1,000 random numbers in sorted order;
 - empty, single-byte, single-symbol, two-symbol inputs;
@@ -224,6 +234,7 @@ Since `n ≤ 256`, tree building is effectively constant time; the whole thing i
 - **Kraft equality** sums to 1;
 - all 256 byte values; 200 KB of random bytes; Fibonacci frequencies;
 - average code length is ≥ entropy and < entropy + 1 (Shannon's bound for Huffman);
+- stored fallback: random data → exactly input + 12 bytes; compressible text is still Huffman-coded; tiny inputs pick the smaller option;
 - corrupt files are rejected.
 
 `make bench` compresses every sample, decompresses it and compares it byte-for-byte with `cmp`.
@@ -240,7 +251,7 @@ The web demo's tests also check its `.huf` output is **byte-identical** to the C
 | Numeric sensor log | 55.9 % | mostly digits, `,` `.` and newline → very skewed |
 | C++ source code | 37.9 % | more distinct symbols (braces, operators) |
 | Mixed CSV with names | 35.7 % | many distinct letters + digits |
-| Random bytes | −0.3 % | incompressible |
+| Random bytes | stored, +12 B | incompressible → raw bytes kept |
 
 Huffman's average code length for the essay is **4.39 bits/char**, very close to the entropy limit of **4.36**. That's the theory working: Huffman is always within 1 bit of entropy per symbol.
 
@@ -288,7 +299,10 @@ About 40–55 % on text. Huffman can't beat the entropy of single-character freq
 Yes, it works on raw bytes, so any file round-trips correctly. But already-compressed files (JPEG, PNG, ZIP, MP4, and most PDFs, whose content streams are Deflate-compressed) have near-uniform byte frequencies: about 7.2–8 bits of entropy per byte, so savings drop to roughly 0–10 %. A real 577 KB PDF saved 9.8 % (7.21 bits/byte vs an entropy of 7.19). The web demo explains this when it detects high-entropy input.
 
 **Q: Why can a compressed file be bigger than the original?**
-Fixed overhead (12-byte header + the stored tree) and incompressible data. For tiny or random inputs, that overhead is larger than any savings.
+Fixed overhead (12-byte header + the stored tree) and incompressible data. For random or already-compressed input, Huffman alone would grow the file, so my tool falls back to storing the raw bytes: the worst case is +12 bytes.
+
+**Q: Can any lossless compressor shrink every file?**
+No — it's the pigeonhole principle. There are 2ⁿ different files of n bits but only 2ⁿ − 1 files shorter than n bits, so if some files get shorter, at least one must get longer (otherwise two inputs would map to the same output and you couldn't decompress both). The best you can do is bound the growth — here, 12 bytes.
 
 **Q: What's entropy, and how close does Huffman get?**
 Shannon entropy `H = −Σ p·log₂ p` is the minimum average number of bits per symbol any symbol-by-symbol lossless code can achieve. Huffman's average length L satisfies `H ≤ L < H + 1`. For the essay: H = 4.36, L = 4.39.
@@ -324,10 +338,10 @@ Direct control over bytes and bits, fast, and a good fit for implementing data s
 - **abracadabra:** codes a=0, b=110, r=111, c=100, d=101 → 23 bits vs 88; 4 merges.
 - **CLRS example:** optimal cost **224 bits**.
 - **English text:** ~**43 %** smaller; **4.39** bits/char vs **8**; entropy **4.36**.
-- **Numeric log:** **56 %** smaller. **Random data:** about **0 %** (grows by the header and tree).
+- **Numeric log:** **56 %** smaller. **Random / PDF / DOCX:** about **0–10 %**; when Huffman can't help, the file is stored raw (+12 bytes).
 - **Header:** 12 bytes (4 magic + 8 size). **Tree:** (2n − 1) + 8n bits.
 - **Tree build:** O(n log n), n ≤ 256. **Encode/decode:** O(N).
-- **Tests:** 12 cases, **1,572** checks, all passing.
+- **Tests:** 14 cases, **1,581** checks, all passing.
 
 ## 14. A 2-minute demo script
 

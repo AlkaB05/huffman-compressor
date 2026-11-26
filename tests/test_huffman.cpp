@@ -126,6 +126,30 @@ int main() {
         roundTrip(in);
         Stats s = analyze(in);
         CHECK(s.avgCodeLength > 7.9);  // ~8 bits: random data has max entropy
+        // Stored fallback: never grows by more than the 12-byte header.
+        Bytes packed = compress(in);
+        CHECK(isStored(packed));
+        CHECK(packed.size() == in.size() + 12);
+    });
+
+    test("compressible text is Huffman-coded, not stored", [] {
+        std::string text;
+        for (int k = 0; k < 100; ++k) text += "the quick brown fox jumps over the lazy dog. ";
+        Bytes packed = compress(fromString(text));
+        CHECK(!isStored(packed));
+        CHECK(packed.size() < text.size());
+    });
+
+    test("tiny input: picks whichever is smaller", [] {
+        // abracadabra: Huffman = 12 + 9 bytes = 21 < stored 23 -> Huffman
+        CHECK(!isStored(compress(fromString("abracadabra"))));
+        CHECK(compress(fromString("abracadabra")).size() == 21);
+        // abc: Huffman = 12 + 5 bytes = 17 > stored 15 -> stored
+        Bytes in = fromString("abc");
+        Bytes packed = compress(in);
+        CHECK(isStored(packed));
+        CHECK(packed.size() == in.size() + 12);
+        CHECK(decompress(packed) == in);
     });
 
     test("skewed (Fibonacci) frequencies build a deep tree and round-trip", [] {
@@ -157,7 +181,9 @@ int main() {
         try { decompress(fromString("NOPE00000000")); } catch (const std::runtime_error&) { threw = true; }
         CHECK(threw);
 
-        Bytes packed = compress(fromString("some text that will be truncated"));
+        std::string longText;
+        for (int k = 0; k < 20; ++k) longText += "some text that will be truncated. ";
+        Bytes packed = compress(fromString(longText));
         packed.resize(packed.size() - 3);
         threw = false;
         try { decompress(packed); } catch (const std::runtime_error&) { threw = true; }

@@ -30,7 +30,8 @@ export default function BitStream({ bytes, codes, packed, selected }) {
           {packed.length > PREVIEW_BYTES ? ' …' : ''}
         </code>
         <span className="help">
-          <span className="hex-magic">magic “HUF1”</span> · <span className="hex-size">original size (uint64 LE)</span> · tree + data bits
+          <span className="hex-magic">magic “{String.fromCharCode(...packed.slice(0, 4))}”</span> · <span className="hex-size">original size (uint64 LE)</span> ·{' '}
+          {packed[3] === 0x30 ? 'raw bytes (stored)' : 'tree + data bits'}
         </span>
       </div>
     </section>

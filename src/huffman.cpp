@@ -12,10 +12,12 @@ namespace huffman {
 namespace {
 
 // File layout:
-//   bytes 0..3   magic "HUF1"
+//   bytes 0..3   magic: "HUF1" = Huffman-coded, "HUF0" = stored (raw bytes)
 //   bytes 4..11  original size, uint64 little-endian
-//   bytes 12..   bit stream = [serialized tree][encoded symbols][zero padding]
+//   bytes 12..   HUF1: bit stream = [serialized tree][encoded symbols][zero padding]
+//                HUF0: the original bytes, unchanged
 constexpr char kMagic[4] = {'H', 'U', 'F', '1'};
+constexpr char kMagicStored[4] = {'H', 'U', 'F', '0'};
 constexpr std::size_t kHeaderBytes = 12;
 
 // A tree over at most 256 symbols has at most 2*256 - 1 nodes.
@@ -189,10 +191,30 @@ Bytes compress(const Bytes& input) {
     tree.serialize(writer);
     for (std::uint8_t b : input) writer.writeBits(codes[b].bits, codes[b].length);
     writer.flush();
+
+    // Stored fallback: if Huffman did not make the data smaller (already
+    // compressed or random input), keep the raw bytes instead. Worst-case
+    // growth is then just the 12-byte header -- the same idea as DEFLATE's
+    // "stored" blocks and ZIP's "store" method.
+    if (out.size() >= kHeaderBytes + input.size()) {
+        Bytes stored(kMagicStored, kMagicStored + 4);
+        writeU64LE(stored, input.size());
+        stored.insert(stored.end(), input.begin(), input.end());
+        return stored;
+    }
     return out;
 }
 
+bool isStored(const Bytes& compressed) {
+    return compressed.size() >= kHeaderBytes && std::memcmp(compressed.data(), kMagicStored, 4) == 0;
+}
+
 Bytes decompress(const Bytes& compressed) {
+    if (isStored(compressed)) {
+        const std::uint64_t size = readU64LE(compressed, 4);
+        if (compressed.size() - kHeaderBytes != size) throw std::runtime_error("corrupt input: stored size mismatch");
+        return Bytes(compressed.begin() + kHeaderBytes, compressed.end());
+    }
     if (compressed.size() < kHeaderBytes || std::memcmp(compressed.data(), kMagic, 4) != 0) {
         throw std::runtime_error("not a Huffman (.huf) file: bad magic header");
     }
@@ -232,6 +254,7 @@ Stats analyze(const Bytes& input) {
     s.originalBytes = input.size();
     Bytes packed = compress(input);
     s.compressedBytes = packed.size();
+    s.stored = isStored(packed);
     if (input.empty()) return s;
 
     FrequencyTable freq = countFrequencies(input);
