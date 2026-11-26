@@ -66,13 +66,15 @@ export default function Metrics({ a }) {
               input), so the file keeps the raw bytes and only adds the {a.headerBytes}-byte header. Zip and gzip do the same.
               {a.entropy > 7 &&
                 ` This data is already close to random (${a.entropy.toFixed(2)} of 8 bits of entropy per byte): PDFs, DOCX/ZIP, images and videos are compressed internally, so there is little left to squeeze. Try a plain-text file to see 40%+ savings.`}
-              {a.entropy <= 7 && ' For tiny inputs the header and stored tree cost more than Huffman saves.'}
+              {a.entropy <= 7 && ' For short inputs the stored tree costs more than Huffman saves.'}
             </p>
           )}
           {!a.stored && a.savedPercent <= 0 && (
             <p className="note">
-              Tiny inputs grow: the {a.headerBytes}-byte header and the stored tree cost more than Huffman saves. Storing the raw bytes would be
-              even bigger here ({formatBytes(a.originalBytes + a.headerBytes)}), so Huffman is still the better choice.
+              Too short to shrink. Huffman has to store its tree ({a.treeBits} bits for {a.rows.length} symbols) next to the
+              data, and for a few dozen characters that costs about as much as it saves. Storing the raw bytes would be{' '}
+              {formatBytes(a.originalBytes + a.headerBytes)}, so this is already the smallest option. Text of a few hundred
+              characters or more compresses well.
             </p>
           )}
           {!a.stored && a.entropy > 7 && a.originalBytes >= 1024 && (

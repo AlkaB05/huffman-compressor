@@ -3,22 +3,25 @@
  * Same tie-breaking and the same .huf container format, so a file compressed
  * here decompresses with the C++ CLI (and vice versa) byte-for-byte.
  *
- * Version 2 layout:
- *   bytes 0..3    magic "HUF2"
- *   byte  4       mode: 1 = Huffman-coded, 0 = stored (raw bytes)
- *   bytes 5..12   original size, uint64 little-endian
- *   bytes 13..14  file-name length, uint16 little-endian
- *   bytes 15..    original file name (UTF-8), then the payload
- * Version 1 files ("HUF1" / "HUF0", 12-byte header, no name) still decode.
+ * Version 3 layout (compact, so short texts are not swamped by overhead):
+ *   bytes 0..1    magic "HF"
+ *   byte  2       mode: 1 = Huffman-coded, 0 = stored (raw bytes)
+ *   byte  3       file-name length (0..255)
+ *   bytes 4..     original file name (UTF-8)
+ *   then          original size as an unsigned LEB128 varint, then the payload
+ * Version 2 ("HUF2", 15-byte header) and version 1 ("HUF1" / "HUF0", 12-byte
+ * header, no name) files still decode.
  */
 import { BitReader, BitWriter } from './bitio.js';
 import { MinHeap } from './MinHeap.js';
 
+const MAGIC_V3 = [0x48, 0x46]; // "HF"
 const MAGIC_V2 = [0x48, 0x55, 0x46, 0x32]; // "HUF2"
 const MAGIC_V1 = [0x48, 0x55, 0x46, 0x31]; // "HUF1" (legacy Huffman)
 const MAGIC_V1_STORED = [0x48, 0x55, 0x46, 0x30]; // "HUF0" (legacy stored)
 const MODE_STORED = 0;
 const MODE_HUFFMAN = 1;
+const FIXED_HEADER_V3 = 4; // magic + mode + name length
 const FIXED_HEADER_V2 = 15;
 const HEADER_V1 = 12;
 const MAX_NAME_BYTES = 255;
@@ -26,6 +29,8 @@ const MAX_NAME_BYTES = 255;
 const utf8 = new TextEncoder();
 const utf8Decoder = new TextDecoder();
 const startsWith = (bytes, magic) => bytes.length >= 4 && magic.every((b, k) => bytes[k] === b);
+const isV3 = (bytes) =>
+  bytes.length >= 3 && bytes[0] === MAGIC_V3[0] && bytes[1] === MAGIC_V3[1] && (bytes[2] === MODE_STORED || bytes[2] === MODE_HUFFMAN);
 
 export function countFrequencies(bytes) {
   const freq = new Array(256).fill(0);
@@ -131,14 +136,24 @@ export function sanitizeFileNameBytes(raw) {
   return Uint8Array.from(isDots ? [] : kept.slice(0, MAX_NAME_BYTES));
 }
 
+function varint(n) {
+  const out = [];
+  while (n >= 0x80) {
+    out.push((n % 0x80) | 0x80);
+    n = Math.floor(n / 0x80);
+  }
+  out.push(n);
+  return out;
+}
+
 function header(mode, size, nameBytes) {
-  const h = new Uint8Array(FIXED_HEADER_V2 + nameBytes.length);
-  h.set(MAGIC_V2, 0);
-  h[4] = mode;
-  const view = new DataView(h.buffer);
-  view.setBigUint64(5, BigInt(size), true);
-  view.setUint16(13, nameBytes.length, true);
-  h.set(nameBytes, FIXED_HEADER_V2);
+  const sizeBytes = varint(size);
+  const h = new Uint8Array(FIXED_HEADER_V3 + nameBytes.length + sizeBytes.length);
+  h.set(MAGIC_V3, 0);
+  h[2] = mode;
+  h[3] = nameBytes.length;
+  h.set(nameBytes, FIXED_HEADER_V3);
+  h.set(sizeBytes, FIXED_HEADER_V3 + nameBytes.length);
   return h;
 }
 
@@ -162,7 +177,7 @@ export function encodeHuffman(bytes, fileName = '') {
 export function compress(bytes, fileName = '') {
   const nameBytes = sanitizeFileNameBytes(utf8.encode(fileName));
   const huff = encodeHuffman(bytes, fileName);
-  const headerSize = FIXED_HEADER_V2 + nameBytes.length;
+  const headerSize = header(MODE_HUFFMAN, bytes.length, nameBytes).length;
   if (bytes.length > 0 && huff.length - headerSize >= bytes.length) {
     const stored = new Uint8Array(headerSize + bytes.length);
     stored.set(header(MODE_STORED, bytes.length, nameBytes), 0);
@@ -174,6 +189,22 @@ export function compress(bytes, fileName = '') {
 
 function parseHeader(bytes) {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  if (isV3(bytes)) {
+    if (bytes.length < FIXED_HEADER_V3) throw new Error('corrupt input: truncated header');
+    const nameLen = bytes[3];
+    if (FIXED_HEADER_V3 + nameLen > bytes.length) throw new Error('corrupt input: bad file name length');
+    const nameBytes = sanitizeFileNameBytes(bytes.subarray(FIXED_HEADER_V3, FIXED_HEADER_V3 + nameLen));
+    let pos = FIXED_HEADER_V3 + nameLen;
+    let size = 0;
+    for (let scale = 1, done = false; !done; scale *= 0x80) {
+      if (pos >= bytes.length) throw new Error('corrupt input: truncated header');
+      if (scale > 2 ** 49) throw new Error('corrupt input: bad size field');
+      const b = bytes[pos++];
+      size += (b & 0x7f) * scale;
+      done = !(b & 0x80);
+    }
+    return { huffman: bytes[2] === MODE_HUFFMAN, size, fileName: utf8Decoder.decode(nameBytes), dataStart: pos };
+  }
   if (startsWith(bytes, MAGIC_V2)) {
     if (bytes.length < FIXED_HEADER_V2) throw new Error('corrupt input: truncated header');
     const mode = bytes[4];
@@ -197,7 +228,7 @@ function parseHeader(bytes) {
 }
 
 export function isHuf(bytes) {
-  return startsWith(bytes, MAGIC_V2) || (bytes.length >= HEADER_V1 && (startsWith(bytes, MAGIC_V1) || startsWith(bytes, MAGIC_V1_STORED)));
+  return isV3(bytes) || startsWith(bytes, MAGIC_V2) || (bytes.length >= HEADER_V1 && (startsWith(bytes, MAGIC_V1) || startsWith(bytes, MAGIC_V1_STORED)));
 }
 
 export function isStored(bytes) {

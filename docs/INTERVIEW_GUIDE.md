@@ -69,7 +69,7 @@ Everything you need to explain and defend this project. Read it once end to end,
 
 **23 bits instead of 88.** Average = 23 / 11 = **2.09 bits/symbol**; the entropy (theoretical minimum) is **2.04**.
 
-**Step 5 — but the file is bigger!** Compressed with no file name stored, the `.huf` file is 24 bytes: a 15-byte header + 49 bits of tree + 23 bits of data (72 bits = 9 bytes). For tiny inputs the overhead dominates. (Storing the raw bytes would take 15 + 11 = 26 bytes, so Huffman is still the better of the two options here.) This is a great point to raise yourself (§8).
+**Step 5 — but the file is bigger!** Compressed with no file name stored, the `.huf` file is 14 bytes: a 5-byte header + 49 bits of tree + 23 bits of data (72 bits = 9 bytes). For tiny inputs the overhead dominates. (Storing the raw bytes would take 5 + 11 = 16 bytes, so Huffman is still the better of the two options here.) This is a great point to raise yourself (§8).
 
 You can see exactly this in the web demo: pick "abracadabra" and step through the 4 merges.
 
@@ -118,7 +118,7 @@ Tests also check the **Kraft equality** `Σ 2^(−length) = 1`, which holds exac
 ### 4.5 Encode — `compress()`
 
 1. Pass 1: frequencies → tree → code table.
-2. Write the header: magic `HUF2`, mode, original size, and the original **file name** (§5.1).
+2. Write the header: magic `HF`, mode, the original **file name** (§5.1) and the original size as a varint.
 3. Write the tree (§5), then each input byte's code, through a `BitWriter`.
 4. Flush the last partial byte with zero padding.
 5. If the result isn't smaller than storing the input raw, switch to the stored format (§4.6).
@@ -129,7 +129,7 @@ Two passes over the input are needed because the codes depend on the frequencies
 
 After encoding, `compress()` compares the Huffman result with simply keeping the input as-is. If the Huffman payload is **not smaller** than the input, it writes the same header with mode `0` followed by the **raw bytes** instead. So:
 
-- already-compressed files (PDF, DOCX/XLSX/ZIP, JPEG, PNG, MP4) and random data grow only by **the header** (15 bytes + the file name), never more;
+- already-compressed files (PDF, DOCX/XLSX/ZIP, JPEG, PNG, MP4) and random data grow only by **the header** (4–14 bytes + the file name), never more;
 - the decoder checks the mode byte: `0` → copy the bytes out, `1` → Huffman-decode.
 
 This is the same idea as DEFLATE's *stored blocks* and ZIP's *store* method. Why can't we avoid growth completely? See the pigeonhole question in §12.
@@ -166,7 +166,7 @@ The header also stores the **original file name** (like gzip's `FNAME` field), s
 
 - **Security:** the name comes from an untrusted file, so the decoder keeps only the last path component and drops control characters. A crafted `.huf` containing `../../etc/passwd` restores as `passwd` in the chosen folder — it can never write elsewhere (a "path traversal" / "zip slip" bug).
 - **Safety:** when you don't give an output path, the CLI refuses to overwrite an existing file.
-- **Compatibility:** version-1 files (`HUF1`/`HUF0`, no name) still decode; the name falls back to the `.huf` file name minus `.huf`.
+- **Compatibility:** version-2 (`HUF2`) and version-1 files (`HUF1`/`HUF0`, no name) still decode; the name falls back to the `.huf` file name minus `.huf`.
 
 ## 6. Bit manipulation — `include/bit_io.hpp`
 
@@ -198,7 +198,7 @@ bool readBit() {
 
 Example: writing `0`, `110`, `111` gives bits `0110111` → padded byte `0110 1110` = `0x6E`.
 
-The header's 64-bit size is written **little-endian** byte by byte (`(v >> 8k) & 0xFF`) so the format is the same on every machine, regardless of CPU endianness.
+The header's size is written as an unsigned **LEB128 varint**: 7 bits per byte, low bits first, the top bit set on every byte except the last. Sizes under 128 take 1 byte instead of 8, and the format is the same on every machine regardless of CPU endianness (Protocol Buffers and WebAssembly use the same encoding).
 
 ---
 
@@ -225,7 +225,7 @@ Since `n ≤ 256`, tree building is effectively constant time; the whole thing i
 - **Two symbols** → both get 1-bit codes.
 - **All 256 byte values** → works on any binary file.
 - **Random / already-compressed data** (PDF, DOCX, ZIP, JPEG) → ~8 bits per symbol already, so Huffman would grow the file (header + tree). The **stored fallback** keeps the raw bytes instead: the output is exactly input + header.
-- **Very small inputs grow** (e.g. `abracadabra` with no name: 11 B → 24 B) because of fixed overhead; the tool picks whichever of Huffman (24 B) and stored (26 B) is smaller.
+- **Very small inputs grow** (e.g. `abracadabra` with no name: 11 B → 14 B) because of fixed overhead; the tool picks whichever of Huffman (14 B) and stored (16 B) is smaller. The header was cut from 15 to 5 bytes (1-byte name length, varint size) for exactly this reason.
 - **Renamed `.huf` files** → still restored as the original name and extension, because the name is inside the file.
 - **Malicious names** like `../../etc/passwd` → reduced to `passwd`, so decompressing can never write outside the chosen folder.
 - **Highly skewed (Fibonacci) frequencies** → deepest possible tree (20 symbols → max code length 19); still round-trips.
@@ -235,7 +235,7 @@ Since `n ≤ 256`, tree building is effectively constant time; the whole thing i
 
 ## 9. Testing — `make test`
 
-`tests/test_huffman.cpp` uses a tiny self-written `CHECK` macro (no framework needed), 17 cases / 1,597 checks:
+`tests/test_huffman.cpp` uses a tiny self-written `CHECK` macro (no framework needed), 18 cases / 1,603 checks:
 
 - min-heap pops 1,000 random numbers in sorted order;
 - empty, single-byte, single-symbol, two-symbol inputs;
@@ -310,7 +310,7 @@ About 40–55 % on text. Huffman can't beat the entropy of single-character freq
 Yes, it works on raw bytes, so any file round-trips correctly. But already-compressed files (JPEG, PNG, ZIP, MP4, and most PDFs, whose content streams are Deflate-compressed) have near-uniform byte frequencies: about 7.2–8 bits of entropy per byte, so savings drop to roughly 0–10 %. A real 577 KB PDF saved 9.8 % (7.21 bits/byte vs an entropy of 7.19). The web demo explains this when it detects high-entropy input.
 
 **Q: Why can a compressed file be bigger than the original?**
-Fixed overhead (the header + the stored tree) and incompressible data. For random or already-compressed input, Huffman alone would grow the file, so my tool falls back to storing the raw bytes: the worst case is just the header (15 bytes + the file name).
+Fixed overhead (the header + the stored tree) and incompressible data. For random or already-compressed input, Huffman alone would grow the file, so my tool falls back to storing the raw bytes: the worst case is just the header (5 bytes + the file name for small files).
 
 **Q: How does decompression know the original file type?**
 The original file name (with its extension) is stored in the header, so the decoder restores `report.pdf` as `report.pdf` even if the `.huf` was renamed. The name is sanitized first (directories and control characters removed) so a malicious file can't make the tool write outside the output folder.
@@ -353,9 +353,9 @@ Direct control over bytes and bits, fast, and a good fit for implementing data s
 - **CLRS example:** optimal cost **224 bits**.
 - **English text:** ~**43 %** smaller; **4.39** bits/char vs **8**; entropy **4.36**.
 - **Numeric log:** **56 %** smaller. **Random / PDF / DOCX:** about **0–10 %**; when Huffman can't help, the file is stored raw (+ header only).
-- **Header:** 15 bytes (4 magic + 1 mode + 8 size + 2 name length) + the file name. **Tree:** (2n − 1) + 8n bits.
+- **Header:** 2 magic + 1 mode + 1 name length + the file name + a 1–10 byte varint size (5 bytes total for a short unnamed input). **Tree:** (2n − 1) + 8n bits.
 - **Tree build:** O(n log n), n ≤ 256. **Encode/decode:** O(N).
-- **Tests:** 17 cases, **1,597** checks, all passing.
+- **Tests:** 18 cases, **1,603** checks, all passing.
 
 ## 14. A 2-minute demo script
 

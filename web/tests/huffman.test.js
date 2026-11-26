@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { forestAt } from '../src/huffman/display.js';
-import { analyze, buildCodes, buildTree, compress, decode, decompress, isStored, sanitizeFileNameBytes } from '../src/huffman/huffman.js';
+import { analyze, buildCodes, buildTree, compress, decode, decompress, isHuf, isStored, sanitizeFileNameBytes } from '../src/huffman/huffman.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const enc = (s) => new TextEncoder().encode(s);
@@ -40,10 +40,31 @@ describe('JS Huffman port', () => {
     const random = Uint8Array.from({ length: 50000 }, (_, k) => (k * 2654435761) >>> 24 ^ (k * 40503) & 255);
     const packed = compress(random);
     expect(isStored(packed)).toBe(true);
-    expect(packed.length).toBe(random.length + 15);
+    expect(packed.length).toBe(random.length + 7); // 4 fixed bytes + 3-byte size varint
     expect(decompress(packed)).toEqual(random);
-    expect(isStored(compress(enc('abracadabra')))).toBe(false); // 21 B Huffman < 23 B stored
+    expect(isStored(compress(enc('abracadabra')))).toBe(false); // 14 B Huffman < 16 B stored
     expect(isStored(compress(enc('abc')))).toBe(true);
+  });
+
+  it('keeps overhead to a few bytes for short text', () => {
+    expect(compress(enc('')).length).toBe(5);
+    const sentence = enc('hello how are you, are yo'); // 25 B: was 54 B with the v2 header + name
+    expect(compress(sentence).length).toBeLessThanOrEqual(sentence.length + 5);
+    const para = enc('hello world, hey how are you? '.repeat(3));
+    expect(compress(para).length).toBeLessThan(para.length);
+    expect(analyze(para).savedPercent).toBeGreaterThan(0);
+  });
+
+  it('does not mistake a text file starting with "HF" for a .huf', () => {
+    expect(isHuf(enc('HF is hydrogen fluoride'))).toBe(false);
+    expect(isHuf(compress(enc('abc')))).toBe(true);
+  });
+
+  it('still reads version-2 ("HUF2") files', () => {
+    const v3 = compress(enc('abracadabra'), 'x.txt'); // header: 4 + 5 name + 1 varint = 10
+    const v2 = Uint8Array.from([0x48, 0x55, 0x46, 0x32, 1, 11, 0, 0, 0, 0, 0, 0, 0, 5, 0, ...enc('x.txt'), ...v3.slice(10)]);
+    expect(decode(v2)).toMatchObject({ fileName: 'x.txt', stored: false });
+    expect(decompress(v2)).toEqual(enc('abracadabra'));
   });
 
   it('stores the original file name and restores it', () => {

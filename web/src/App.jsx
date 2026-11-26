@@ -1,4 +1,4 @@
-import { ArrowDownToLine, ChevronRight, FileCheck2, TriangleAlert, Upload } from 'lucide-react';
+import { ArrowDownToLine, ChevronRight, TriangleAlert, Upload } from 'lucide-react';
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import BitStream from './components/BitStream.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
@@ -36,9 +36,12 @@ export default function App() {
   const deferredText = useDeferredValue(text);
   const bytes = useMemo(() => (source === 'file' && file ? file.bytes : encoder.encode(deferredText)), [source, file, deferredText]);
   const title = source === 'file' ? file?.name : source === 'custom' ? 'Custom text' : SAMPLES.find((s) => s.key === source)?.label;
-  // The name stored inside the .huf, so it decompresses back to the same file type.
+  // Files keep their name inside the .huf so they decompress back to the same type.
+  // Typed text stores no name (it would cost more bytes than short text saves);
+  // opening "custom-text.txt.huf" falls back to "custom-text.txt".
   const fileName = source === 'file' && file ? file.name : `${(title || 'input').toLowerCase().replace(/[^a-z0-9]+/g, '-')}.txt`;
-  const a = useMemo(() => analyze(bytes, fileName), [bytes, fileName]);
+  const storedName = source === 'file' ? fileName : '';
+  const a = useMemo(() => analyze(bytes, storedName), [bytes, storedName]);
   const fullStep = a.tree.merges.length;
   // Clamp during render: when the input changes, the old step can be larger than
   // the new tree's merge count until the effect below resets it.
@@ -133,30 +136,19 @@ export default function App() {
             {restored ? (
               <button type="button" className="btn btn-primary" onClick={() => download(bytes, file.name)} title={`Save as ${file.name}`}>
                 <ArrowDownToLine size={14} aria-hidden="true" />
-                Download {file.name}
+                Download decompressed {file.name}
               </button>
             ) : (
-              <>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  disabled={!a.originalBytes || !a.verified}
-                  onClick={() => download(a.restored, a.storedName || fileName)}
-                  title={`Decompress the .huf and save it as ${a.storedName || fileName}`}
-                >
-                  <FileCheck2 size={14} aria-hidden="true" />
-                  <span className="btn-long">Download restored</span> {a.storedName || fileName}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  disabled={!a.originalBytes}
-                  onClick={() => download(a.packed, `${fileName}.huf`)}
-                >
-                  <ArrowDownToLine size={14} aria-hidden="true" />
-                  Download .huf
-                </button>
-              </>
+              <button
+                type="button"
+                className="btn btn-primary"
+                disabled={!a.originalBytes}
+                onClick={() => download(a.packed, `${fileName}.huf`)}
+                title={`Save the compressed file as ${fileName}.huf`}
+              >
+                <ArrowDownToLine size={14} aria-hidden="true" />
+                Download compressed .huf <span className="mono">({formatBytes(a.compressedBytes)})</span>
+              </button>
             )}
           </div>
         </header>

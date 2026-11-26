@@ -14,21 +14,26 @@ std::string sanitizeFileName(const std::string& raw);
 
 namespace {
 
-// File layout (version 2):
-//   bytes 0..3    magic "HUF2"
-//   byte  4       mode: 1 = Huffman-coded, 0 = stored (raw bytes)
-//   bytes 5..12   original size, uint64 little-endian
-//   bytes 13..14  length of the original file name, uint16 little-endian
-//   bytes 15..    original file name (UTF-8, no directories), then the payload:
+// File layout (version 3, compact so small inputs are not swamped by overhead):
+//   bytes 0..1    magic "HF"
+//   byte  2       mode: 1 = Huffman-coded, 0 = stored (raw bytes). Never printable,
+//                 so a text file starting with "HF" is not mistaken for a .huf.
+//   byte  3       length of the original file name (0..255)
+//   bytes 4..     original file name (UTF-8, no directories)
+//   then          original size as an unsigned LEB128 varint (1 byte below 128,
+//                 2 below 16 KiB, 3 below 2 MiB, ...), then the payload:
 //                   mode 1: bit stream = [serialized tree][encoded symbols][zero padding]
 //                   mode 0: the original bytes, unchanged
-// Version 1 files ("HUF1" Huffman / "HUF0" stored, 12-byte header, no name)
-// are still read so older .huf files keep working.
+// Fixed overhead: 5 bytes for an unnamed input under 128 bytes (was 15 in v2).
+// Version 2 ("HUF2", 15-byte header) and version 1 ("HUF1" / "HUF0", 12-byte
+// header, no name) files are still read so older .huf files keep working.
+constexpr char kMagicV3[2] = {'H', 'F'};
 constexpr char kMagicV2[4] = {'H', 'U', 'F', '2'};
 constexpr char kMagicV1Huffman[4] = {'H', 'U', 'F', '1'};
 constexpr char kMagicV1Stored[4] = {'H', 'U', 'F', '0'};
 constexpr std::uint8_t kModeStored = 0;
 constexpr std::uint8_t kModeHuffman = 1;
+constexpr std::size_t kFixedHeaderV3 = 4;  // magic + mode + name length
 constexpr std::size_t kFixedHeaderV2 = 15;
 constexpr std::size_t kHeaderV1 = 12;
 constexpr std::size_t kMaxNameBytes = 255;
@@ -51,10 +56,6 @@ struct HeapItem {
     }
 };
 
-void writeU64LE(Bytes& out, std::uint64_t v) {
-    for (int k = 0; k < 8; ++k) out.push_back(static_cast<std::uint8_t>((v >> (8 * k)) & 0xFF));
-}
-
 std::uint64_t readU64LE(const Bytes& in, std::size_t pos) {
     std::uint64_t v = 0;
     for (int k = 0; k < 8; ++k) v |= static_cast<std::uint64_t>(in[pos + k]) << (8 * k);
@@ -68,17 +69,49 @@ struct Header {
     std::size_t dataStart;  // first byte of the payload
 };
 
+void writeVarint(Bytes& out, std::uint64_t v) {
+    while (v >= 0x80) {
+        out.push_back(static_cast<std::uint8_t>((v & 0x7F) | 0x80));
+        v >>= 7;
+    }
+    out.push_back(static_cast<std::uint8_t>(v));
+}
+
+/** Reads a LEB128 varint at `pos` and advances it. */
+std::uint64_t readVarint(const Bytes& in, std::size_t& pos) {
+    std::uint64_t v = 0;
+    for (int shift = 0; shift < 64; shift += 7) {
+        if (pos >= in.size()) throw std::runtime_error("corrupt input: truncated header");
+        const std::uint8_t b = in[pos++];
+        v |= static_cast<std::uint64_t>(b & 0x7F) << shift;
+        if (!(b & 0x80)) return v;
+    }
+    throw std::runtime_error("corrupt input: bad size field");
+}
+
 Bytes makeHeader(std::uint8_t mode, std::uint64_t size, const std::string& name) {
-    Bytes h(kMagicV2, kMagicV2 + 4);
+    Bytes h(kMagicV3, kMagicV3 + 2);
     h.push_back(mode);
-    writeU64LE(h, size);
-    h.push_back(static_cast<std::uint8_t>(name.size() & 0xFF));
-    h.push_back(static_cast<std::uint8_t>(name.size() >> 8));
+    h.push_back(static_cast<std::uint8_t>(name.size()));  // sanitizeFileName caps it at 255
     h.insert(h.end(), name.begin(), name.end());
+    writeVarint(h, size);
     return h;
 }
 
+bool isV3(const Bytes& in) {
+    return in.size() >= 3 && std::memcmp(in.data(), kMagicV3, 2) == 0 && (in[2] == kModeStored || in[2] == kModeHuffman);
+}
+
 Header parseHeader(const Bytes& in) {
+    if (isV3(in)) {
+        if (in.size() < kFixedHeaderV3) throw std::runtime_error("corrupt input: truncated header");
+        const std::size_t nameLen = in[3];
+        if (kFixedHeaderV3 + nameLen > in.size()) throw std::runtime_error("corrupt input: bad file name length");
+        std::string name(in.begin() + kFixedHeaderV3, in.begin() + kFixedHeaderV3 + nameLen);
+        std::size_t pos = kFixedHeaderV3 + nameLen;
+        const std::uint64_t size = readVarint(in, pos);
+        return {in[2] == kModeHuffman, size, sanitizeFileName(name), pos};
+    }
     if (in.size() >= 4 && std::memcmp(in.data(), kMagicV2, 4) == 0) {
         if (in.size() < kFixedHeaderV2) throw std::runtime_error("corrupt input: truncated header");
         const std::uint8_t mode = in[4];

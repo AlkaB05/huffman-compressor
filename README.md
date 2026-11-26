@@ -10,14 +10,16 @@ Measured with `make bench` (every file is decompressed and compared byte-for-byt
 
 | File | Original | Compressed | Saved |
 | --- | ---: | ---: | ---: |
-| `essay.txt` (English prose) | 4,433 B | 2,533 B | **42.9 %** |
-| `gpl-3.0.txt` (GNU GPL v3 licence text) | 35,149 B | 20,373 B | **42.0 %** |
-| `sensor_log.csv` (numeric log) | 90,050 B | 39,753 B | **55.9 %** |
-| `source_code.cpp.txt` (C++ source) | 8,823 B | 5,497 B | **37.7 %** |
-| `students.csv` (mixed CSV) | 66,619 B | 42,839 B | **35.7 %** |
-| random bytes (100 KB) | 100,000 B | 100,025 B | stored raw (+25 B header incl. name) |
+| `essay.txt` (English prose) | 4,433 B | 2,524 B | **43.1 %** |
+| `gpl-3.0.txt` (GNU GPL v3 licence text) | 35,149 B | 20,365 B | **42.1 %** |
+| `sensor_log.csv` (numeric log) | 90,050 B | 39,745 B | **55.9 %** |
+| `source_code.cpp.txt` (C++ source) | 8,823 B | 5,488 B | **37.8 %** |
+| `students.csv` (mixed CSV) | 66,619 B | 42,831 B | **35.7 %** |
+| random bytes (100 KB) | 100,000 B | 100,017 B | stored raw (+17 B header incl. name) |
 
-Plain text compresses by about 40–56 %, depending on how skewed its character frequencies are. Random or already-compressed data (PDF, DOCX/ZIP, JPEG, MP4) can't be compressed, which is exactly what information theory predicts. In that case the tool **stores the raw bytes** instead, so a file never grows by more than its header (15 bytes + the file name).
+Plain text compresses by about 40–56 %, depending on how skewed its character frequencies are. Random or already-compressed data (PDF, DOCX/ZIP, JPEG, MP4) can't be compressed, which is exactly what information theory predicts. In that case the tool **stores the raw bytes** instead, so a file never grows by more than its header (4–5 bytes + the file name).
+
+Very short text (a sentence or two) can't shrink either: Huffman must store its tree (about 10 bits per distinct character) next to the data, and that costs as much as it saves. With the compact header a 25-byte sentence becomes 29 bytes; around 100+ characters of text starts saving space.
 
 ## Build and run (C++)
 
@@ -25,7 +27,7 @@ Requires `g++` (or `clang++`) with C++17 and `make`.
 
 ```bash
 make                       # builds bin/huffman
-make test                  # 17 test cases, 1,597 checks
+make test                  # 18 test cases, 1,603 checks
 make bench                 # compress + verify every file in samples/
 
 ./bin/huffman compress   samples/essay.txt out.huf   # output path optional (default: essay.txt.huf)
@@ -68,13 +70,13 @@ docs/INTERVIEW_GUIDE.md
 
 | Bytes | Content |
 | --- | --- |
-| 0–3 | magic `HUF2` |
-| 4 | mode: `1` = Huffman-coded, `0` = stored raw (used when Huffman would not make the file smaller) |
-| 5–12 | original size in bytes (uint64, little-endian) |
-| 13–14 | length of the original file name (uint16, little-endian, ≤ 255) |
-| 15… | original file name (UTF-8, directories stripped), then the payload |
+| 0–1 | magic `HF` |
+| 2 | mode: `1` = Huffman-coded, `0` = stored raw (used when Huffman would not make the file smaller) |
+| 3 | length of the original file name (0–255) |
+| 4… | original file name (UTF-8, directories stripped; empty for text typed in the web demo) |
+| next 1–10 | original size in bytes (unsigned LEB128 varint: 1 byte below 128, 2 below 16 KiB, 3 below 2 MiB) |
 | payload | mode 1: pre-order Huffman tree, then the encoded symbols, then 0–7 zero padding bits. Mode 0: the original bytes |
 
-Older version-1 files (`HUF1` / `HUF0`, 12-byte header, no name) still decompress.
+The fixed overhead is 5 bytes for a short unnamed input (version 2 used 15). Older version-2 (`HUF2`, 15-byte header) and version-1 (`HUF1` / `HUF0`, 12-byte header, no name) files still decompress.
 
 See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for the full explanation.

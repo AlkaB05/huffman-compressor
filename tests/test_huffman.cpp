@@ -59,7 +59,7 @@ int main() {
 
     test("empty input", [] {
         Bytes packed = compress({});
-        CHECK(packed.size() == 15);  // header only (no file name)
+        CHECK(packed.size() == 5);  // header only: "HF" + mode + name length 0 + size varint 0
         CHECK(decompress(packed).empty());
     });
 
@@ -67,7 +67,8 @@ int main() {
         roundTrip(fromString("a"));
         roundTrip(Bytes(100000, 'z'));
         // 1 distinct symbol: tree = 1 leaf (9 bits -> 2 bytes) and no payload.
-        CHECK(compress(Bytes(100000, 'z')).size() == 15 + 2);
+        // Header: 4 fixed bytes + 3-byte varint for 100000.
+        CHECK(compress(Bytes(100000, 'z')).size() == 7 + 2);
     });
 
     test("two symbols get 1-bit codes", [] {
@@ -126,10 +127,10 @@ int main() {
         roundTrip(in);
         Stats s = analyze(in);
         CHECK(s.avgCodeLength > 7.9);  // ~8 bits: random data has max entropy
-        // Stored fallback: never grows by more than the 15-byte header.
+        // Stored fallback: never grows by more than the 7-byte header (3-byte size varint).
         Bytes packed = compress(in);
         CHECK(isStored(packed));
-        CHECK(packed.size() == in.size() + 15);
+        CHECK(packed.size() == in.size() + 7);
     });
 
     test("compressible text is Huffman-coded, not stored", [] {
@@ -141,15 +142,22 @@ int main() {
     });
 
     test("tiny input: picks whichever is smaller", [] {
-        // abracadabra: Huffman = 15 + 9 bytes = 24 < stored 15 + 11 = 26 -> Huffman
+        // abracadabra: Huffman = 5 + 9 bytes = 14 < stored 5 + 11 = 16 -> Huffman
         CHECK(!isStored(compress(fromString("abracadabra"))));
-        CHECK(compress(fromString("abracadabra")).size() == 24);
-        // abc: Huffman = 15 + 5 bytes = 20 > stored 15 + 3 = 18 -> stored
+        CHECK(compress(fromString("abracadabra")).size() == 14);
+        // abc: Huffman = 5 + 5 bytes = 10 > stored 5 + 3 = 8 -> stored
         Bytes in = fromString("abc");
         Bytes packed = compress(in);
         CHECK(isStored(packed));
-        CHECK(packed.size() == in.size() + 15);
+        CHECK(packed.size() == in.size() + 5);
         CHECK(decompress(packed) == in);
+        // Short sentences: overhead is a few bytes, not tens of bytes.
+        Bytes sentence = fromString("hello how are you, are yo");
+        CHECK(compress(sentence).size() <= sentence.size() + 5);
+        CHECK(decompress(compress(sentence)) == sentence);
+        std::string para;
+        for (int k = 0; k < 3; ++k) para += "hello world, hey how are you? ";
+        CHECK(compress(fromString(para)).size() < para.size());
     });
 
     test("skewed (Fibonacci) frequencies build a deep tree and round-trip", [] {
@@ -202,12 +210,12 @@ int main() {
     test("version-1 files (no stored name) still decode", [] {
         Bytes in;
         for (int k = 0; k < 50; ++k) for (char c : std::string("mississippi ")) in.push_back(c);
-        Bytes v2 = compress(in);  // no name -> 15-byte header
-        CHECK(!isStored(v2));
+        Bytes v3 = compress(in);  // no name, 600 bytes -> 4 fixed + 2-byte varint = 6-byte header
+        CHECK(!isStored(v3));
         // Same payload behind the old 12-byte "HUF1" header.
         Bytes v1 = {'H', 'U', 'F', '1'};
         for (int k = 0; k < 8; ++k) v1.push_back(static_cast<std::uint8_t>((in.size() >> (8 * k)) & 0xFF));
-        v1.insert(v1.end(), v2.begin() + 15, v2.end());
+        v1.insert(v1.end(), v3.begin() + 6, v3.end());
         Decoded d = decode(v1);
         CHECK(d.data == in);
         CHECK(d.fileName.empty());
@@ -216,9 +224,27 @@ int main() {
         CHECK(decompress(v0) == fromString("xyz"));
     });
 
+    test("version-2 files (\"HUF2\", 15-byte header) still decode", [] {
+        Bytes in = fromString("abracadabra");
+        Bytes v3 = compress(in, "x.txt");  // header: 4 + 5 name + 1 varint = 10
+        Bytes v2 = {'H', 'U', 'F', '2', 1};
+        for (int k = 0; k < 8; ++k) v2.push_back(static_cast<std::uint8_t>((in.size() >> (8 * k)) & 0xFF));
+        v2.push_back(5);
+        v2.push_back(0);
+        for (char c : std::string("x.txt")) v2.push_back(c);
+        v2.insert(v2.end(), v3.begin() + 10, v3.end());
+        Decoded d = decode(v2);
+        CHECK(d.data == in);
+        CHECK(d.fileName == "x.txt");
+    });
+
     test("corrupt input is rejected", [] {
         bool threw = false;
         try { decompress(fromString("NOPE00000000")); } catch (const std::runtime_error&) { threw = true; }
+        CHECK(threw);
+        // A text file that happens to start with "HF" is not a .huf file.
+        threw = false;
+        try { decompress(fromString("HF is a chemical formula")); } catch (const std::runtime_error&) { threw = true; }
         CHECK(threw);
 
         std::string longText;
@@ -231,7 +257,7 @@ int main() {
 
         // Name length pointing past the end of the file.
         Bytes bad = compress(fromString("hello"), "a.txt");
-        bad.resize(17);
+        bad.resize(7);  // header says 5 name bytes, only 3 present
         threw = false;
         try { decompress(bad); } catch (const std::runtime_error&) { threw = true; }
         CHECK(threw);
