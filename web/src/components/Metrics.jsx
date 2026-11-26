@@ -1,6 +1,6 @@
 import { formatBytes } from '../huffman/display.js';
 
-export default function Metrics({ a }) {
+export default function Metrics({ a, title }) {
   const headerBits = a.headerBytes * 8;
   const padBits = Math.max(0, a.compressedBytes * 8 - headerBits - a.treeBits - a.payloadBits);
   const totalBits = Math.max(1, a.compressedBytes * 8);
@@ -17,7 +17,8 @@ export default function Metrics({ a }) {
       ];
 
   return (
-    <section className="section" aria-label="Compression results">
+    <section className="section" aria-label={title || 'Compression results'}>
+      {title && <span className="section-label">{title}</span>}
       <dl className="kpis">
         <Kpi label="Original" value={formatBytes(a.originalBytes)} sub={`${a.originalBytes * 8} bits`} />
         <Kpi label="Compressed" value={formatBytes(a.compressedBytes)} sub={`${a.compressMs.toFixed(1)} ms to encode`} />

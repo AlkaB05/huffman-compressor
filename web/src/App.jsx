@@ -3,11 +3,13 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import BitStream from './components/BitStream.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import CodeTable from './components/CodeTable.jsx';
+import SameFormat from './components/SameFormat.jsx';
 import Metrics from './components/Metrics.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import TreeView from './components/TreeView.jsx';
 import { formatBytes } from './huffman/display.js';
 import { analyze, decode, isHuf } from './huffman/huffman.js';
+import { extensionOf, formatOf } from './optimize/optimize.js';
 import { SAMPLES } from './samples.js';
 
 const encoder = new TextEncoder();
@@ -71,6 +73,26 @@ export default function App() {
     }
     setSource('file');
   };
+
+  // Same-format compression (report.pdf -> smaller report.pdf) for uploaded PDF / Office / ZIP / PNG
+  // files. Runs in a worker; a new file terminates the previous job.
+  const sameFormat = source === 'file' && file && !file.restoredFrom ? formatOf(file.bytes, file.name) : null;
+  const [same, setSame] = useState({ status: 'idle' });
+  useEffect(() => {
+    if (!sameFormat) {
+      setSame({ status: 'idle' });
+      return undefined;
+    }
+    setSame({ status: 'working' });
+    const worker = new Worker(new URL('./optimize/worker.js', import.meta.url), { type: 'module' });
+    worker.onmessage = ({ data }) => setSame(data.ok ? { status: 'done', result: data.result } : { status: 'error', error: data.error });
+    worker.onerror = (e) => setSame({ status: 'error', error: e.message || 'worker failed' });
+    worker.postMessage({ id: 1, bytes: file.bytes, name: file.name });
+    return () => worker.terminate();
+  }, [file, sameFormat]);
+  const ext = extensionOf(file?.name) || sameFormat || '';
+  const compressedName = file ? `${file.name.replace(/\.[^.]+$/, '') || 'file'}-compressed.${ext}` : '';
+  const sameReady = same.status === 'done' && same.result.smaller;
 
   const pick = (s) => {
     setSelected(s);
@@ -139,16 +161,34 @@ export default function App() {
                 Download decompressed {file.name}
               </button>
             ) : (
-              <button
-                type="button"
-                className="btn btn-primary"
-                disabled={!a.originalBytes}
-                onClick={() => download(a.packed, `${fileName}.huf`)}
-                title={`Save the compressed file as ${fileName}.huf`}
-              >
-                <ArrowDownToLine size={14} aria-hidden="true" />
-                Download compressed .huf <span className="mono">({formatBytes(a.compressedBytes)})</span>
-              </button>
+              <>
+                {sameFormat && (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    disabled={!sameReady}
+                    onClick={() => download(same.result.bytes, compressedName)}
+                    title={sameReady ? `Save as ${compressedName}` : undefined}
+                  >
+                    <ArrowDownToLine size={14} aria-hidden="true" />
+                    {same.status === 'working'
+                      ? `Compressing ${ext.toUpperCase()}…`
+                      : sameReady
+                        ? <>Download compressed {ext.toUpperCase()} <span className="mono">({formatBytes(same.result.optimizedBytes)})</span></>
+                        : `${ext.toUpperCase()} already optimal`}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className={sameFormat ? 'btn btn-ghost' : 'btn btn-primary'}
+                  disabled={!a.originalBytes}
+                  onClick={() => download(a.packed, `${fileName}.huf`)}
+                  title={`Save the Huffman-compressed file as ${fileName}.huf`}
+                >
+                  <ArrowDownToLine size={14} aria-hidden="true" />
+                  {sameFormat ? '.huf' : 'Download compressed .huf'} <span className="mono">({formatBytes(a.compressedBytes)})</span>
+                </button>
+              </>
             )}
           </div>
         </header>
@@ -202,7 +242,8 @@ export default function App() {
               <p className="empty">Type something, pick a sample, or drop a file to see its Huffman tree.</p>
             ) : (
               <ErrorBoundary resetKey={a}>
-                <Metrics a={a} />
+                {sameFormat && <SameFormat state={same} ext={ext} />}
+                <Metrics a={a} title={sameFormat ? 'Huffman coding on the raw bytes (.huf)' : undefined} />
                 <TreeView tree={a.tree} step={step} setStep={setStep} selected={selected} setSelected={pick} />
                 <BitStream bytes={bytes} codes={a.codes} packed={a.packed} headerBytes={a.headerBytes} storedName={a.storedName} selected={selected} />
               </ErrorBoundary>

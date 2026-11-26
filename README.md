@@ -21,6 +21,30 @@ Plain text compresses by about 40–56 %, depending on how skewed its character 
 
 Very short text (a sentence or two) can't shrink either: Huffman must store its tree (about 10 bits per distinct character) next to the data, and that costs as much as it saves. With the compact header a 25-byte sentence becomes 29 bytes; around 100+ characters of text starts saving space.
 
+## Same-format compression (web demo)
+
+A `.huf` file is only useful to this tool, so for uploaded **PDF, DOCX/XLSX/PPTX/ODT/EPUB/ZIP and PNG** files the web demo also produces a **smaller file in the same format** (`report.pdf` → `report-compressed.pdf`) that opens anywhere.
+
+These formats already compress their content with DEFLATE, which is LZ77 followed by Huffman coding. The demo re-runs that step at maximum effort and drops dead weight, never touching what the file shows:
+
+| Format | What it does |
+| --- | --- |
+| PDF | re-deflates every Flate stream at level 9, compresses streams stored uncompressed, removes unreferenced objects, packs objects into compressed object streams (pdf-lib) |
+| DOCX / XLSX / PPTX / ODT / EPUB / ZIP | re-deflates every entry at maximum level and optimizes PNG images inside; `mimetype` stays first and stored |
+| PNG | merges IDAT chunks, re-deflates pixel data at level 9, drops text/time metadata |
+
+Everything is lossless and checked before download: PDFs are re-parsed, ZIP entries byte-compared, PNG pixel data byte-compared. If re-encoding doesn't make the file smaller, the original is kept. Measured on real files (pages rendered and compared pixel by pixel):
+
+| File | Original | Same-format output | Saved |
+| --- | ---: | ---: | ---: |
+| interview-prep PDF (22 pages) | 591,134 B | 227,535 B | **61.5 %** |
+| industry report PDF (31 pages) | 4,827,023 B | 4,023,279 B | **16.7 %** |
+| lecture notes PDF (41 pages) | 931,581 B | 869,737 B | **6.6 %** |
+| PPTX deck | 2,359,686 B | 2,232,518 B | **5.4 %** |
+| DOCX (text only) | 64,569 B | 64,569 B | already optimal |
+
+Plain-text files have no compression inside their format, so for them the `.huf` is the compressed form (40–56 % smaller).
+
 ## Build and run (C++)
 
 Requires `g++` (or `clang++`) with C++17 and `make`.

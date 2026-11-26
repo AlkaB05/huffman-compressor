@@ -1231,3 +1231,48 @@ button:disabled {
     display: none;
   }
 }
+
+/* Same-format compression */
+.same-format {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.same-working {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--fg-2);
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
+.same-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--fg-2);
+}
+.same-steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.same-steps svg {
+  color: var(--accent-text);
+}
