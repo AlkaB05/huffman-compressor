@@ -1,7 +1,7 @@
 import { formatBytes } from '../huffman/display.js';
 
 export default function Metrics({ a }) {
-  const headerBits = 96;
+  const headerBits = a.headerBytes * 8;
   const padBits = Math.max(0, a.compressedBytes * 8 - headerBits - a.treeBits - a.payloadBits);
   const totalBits = Math.max(1, a.compressedBytes * 8);
   const parts = a.stored
@@ -24,7 +24,7 @@ export default function Metrics({ a }) {
         <Kpi
           label="Space saved"
           value={a.stored ? 'Stored raw' : `${a.savedPercent.toFixed(1)}%`}
-          sub={a.stored ? '+12 B header only' : `${a.rows.length} distinct symbols`}
+          sub={a.stored ? `+${a.headerBytes} B header only` : `${a.rows.length} distinct symbols`}
           tone={a.stored ? undefined : a.savedPercent > 0 ? 'good' : 'bad'}
         />
         <Kpi
@@ -63,7 +63,7 @@ export default function Metrics({ a }) {
           {a.stored && (
             <p className="note insight">
               <strong>Stored, not Huffman-coded.</strong> Huffman would have produced {formatBytes(a.huffmanBytes)} (bigger than the
-              input), so the file keeps the raw bytes and only adds the 12-byte header. Zip and gzip do the same.
+              input), so the file keeps the raw bytes and only adds the {a.headerBytes}-byte header. Zip and gzip do the same.
               {a.entropy > 7 &&
                 ` This data is already close to random (${a.entropy.toFixed(2)} of 8 bits of entropy per byte): PDFs, DOCX/ZIP, images and videos are compressed internally, so there is little left to squeeze. Try a plain-text file to see 40%+ savings.`}
               {a.entropy <= 7 && ' For tiny inputs the header and stored tree cost more than Huffman saves.'}
@@ -71,8 +71,8 @@ export default function Metrics({ a }) {
           )}
           {!a.stored && a.savedPercent <= 0 && (
             <p className="note">
-              Tiny inputs grow: the 12-byte header and the stored tree cost more than Huffman saves. Storing the raw bytes would be
-              even bigger here ({formatBytes(a.originalBytes + 12)}), so Huffman is still the better choice.
+              Tiny inputs grow: the {a.headerBytes}-byte header and the stored tree cost more than Huffman saves. Storing the raw bytes would be
+              even bigger here ({formatBytes(a.originalBytes + a.headerBytes)}), so Huffman is still the better choice.
             </p>
           )}
           {!a.stored && a.entropy > 7 && a.originalBytes >= 1024 && (

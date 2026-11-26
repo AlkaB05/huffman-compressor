@@ -1078,6 +1078,14 @@ button:disabled {
   color: var(--accent-text);
 }
 
+.hex-mode {
+  color: var(--green);
+}
+
+.hex-name {
+  color: #e2b86b;
+}
+
 /* ---------------------------------------------------------------- drop overlay */
 .drop-overlay {
   position: fixed;
@@ -1218,7 +1226,8 @@ button:disabled {
   .card {
     padding: 18px 16px;
   }
-  .actions .btn-ghost {
+  .actions .btn-ghost:first-child,
+  .btn-long {
     display: none;
   }
 }

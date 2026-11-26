@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "bit_io.hpp"
@@ -56,14 +57,30 @@ private:
 
 FrequencyTable countFrequencies(const Bytes& data);
 
-/** Compress raw bytes into the .huf container format (see docs/INTERVIEW_GUIDE.md). */
-Bytes compress(const Bytes& input);
+/**
+ * Compress raw bytes into the .huf container format (see docs/INTERVIEW_GUIDE.md).
+ * `fileName` (directories are stripped) is stored in the header so the file
+ * can be restored under its original name and extension.
+ */
+Bytes compress(const Bytes& input, const std::string& fileName = "");
 
-/** True if compress() fell back to storing the raw bytes ("HUF0"). */
+/** True if compress() fell back to storing the raw bytes. */
 bool isStored(const Bytes& compressed);
 
-/** Exact inverse of compress(). Throws std::runtime_error on corrupt input. */
+struct Decoded {
+    std::string fileName;  // original name stored in the header ("" if none)
+    Bytes data;            // the restored bytes
+    bool stored = false;
+};
+
+/** Exact inverse of compress(), including the stored file name. Throws std::runtime_error on corrupt input. */
+Decoded decode(const Bytes& compressed);
+
+/** Same as decode(compressed).data. */
 Bytes decompress(const Bytes& compressed);
+
+/** Last path component only, control characters removed, at most 255 bytes. */
+std::string sanitizeFileName(const std::string& raw);
 
 struct Stats {
     std::uint64_t originalBytes = 0;

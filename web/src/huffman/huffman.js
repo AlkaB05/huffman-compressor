@@ -3,17 +3,29 @@
  * Same tie-breaking and the same .huf container format, so a file compressed
  * here decompresses with the C++ CLI (and vice versa) byte-for-byte.
  *
- *   bytes 0..3   magic "HUF1" (Huffman-coded) or "HUF0" (stored raw)
- *   bytes 4..11  original size, uint64 little-endian
- *   bytes 12..   HUF1: [pre-order tree bits][encoded symbols][zero padding]
- *                HUF0: the original bytes, unchanged
+ * Version 2 layout:
+ *   bytes 0..3    magic "HUF2"
+ *   byte  4       mode: 1 = Huffman-coded, 0 = stored (raw bytes)
+ *   bytes 5..12   original size, uint64 little-endian
+ *   bytes 13..14  file-name length, uint16 little-endian
+ *   bytes 15..    original file name (UTF-8), then the payload
+ * Version 1 files ("HUF1" / "HUF0", 12-byte header, no name) still decode.
  */
 import { BitReader, BitWriter } from './bitio.js';
 import { MinHeap } from './MinHeap.js';
 
-const MAGIC = [0x48, 0x55, 0x46, 0x31]; // "HUF1"
-const MAGIC_STORED = [0x48, 0x55, 0x46, 0x30]; // "HUF0"
-const HEADER = 12;
+const MAGIC_V2 = [0x48, 0x55, 0x46, 0x32]; // "HUF2"
+const MAGIC_V1 = [0x48, 0x55, 0x46, 0x31]; // "HUF1" (legacy Huffman)
+const MAGIC_V1_STORED = [0x48, 0x55, 0x46, 0x30]; // "HUF0" (legacy stored)
+const MODE_STORED = 0;
+const MODE_HUFFMAN = 1;
+const FIXED_HEADER_V2 = 15;
+const HEADER_V1 = 12;
+const MAX_NAME_BYTES = 255;
+
+const utf8 = new TextEncoder();
+const utf8Decoder = new TextDecoder();
+const startsWith = (bytes, magic) => bytes.length >= 4 && magic.every((b, k) => bytes[k] === b);
 
 export function countFrequencies(bytes) {
   const freq = new Array(256).fill(0);
@@ -105,16 +117,34 @@ function deserializeTree(reader) {
   return { nodes, root: read(0) };
 }
 
-function header(magic, size) {
-  const h = new Uint8Array(HEADER);
-  h.set(magic, 0);
-  new DataView(h.buffer).setBigUint64(4, BigInt(size), true);
+/**
+ * Same rules as sanitizeFileName() in the C++ code, applied to UTF-8 bytes so
+ * both produce identical headers: keep the last path component, drop control
+ * characters, reject "." and "..", cap at 255 bytes.
+ */
+export function sanitizeFileNameBytes(raw) {
+  let start = 0;
+  for (let k = 0; k < raw.length; k++) if (raw[k] === 0x2f || raw[k] === 0x5c) start = k + 1;
+  const kept = [];
+  for (let k = start; k < raw.length; k++) if (raw[k] >= 0x20 && raw[k] !== 0x7f) kept.push(raw[k]);
+  const isDots = (kept.length === 1 && kept[0] === 0x2e) || (kept.length === 2 && kept[0] === 0x2e && kept[1] === 0x2e);
+  return Uint8Array.from(isDots ? [] : kept.slice(0, MAX_NAME_BYTES));
+}
+
+function header(mode, size, nameBytes) {
+  const h = new Uint8Array(FIXED_HEADER_V2 + nameBytes.length);
+  h.set(MAGIC_V2, 0);
+  h[4] = mode;
+  const view = new DataView(h.buffer);
+  view.setBigUint64(5, BigInt(size), true);
+  view.setUint16(13, nameBytes.length, true);
+  h.set(nameBytes, FIXED_HEADER_V2);
   return h;
 }
 
-/** Huffman-coded container ("HUF1"), regardless of whether it is smaller. */
-export function encodeHuffman(bytes) {
-  const head = header(MAGIC, bytes.length);
+/** Huffman-coded container (mode 1), regardless of whether it is smaller. */
+export function encodeHuffman(bytes, fileName = '') {
+  const head = header(MODE_HUFFMAN, bytes.length, sanitizeFileNameBytes(utf8.encode(fileName)));
   if (bytes.length === 0) return head;
   const tree = buildTree(countFrequencies(bytes));
   const codes = buildCodes(tree);
@@ -125,64 +155,107 @@ export function encodeHuffman(bytes) {
 }
 
 /**
- * Huffman-code the input, but fall back to storing the raw bytes ("HUF0")
+ * Huffman-code the input, but fall back to storing the raw bytes (mode 0)
  * when that would not be smaller (already-compressed or random data).
- * Worst-case growth is then the 12-byte header.
+ * `fileName` is stored so the file can be restored with its original name.
  */
-export function compress(bytes) {
-  const huff = encodeHuffman(bytes);
-  if (bytes.length > 0 && huff.length >= HEADER + bytes.length) {
-    const stored = new Uint8Array(HEADER + bytes.length);
-    stored.set(header(MAGIC_STORED, bytes.length), 0);
-    stored.set(bytes, HEADER);
+export function compress(bytes, fileName = '') {
+  const nameBytes = sanitizeFileNameBytes(utf8.encode(fileName));
+  const huff = encodeHuffman(bytes, fileName);
+  const headerSize = FIXED_HEADER_V2 + nameBytes.length;
+  if (bytes.length > 0 && huff.length - headerSize >= bytes.length) {
+    const stored = new Uint8Array(headerSize + bytes.length);
+    stored.set(header(MODE_STORED, bytes.length, nameBytes), 0);
+    stored.set(bytes, headerSize);
     return stored;
   }
   return huff;
 }
 
-export function isStored(bytes) {
-  return bytes.length >= HEADER && MAGIC_STORED.every((b, k) => bytes[k] === b);
+function parseHeader(bytes) {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  if (startsWith(bytes, MAGIC_V2)) {
+    if (bytes.length < FIXED_HEADER_V2) throw new Error('corrupt input: truncated header');
+    const mode = bytes[4];
+    if (mode !== MODE_STORED && mode !== MODE_HUFFMAN) throw new Error('corrupt input: unknown mode');
+    const nameLen = view.getUint16(13, true);
+    if (nameLen > MAX_NAME_BYTES || FIXED_HEADER_V2 + nameLen > bytes.length) {
+      throw new Error('corrupt input: bad file name length');
+    }
+    const nameBytes = sanitizeFileNameBytes(bytes.subarray(FIXED_HEADER_V2, FIXED_HEADER_V2 + nameLen));
+    return {
+      huffman: mode === MODE_HUFFMAN,
+      size: Number(view.getBigUint64(5, true)),
+      fileName: utf8Decoder.decode(nameBytes),
+      dataStart: FIXED_HEADER_V2 + nameLen,
+    };
+  }
+  if (bytes.length >= HEADER_V1 && (startsWith(bytes, MAGIC_V1) || startsWith(bytes, MAGIC_V1_STORED))) {
+    return { huffman: bytes[3] === 0x31, size: Number(view.getBigUint64(4, true)), fileName: '', dataStart: HEADER_V1 };
+  }
+  throw new Error('not a .huf file: bad magic header');
 }
 
 export function isHuf(bytes) {
-  return bytes.length >= HEADER && (MAGIC.every((b, k) => bytes[k] === b) || isStored(bytes));
+  return startsWith(bytes, MAGIC_V2) || (bytes.length >= HEADER_V1 && (startsWith(bytes, MAGIC_V1) || startsWith(bytes, MAGIC_V1_STORED)));
 }
 
-export function decompress(packed) {
-  if (!isHuf(packed)) throw new Error('not a .huf file: bad magic header');
-  const size = Number(new DataView(packed.buffer, packed.byteOffset, packed.byteLength).getBigUint64(4, true));
-  if (isStored(packed)) {
-    if (packed.length - HEADER !== size) throw new Error('corrupt input: stored size mismatch');
-    return packed.slice(HEADER);
+export function isStored(bytes) {
+  try {
+    return !parseHeader(bytes).huffman;
+  } catch {
+    return false;
   }
-  if (size === 0) return new Uint8Array(0);
+}
 
-  const reader = new BitReader(packed, HEADER);
+/** Header size in bytes (fixed part + stored name). */
+export function headerSize(bytes) {
+  return parseHeader(bytes).dataStart;
+}
+
+/** Inverse of compress(): returns { fileName, bytes, stored }. */
+export function decode(packed) {
+  const h = parseHeader(packed);
+  if (!h.huffman) {
+    if (packed.length - h.dataStart !== h.size) throw new Error('corrupt input: stored size mismatch');
+    return { fileName: h.fileName, bytes: packed.slice(h.dataStart), stored: true };
+  }
+  const result = { fileName: h.fileName, bytes: new Uint8Array(h.size), stored: false };
+  if (h.size === 0) return result;
+
+  const reader = new BitReader(packed, h.dataStart);
   const { nodes, root } = deserializeTree(reader);
-  if (!isLeaf(nodes[root]) && size > (packed.length - HEADER) * 8) {
+  if (!isLeaf(nodes[root]) && h.size > (packed.length - h.dataStart) * 8) {
     throw new Error('corrupt input: size field larger than data');
   }
-  const out = new Uint8Array(size);
-  if (isLeaf(nodes[root])) return out.fill(nodes[root].symbol);
-
-  for (let k = 0; k < size; k++) {
+  const out = result.bytes;
+  if (isLeaf(nodes[root])) {
+    out.fill(nodes[root].symbol);
+    return result;
+  }
+  for (let k = 0; k < h.size; k++) {
     let cur = root;
     while (!isLeaf(nodes[cur])) cur = reader.readBit() ? nodes[cur].right : nodes[cur].left;
     out[k] = nodes[cur].symbol;
   }
-  return out;
+  return result;
+}
+
+export function decompress(packed) {
+  return decode(packed).bytes;
 }
 
 /** Everything the UI needs about one input, computed in a single pass. */
-export function analyze(bytes) {
+export function analyze(bytes, fileName = '') {
   const freq = countFrequencies(bytes);
   const tree = buildTree(freq);
   const codes = buildCodes(tree);
   const t0 = performance.now();
-  const packed = compress(bytes);
+  const packed = compress(bytes, fileName);
   const compressMs = performance.now() - t0;
   const t1 = performance.now();
-  const restored = decompress(packed);
+  const restoredFile = decode(packed);
+  const restored = restoredFile.bytes;
   const decompressMs = performance.now() - t1;
   const verified = restored.length === bytes.length && restored.every((b, k) => b === bytes[k]);
 
@@ -201,7 +274,10 @@ export function analyze(bytes) {
   const stored = isStored(packed);
   return {
     stored,
-    huffmanBytes: stored ? encodeHuffman(bytes).length : packed.length,
+    huffmanBytes: stored ? encodeHuffman(bytes, fileName).length : packed.length,
+    headerBytes: headerSize(packed),
+    storedName: restoredFile.fileName,
+    restored,
     freq,
     tree,
     codes,

@@ -1,5 +1,6 @@
 #include <chrono>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -9,6 +10,7 @@
 #include "huffman.hpp"
 
 using huffman::Bytes;
+namespace fs = std::filesystem;
 
 namespace {
 
@@ -28,9 +30,10 @@ void writeFile(const std::string& path, const Bytes& data) {
 void usage() {
     std::cerr << "Huffman file compressor\n\n"
                  "Usage:\n"
-                 "  huffman compress   <input> <output.huf>\n"
-                 "  huffman decompress <input.huf> <output>\n"
-                 "  huffman stats      <input> [--codes]\n";
+                 "  huffman compress   <input> [output.huf]   (default: <input>.huf)\n"
+                 "  huffman decompress <input.huf> [output]   (default: original file name, same folder)\n"
+                 "  huffman stats      <input> [--codes]\n\n"
+                 "Default output paths never overwrite an existing file.\n";
 }
 
 std::string printable(int sym) {
@@ -42,6 +45,11 @@ std::string printable(int sym) {
     char buf[8];
     std::snprintf(buf, sizeof buf, "0x%02X", sym);
     return buf;
+}
+
+/** When the user did not name the output, refuse to clobber an existing file. */
+void ensureFree(const std::string& path) {
+    if (fs::exists(path)) throw std::runtime_error(path + " already exists; pass an explicit output path to overwrite it");
 }
 
 double msSince(std::chrono::steady_clock::time_point t0) {
@@ -57,22 +65,41 @@ int main(int argc, char** argv) {
     }
     const std::string cmd = argv[1];
     try {
-        if (cmd == "compress" && argc == 4) {
+        if (cmd == "compress" && (argc == 3 || argc == 4)) {
             auto t0 = std::chrono::steady_clock::now();
-            Bytes input = readFile(argv[2]);
-            Bytes output = huffman::compress(input);
-            writeFile(argv[3], output);
+            const std::string inPath = argv[2];
+            std::string outPath = argc == 4 ? argv[3] : inPath + ".huf";
+            if (argc == 3) ensureFree(outPath);
+            Bytes input = readFile(inPath);
+            // Store the original file name so decompress can restore it, extension included.
+            Bytes output = huffman::compress(input, fs::path(inPath).filename().string());
+            writeFile(outPath, output);
             double saved = input.empty() ? 0.0 : (1.0 - double(output.size()) / input.size()) * 100.0;
-            std::printf("%s: %zu -> %zu bytes (%.1f%% smaller) in %.1f ms%s\n", argv[2], input.size(), output.size(),
-                        saved, msSince(t0),
+            std::printf("%s -> %s: %zu -> %zu bytes (%.1f%% smaller) in %.1f ms%s\n", inPath.c_str(), outPath.c_str(),
+                        input.size(), output.size(), saved, msSince(t0),
                         huffman::isStored(output) ? "\n  note: Huffman would not shrink this data (already compressed?), stored raw" : "");
             return 0;
         }
-        if (cmd == "decompress" && argc == 4) {
+        if (cmd == "decompress" && (argc == 3 || argc == 4)) {
             auto t0 = std::chrono::steady_clock::now();
-            Bytes output = huffman::decompress(readFile(argv[2]));
-            writeFile(argv[3], output);
-            std::printf("%s: restored %zu bytes in %.1f ms\n", argv[2], output.size(), msSince(t0));
+            const std::string inPath = argv[2];
+            huffman::Decoded d = huffman::decode(readFile(inPath));
+            std::string outPath;
+            if (argc == 4) {
+                outPath = argv[3];
+            } else {
+                // Restore next to the .huf using the name stored at compression time.
+                std::string name = d.fileName;
+                if (name.empty()) {  // version-1 file without a stored name: drop ".huf"
+                    fs::path p = fs::path(inPath).filename();
+                    name = p.extension() == ".huf" ? p.stem().string() : p.string() + ".out";
+                }
+                outPath = (fs::path(inPath).parent_path() / name).string();
+                ensureFree(outPath);
+            }
+            writeFile(outPath, d.data);
+            std::printf("%s -> %s: restored %zu bytes in %.1f ms\n", inPath.c_str(), outPath.c_str(), d.data.size(),
+                        msSince(t0));
             return 0;
         }
         if (cmd == "stats" && (argc == 3 || argc == 4)) {

@@ -3,22 +3,35 @@
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 #include <utility>
 
 #include "min_heap.hpp"
 
 namespace huffman {
 
+std::string sanitizeFileName(const std::string& raw);
+
 namespace {
 
-// File layout:
-//   bytes 0..3   magic: "HUF1" = Huffman-coded, "HUF0" = stored (raw bytes)
-//   bytes 4..11  original size, uint64 little-endian
-//   bytes 12..   HUF1: bit stream = [serialized tree][encoded symbols][zero padding]
-//                HUF0: the original bytes, unchanged
-constexpr char kMagic[4] = {'H', 'U', 'F', '1'};
-constexpr char kMagicStored[4] = {'H', 'U', 'F', '0'};
-constexpr std::size_t kHeaderBytes = 12;
+// File layout (version 2):
+//   bytes 0..3    magic "HUF2"
+//   byte  4       mode: 1 = Huffman-coded, 0 = stored (raw bytes)
+//   bytes 5..12   original size, uint64 little-endian
+//   bytes 13..14  length of the original file name, uint16 little-endian
+//   bytes 15..    original file name (UTF-8, no directories), then the payload:
+//                   mode 1: bit stream = [serialized tree][encoded symbols][zero padding]
+//                   mode 0: the original bytes, unchanged
+// Version 1 files ("HUF1" Huffman / "HUF0" stored, 12-byte header, no name)
+// are still read so older .huf files keep working.
+constexpr char kMagicV2[4] = {'H', 'U', 'F', '2'};
+constexpr char kMagicV1Huffman[4] = {'H', 'U', 'F', '1'};
+constexpr char kMagicV1Stored[4] = {'H', 'U', 'F', '0'};
+constexpr std::uint8_t kModeStored = 0;
+constexpr std::uint8_t kModeHuffman = 1;
+constexpr std::size_t kFixedHeaderV2 = 15;
+constexpr std::size_t kHeaderV1 = 12;
+constexpr std::size_t kMaxNameBytes = 255;
 
 // A tree over at most 256 symbols has at most 2*256 - 1 nodes.
 constexpr std::size_t kMaxNodes = 511;
@@ -46,6 +59,42 @@ std::uint64_t readU64LE(const Bytes& in, std::size_t pos) {
     std::uint64_t v = 0;
     for (int k = 0; k < 8; ++k) v |= static_cast<std::uint64_t>(in[pos + k]) << (8 * k);
     return v;
+}
+
+struct Header {
+    bool huffman;
+    std::uint64_t size;
+    std::string name;
+    std::size_t dataStart;  // first byte of the payload
+};
+
+Bytes makeHeader(std::uint8_t mode, std::uint64_t size, const std::string& name) {
+    Bytes h(kMagicV2, kMagicV2 + 4);
+    h.push_back(mode);
+    writeU64LE(h, size);
+    h.push_back(static_cast<std::uint8_t>(name.size() & 0xFF));
+    h.push_back(static_cast<std::uint8_t>(name.size() >> 8));
+    h.insert(h.end(), name.begin(), name.end());
+    return h;
+}
+
+Header parseHeader(const Bytes& in) {
+    if (in.size() >= 4 && std::memcmp(in.data(), kMagicV2, 4) == 0) {
+        if (in.size() < kFixedHeaderV2) throw std::runtime_error("corrupt input: truncated header");
+        const std::uint8_t mode = in[4];
+        if (mode != kModeStored && mode != kModeHuffman) throw std::runtime_error("corrupt input: unknown mode");
+        const std::size_t nameLen = in[13] | (static_cast<std::size_t>(in[14]) << 8);
+        if (nameLen > kMaxNameBytes || kFixedHeaderV2 + nameLen > in.size()) {
+            throw std::runtime_error("corrupt input: bad file name length");
+        }
+        std::string name(in.begin() + kFixedHeaderV2, in.begin() + kFixedHeaderV2 + nameLen);
+        return {mode == kModeHuffman, readU64LE(in, 5), sanitizeFileName(name), kFixedHeaderV2 + nameLen};
+    }
+    if (in.size() >= kHeaderV1 && (std::memcmp(in.data(), kMagicV1Huffman, 4) == 0 ||
+                                   std::memcmp(in.data(), kMagicV1Stored, 4) == 0)) {
+        return {in[3] == '1', readU64LE(in, 4), "", kHeaderV1};
+    }
+    throw std::runtime_error("not a Huffman (.huf) file: bad magic header");
 }
 
 }  // namespace
@@ -177,10 +226,23 @@ int HuffmanTree::readNode(BitReader& in, int depth) {
 // ---------------------------------------------------------------------------
 // Compress / decompress
 // ---------------------------------------------------------------------------
-Bytes compress(const Bytes& input) {
-    Bytes out(kMagic, kMagic + 4);
-    writeU64LE(out, input.size());
+std::string sanitizeFileName(const std::string& raw) {
+    // Keep only the last path component so a crafted .huf file can never
+    // make the decompressor write outside the chosen folder ("../../x").
+    std::string name = raw.substr(raw.find_last_of("/\\") == std::string::npos ? 0 : raw.find_last_of("/\\") + 1);
+    std::string clean;
+    for (char c : name)
+        if (static_cast<unsigned char>(c) >= 0x20 && c != 0x7F) clean += c;  // drop control characters
+    if (clean == "." || clean == "..") clean.clear();
+    if (clean.size() > kMaxNameBytes) clean.resize(kMaxNameBytes);
+    return clean;
+}
+
+Bytes compress(const Bytes& input, const std::string& fileName) {
+    const std::string name = sanitizeFileName(fileName);
+    Bytes out = makeHeader(kModeHuffman, input.size(), name);
     if (input.empty()) return out;
+    const std::size_t headerSize = out.size();
 
     // Pass 1: frequencies -> tree -> codes.
     HuffmanTree tree = HuffmanTree::build(countFrequencies(input));
@@ -192,13 +254,12 @@ Bytes compress(const Bytes& input) {
     for (std::uint8_t b : input) writer.writeBits(codes[b].bits, codes[b].length);
     writer.flush();
 
-    // Stored fallback: if Huffman did not make the data smaller (already
+    // Stored fallback: if Huffman did not make the payload smaller (already
     // compressed or random input), keep the raw bytes instead. Worst-case
-    // growth is then just the 12-byte header -- the same idea as DEFLATE's
-    // "stored" blocks and ZIP's "store" method.
-    if (out.size() >= kHeaderBytes + input.size()) {
-        Bytes stored(kMagicStored, kMagicStored + 4);
-        writeU64LE(stored, input.size());
+    // growth is then just the header -- the same idea as DEFLATE's "stored"
+    // blocks and ZIP's "store" method.
+    if (out.size() - headerSize >= input.size()) {
+        Bytes stored = makeHeader(kModeStored, input.size(), name);
         stored.insert(stored.end(), input.begin(), input.end());
         return stored;
     }
@@ -206,37 +267,41 @@ Bytes compress(const Bytes& input) {
 }
 
 bool isStored(const Bytes& compressed) {
-    return compressed.size() >= kHeaderBytes && std::memcmp(compressed.data(), kMagicStored, 4) == 0;
+    try {
+        return !parseHeader(compressed).huffman;
+    } catch (const std::runtime_error&) {
+        return false;
+    }
 }
 
-Bytes decompress(const Bytes& compressed) {
-    if (isStored(compressed)) {
-        const std::uint64_t size = readU64LE(compressed, 4);
-        if (compressed.size() - kHeaderBytes != size) throw std::runtime_error("corrupt input: stored size mismatch");
-        return Bytes(compressed.begin() + kHeaderBytes, compressed.end());
-    }
-    if (compressed.size() < kHeaderBytes || std::memcmp(compressed.data(), kMagic, 4) != 0) {
-        throw std::runtime_error("not a Huffman (.huf) file: bad magic header");
-    }
-    const std::uint64_t originalSize = readU64LE(compressed, 4);
-    Bytes out;
-    if (originalSize == 0) return out;
+Decoded decode(const Bytes& compressed) {
+    const Header h = parseHeader(compressed);
+    Decoded result{h.name, {}, !h.huffman};
+    const std::uint64_t originalSize = h.size;
 
-    BitReader reader(compressed, kHeaderBytes);
+    if (!h.huffman) {
+        if (compressed.size() - h.dataStart != originalSize) throw std::runtime_error("corrupt input: stored size mismatch");
+        result.data.assign(compressed.begin() + h.dataStart, compressed.end());
+        return result;
+    }
+    if (originalSize == 0) return result;
+
+    BitReader reader(compressed, h.dataStart);
     HuffmanTree tree = HuffmanTree::deserialize(reader);
     const auto& nodes = tree.nodes();
     const int root = tree.root();
 
     // Sanity bound: every symbol needs at least 1 bit (except the 1-symbol case).
-    const std::uint64_t availableBits = (compressed.size() - kHeaderBytes) * 8ULL;
+    const std::uint64_t availableBits = (compressed.size() - h.dataStart) * 8ULL;
     if (!nodes[root].isLeaf() && originalSize > availableBits) {
         throw std::runtime_error("corrupt input: size field larger than data");
     }
+    Bytes& out = result.data;
     out.reserve(originalSize);
 
     if (nodes[root].isLeaf()) {  // only one distinct byte value in the file
         out.assign(originalSize, nodes[root].symbol);
-        return out;
+        return result;
     }
 
     // Walk from the root: 0 -> left, 1 -> right, emit at a leaf, restart.
@@ -246,8 +311,10 @@ Bytes decompress(const Bytes& compressed) {
         while (!nodes[cur].isLeaf()) cur = reader.readBit() ? nodes[cur].right : nodes[cur].left;
         out.push_back(nodes[cur].symbol);
     }
-    return out;
+    return result;
 }
+
+Bytes decompress(const Bytes& compressed) { return decode(compressed).data; }
 
 Stats analyze(const Bytes& input) {
     Stats s;

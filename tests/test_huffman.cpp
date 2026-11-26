@@ -59,7 +59,7 @@ int main() {
 
     test("empty input", [] {
         Bytes packed = compress({});
-        CHECK(packed.size() == 12);  // header only
+        CHECK(packed.size() == 15);  // header only (no file name)
         CHECK(decompress(packed).empty());
     });
 
@@ -67,7 +67,7 @@ int main() {
         roundTrip(fromString("a"));
         roundTrip(Bytes(100000, 'z'));
         // 1 distinct symbol: tree = 1 leaf (9 bits -> 2 bytes) and no payload.
-        CHECK(compress(Bytes(100000, 'z')).size() == 12 + 2);
+        CHECK(compress(Bytes(100000, 'z')).size() == 15 + 2);
     });
 
     test("two symbols get 1-bit codes", [] {
@@ -126,10 +126,10 @@ int main() {
         roundTrip(in);
         Stats s = analyze(in);
         CHECK(s.avgCodeLength > 7.9);  // ~8 bits: random data has max entropy
-        // Stored fallback: never grows by more than the 12-byte header.
+        // Stored fallback: never grows by more than the 15-byte header.
         Bytes packed = compress(in);
         CHECK(isStored(packed));
-        CHECK(packed.size() == in.size() + 12);
+        CHECK(packed.size() == in.size() + 15);
     });
 
     test("compressible text is Huffman-coded, not stored", [] {
@@ -141,14 +141,14 @@ int main() {
     });
 
     test("tiny input: picks whichever is smaller", [] {
-        // abracadabra: Huffman = 12 + 9 bytes = 21 < stored 23 -> Huffman
+        // abracadabra: Huffman = 15 + 9 bytes = 24 < stored 15 + 11 = 26 -> Huffman
         CHECK(!isStored(compress(fromString("abracadabra"))));
-        CHECK(compress(fromString("abracadabra")).size() == 21);
-        // abc: Huffman = 12 + 5 bytes = 17 > stored 15 -> stored
+        CHECK(compress(fromString("abracadabra")).size() == 24);
+        // abc: Huffman = 15 + 5 bytes = 20 > stored 15 + 3 = 18 -> stored
         Bytes in = fromString("abc");
         Bytes packed = compress(in);
         CHECK(isStored(packed));
-        CHECK(packed.size() == in.size() + 12);
+        CHECK(packed.size() == in.size() + 15);
         CHECK(decompress(packed) == in);
     });
 
@@ -176,6 +176,46 @@ int main() {
         CHECK(s.avgCodeLength < s.entropyBitsPerSymbol + 1.0);
     });
 
+    test("original file name is stored and restored", [] {
+        Bytes in = fromString("quarterly numbers 1,2,3,4,5,6,7,8,9 and more numbers 1,2,3");
+        Decoded d = decode(compress(in, "Report Q3.pdf"));
+        CHECK(d.fileName == "Report Q3.pdf");
+        CHECK(d.data == in);
+        // Also in stored mode.
+        Decoded s = decode(compress(fromString("abc"), "tiny.txt"));
+        CHECK(s.stored);
+        CHECK(s.fileName == "tiny.txt");
+        // Header grows by exactly the name length.
+        CHECK(compress(in, "Report Q3.pdf").size() == compress(in).size() + 13);
+    });
+
+    test("file names cannot escape the output folder", [] {
+        CHECK(sanitizeFileName("../../etc/passwd") == "passwd");
+        CHECK(sanitizeFileName("C:\\Users\\me\\notes.docx") == "notes.docx");
+        CHECK(sanitizeFileName("..").empty());
+        CHECK(sanitizeFileName(std::string("bad\nname.txt")) == "badname.txt");
+        CHECK(sanitizeFileName(std::string(300, 'a')).size() == 255);
+        Decoded d = decode(compress(fromString("hello hello"), "/abs/path/../evil.sh"));
+        CHECK(d.fileName == "evil.sh");
+    });
+
+    test("version-1 files (no stored name) still decode", [] {
+        Bytes in;
+        for (int k = 0; k < 50; ++k) for (char c : std::string("mississippi ")) in.push_back(c);
+        Bytes v2 = compress(in);  // no name -> 15-byte header
+        CHECK(!isStored(v2));
+        // Same payload behind the old 12-byte "HUF1" header.
+        Bytes v1 = {'H', 'U', 'F', '1'};
+        for (int k = 0; k < 8; ++k) v1.push_back(static_cast<std::uint8_t>((in.size() >> (8 * k)) & 0xFF));
+        v1.insert(v1.end(), v2.begin() + 15, v2.end());
+        Decoded d = decode(v1);
+        CHECK(d.data == in);
+        CHECK(d.fileName.empty());
+        // Old stored format "HUF0".
+        Bytes v0 = {'H', 'U', 'F', '0', 3, 0, 0, 0, 0, 0, 0, 0, 'x', 'y', 'z'};
+        CHECK(decompress(v0) == fromString("xyz"));
+    });
+
     test("corrupt input is rejected", [] {
         bool threw = false;
         try { decompress(fromString("NOPE00000000")); } catch (const std::runtime_error&) { threw = true; }
@@ -187,6 +227,13 @@ int main() {
         packed.resize(packed.size() - 3);
         threw = false;
         try { decompress(packed); } catch (const std::runtime_error&) { threw = true; }
+        CHECK(threw);
+
+        // Name length pointing past the end of the file.
+        Bytes bad = compress(fromString("hello"), "a.txt");
+        bad.resize(17);
+        threw = false;
+        try { decompress(bad); } catch (const std::runtime_error&) { threw = true; }
         CHECK(threw);
     });
 
