@@ -53,7 +53,8 @@ export function layoutForest(nodes, roots) {
 export function forestAt(tree, step) {
   const alive = new Set();
   for (let i = 0; i < tree.leafCount; i++) alive.add(i);
-  for (let k = 0; k < step; k++) {
+  const last = Math.min(step, tree.merges.length);
+  for (let k = 0; k < last; k++) {
     const m = tree.merges[k];
     alive.delete(m.a);
     alive.delete(m.b);

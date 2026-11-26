@@ -55,8 +55,15 @@ export default function Metrics({ a }) {
               </li>
             ))}
           </ul>
-          {a.savedPercent <= 0 && (
+          {a.savedPercent <= 0 && a.originalBytes < 1024 && (
             <p className="note">Tiny inputs grow: the 12-byte header and the stored tree cost more than the bits Huffman saves.</p>
+          )}
+          {a.entropy > 7 && a.originalBytes >= 1024 && (
+            <p className="note insight">
+              This data is already close to random ({a.entropy.toFixed(2)} of 8 bits of entropy per byte). PDFs, images, ZIPs
+              and videos are compressed internally, so every byte value appears about equally often and Huffman has little
+              to work with. It still round-trips losslessly; try a plain-text file to see 40%+ savings.
+            </p>
           )}
         </div>
       </div>

@@ -24,7 +24,7 @@ export default function TreeView({ tree, step, setStep, selected, setSelected })
   const roots = useMemo(() => forestAt(tree, step), [tree, step]);
   const layout = useMemo(() => layoutForest(tree.nodes, roots), [tree, roots]);
   const next = step < total ? tree.merges[step] : null;
-  const justMade = step > 0 ? tree.merges[step - 1].parent : -1;
+  const justMade = step > 0 && step <= total ? tree.merges[step - 1].parent : -1;
 
   // Path from root to the selected symbol's leaf (only meaningful on the full tree).
   const highlight = useMemo(() => {

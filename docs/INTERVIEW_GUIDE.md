@@ -285,7 +285,7 @@ The last byte is padded with zeros. The header stores the original byte count, s
 About 40–55 % on text. Huffman can't beat the entropy of single-character frequencies (~4.4 bits/char for English), and it ignores repeated words and phrases. Combining it with LZ77 (like gzip) would do much better.
 
 **Q: Does it work on images or binaries?**
-Yes, it works on raw bytes, so any file round-trips correctly. But already-compressed files (JPEG, PNG, ZIP, MP4) have near-uniform byte frequencies, so they won't shrink — they'll grow slightly.
+Yes, it works on raw bytes, so any file round-trips correctly. But already-compressed files (JPEG, PNG, ZIP, MP4, and most PDFs, whose content streams are Deflate-compressed) have near-uniform byte frequencies: about 7.2–8 bits of entropy per byte, so savings drop to roughly 0–10 %. A real 577 KB PDF saved 9.8 % (7.21 bits/byte vs an entropy of 7.19). The web demo explains this when it detects high-entropy input.
 
 **Q: Why can a compressed file be bigger than the original?**
 Fixed overhead (12-byte header + the stored tree) and incompressible data. For tiny or random inputs, that overhead is larger than any savings.

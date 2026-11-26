@@ -610,6 +610,32 @@ button:disabled {
   color: var(--fg-3);
 }
 
+.note.insight {
+  padding: 10px 12px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  background: var(--accent-soft);
+  border: 1px solid rgba(94, 106, 210, 0.35);
+  border-radius: 8px;
+}
+
+.crash {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  margin: 28px;
+  padding: 20px;
+  color: var(--fg-2);
+  border: 1px solid rgba(235, 87, 87, 0.35);
+  border-radius: 10px;
+  background: rgba(235, 87, 87, 0.06);
+}
+
+.crash code {
+  font-size: 12px;
+  color: #ffb4b4;
+}
+
 /* ---------------------------------------------------------------- tree */
 .stepper {
   display: flex;

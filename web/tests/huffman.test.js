@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { forestAt } from '../src/huffman/display.js';
 import { analyze, buildCodes, buildTree, compress, decompress } from '../src/huffman/huffman.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -27,6 +28,12 @@ describe('JS Huffman port', () => {
     const a = analyze(enc('hello huffman'));
     expect(a.tree.merges.length).toBe(a.rows.length - 1);
     expect(a.verified).toBe(true);
+  });
+
+  it('forestAt tolerates a step larger than the tree (switching to a smaller input)', () => {
+    const small = analyze(enc('abracadabra')).tree; // 4 merges
+    expect(() => forestAt(small, 31)).not.toThrow();
+    expect(forestAt(small, 31)).toEqual([small.root]);
   });
 
   const cli = join(root, 'bin', 'huffman');

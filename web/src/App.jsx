@@ -1,6 +1,7 @@
 import { ArrowDownToLine, ChevronRight, TriangleAlert, Upload } from 'lucide-react';
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import BitStream from './components/BitStream.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 import CodeTable from './components/CodeTable.jsx';
 import Metrics from './components/Metrics.jsx';
 import Sidebar from './components/Sidebar.jsx';
@@ -26,7 +27,7 @@ export default function App() {
   const [text, setText] = useState(SAMPLES[1].text);
   const [file, setFile] = useState(null); // { name, bytes, restoredFrom? }
   const [error, setError] = useState('');
-  const [step, setStep] = useState(0);
+  const [rawStep, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef(null);
@@ -36,6 +37,9 @@ export default function App() {
   const bytes = useMemo(() => (source === 'file' && file ? file.bytes : encoder.encode(deferredText)), [source, file, deferredText]);
   const a = useMemo(() => analyze(bytes), [bytes]);
   const fullStep = a.tree.merges.length;
+  // Clamp during render: when the input changes, the old step can be larger than
+  // the new tree's merge count until the effect below resets it.
+  const step = Math.min(rawStep, fullStep);
 
   // New input: small trees start at step 0 to invite stepping; big ones show the finished tree.
   useEffect(() => {
@@ -183,17 +187,19 @@ export default function App() {
             {a.originalBytes === 0 ? (
               <p className="empty">Type something, pick a sample, or drop a file to see its Huffman tree.</p>
             ) : (
-              <>
+              <ErrorBoundary resetKey={a}>
                 <Metrics a={a} />
                 <TreeView tree={a.tree} step={step} setStep={setStep} selected={selected} setSelected={pick} />
                 <BitStream bytes={bytes} codes={a.codes} packed={a.packed} selected={selected} />
-              </>
+              </ErrorBoundary>
             )}
           </div>
 
           {a.originalBytes > 0 && (
             <aside className="panel-right" aria-label="Code table">
-              <CodeTable rows={a.rows} total={a.originalBytes} selected={selected} setSelected={pick} />
+              <ErrorBoundary resetKey={a}>
+                <CodeTable rows={a.rows} total={a.originalBytes} selected={selected} setSelected={pick} />
+              </ErrorBoundary>
             </aside>
           )}
         </div>
